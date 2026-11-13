@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pak Panca Ice Breaking Arena</title>
+<style>
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--g:#ffc933;--ok:#19c37d;--r:#ff3b4e}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:'Trebuchet MS',Verdana,sans-serif;color:#fff;min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#6a5bff 0,#2a1a8a 40%,#0d0830 100%) fixed}
+.hd{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;background:#0007}
+.hd label{font-size:14px;display:flex;align-items:center;gap:4px}
+.hd input{width:80px}
+.btn{font:inherit;font-weight:900;font-size:clamp(15px,2.2vw,22px);min-height:56px;padding:10px 22px;margin:6px;border:0;border-radius:16px;color:#2b1a00;background:linear-gradient(#ffe27a,var(--g));box-shadow:0 6px 0 #b8860b;cursor:pointer}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #b8860b}
+.btn.bl{color:#fff;background:linear-gradient(#5b8bff,#2a5cff);box-shadow:0 6px 0 #1a3aa0}
+.btn.ok{color:#fff;background:linear-gradient(#3fe0a0,var(--ok));box-shadow:0 6px 0 #0c7a50}
+.btn.no{color:#fff;background:linear-gradient(#ff7080,var(--r));box-shadow:0 6px 0 #a01826}
+.btn.sm2{min-height:44px;padding:6px 14px;font-size:15px}
+.home,.res{text-align:center;padding:16px}
+h1{font-size:clamp(28px,6vw,64px);margin:.2em 0;color:var(--g);text-shadow:0 4px 0 #6a3d00,0 0 30px #ffc93388;line-height:1.1}
+h2{font-size:clamp(20px,3.5vw,38px);margin:.2em}
+.tag{font-size:clamp(15px,2vw,22px);opacity:.9}
+.cards{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:20px}
+.card{width:min(440px,92vw);background:linear-gradient(#5a3bd6,#2c1a8e);border:4px solid var(--g);border-radius:28px;padding:22px;box-shadow:0 12px 0 #12084f,0 0 40px #7b2cff88}
+.card .ic{font-size:70px}.card h3{font-size:clamp(20px,2.6vw,28px);margin:.3em 0}.card p{font-size:clamp(15px,1.8vw,19px)}
+.row{display:flex;flex-wrap:wrap;justify-content:center}
+.bd{display:flex;flex-wrap:wrap;gap:8px;padding:8px 12px;justify-content:center;align-items:stretch}
+.chip{background:#ffffff1f;border:3px solid transparent;border-radius:14px;padding:6px 10px;text-align:center;min-width:130px;cursor:pointer}
+.chip.sel{border-color:var(--g);background:#ffc93333}
+.chip .nm{font-weight:700;font-size:15px}.chip .sc{font-size:28px;font-weight:900;color:var(--g)}
+.sm{font:inherit;font-size:14px;min-height:36px;padding:4px 10px;margin:2px;border:0;border-radius:10px;background:#fff3;color:#fff;cursor:pointer}
+.sm.w{align-self:center}
+.top{display:flex;flex-wrap:wrap;justify-content:space-around;gap:6px;padding:8px;font-size:clamp(16px,2.4vw,26px);font-weight:700}
+.top b.red{color:var(--r)}
+.pic{position:relative;margin:6px auto;width:min(92vw,calc(46vh*1.25));aspect-ratio:5/4;background:#fff;border-radius:24px;border:6px solid var(--g);overflow:hidden;box-shadow:0 0 40px #ffc93388}
+.em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:min(32vw,34vh)}
+.tl{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(4,1fr)}
+.tl i{background:linear-gradient(135deg,#5b3bd6,#2a5cff);border:1px solid #fff5;transition:opacity .6s}.tl i.o{opacity:0}
+.hint{text-align:center;font-size:clamp(18px,2.6vw,30px);min-height:1.5em;color:var(--g);font-weight:700}
+.ctl{display:flex;flex-wrap:wrap;justify-content:center;padding:4px 8px 20px}
+.q{font-size:clamp(24px,4.4vw,52px);font-weight:900;text-align:center;padding:16px 20px;margin:8px auto;max-width:1100px;background:#0005;border-radius:24px;border:3px solid #fff4}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:12px;max-width:1100px;margin:8px auto;padding:0 12px}
+.opt{font:inherit;font-weight:700;font-size:clamp(18px,2.6vw,32px);text-align:left;padding:16px;min-height:70px;border-radius:18px;border:4px solid #fff5;background:#2a5cff;color:#fff;cursor:pointer}
+.opt.sel{border-color:var(--g);background:#7b2cff}.opt.ok{background:var(--ok);border-color:#fff;animation:pop .6s}.opt.no{background:var(--r)}
+.opt b{color:var(--g);margin-right:8px}
+.ans{text-align:center;font-size:clamp(24px,4vw,46px);font-weight:900;color:#7dffc0;margin:10px;animation:pop .6s}.ans.bad{color:var(--r)}
+.win{font-size:clamp(28px,5vw,60px);font-weight:900;color:var(--g);margin:14px;animation:pop 1s infinite alternate}
+.list{max-width:560px;margin:10px auto;font-size:clamp(18px,2.4vw,28px)}
+.list div{display:flex;justify-content:space-between;padding:6px 14px;background:#fff2;border-radius:10px;margin:4px 0}
+@keyframes pop{from{transform:scale(1)}to{transform:scale(1.08)}}
+#cf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.cf{position:absolute;top:-20px;width:12px;height:18px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.toast{position:fixed;left:50%;top:30%;transform:translateX(-50%);font-size:clamp(28px,5vw,60px);font-weight:900;background:#000b;color:var(--g);padding:14px 28px;border-radius:20px;z-index:60;animation:pop .5s}
+.mdl{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:90}.bx{background:#2c1a8e;border:4px solid var(--g);border-radius:24px;padding:24px;text-align:center;max-width:90vw;font-size:22px}
+.ji{font:inherit;font-size:clamp(18px,2.4vw,28px);padding:10px 16px;border-radius:14px;border:3px solid var(--g);min-width:min(80vw,420px);margin:6px;color:#fff;background:#0008}.fl{position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);font-size:clamp(40px,8vw,100px);font-weight:900;padding:20px 40px;border-radius:30px;z-index:70;animation:zoom 1.1s forwards;pointer-events:none}.fl.g{background:#19c37dee;box-shadow:0 0 80px #19c37d}.fl.r{background:#ff3b4eee;box-shadow:0 0 80px #ff3b4e}@keyframes zoom{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}30%{transform:translate(-50%,-50%) scale(1.15);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}.shake{animation:shake .5s}@keyframes shake{20%{transform:translateX(-18px)}40%{transform:translateX(18px)}60%{transform:translateX(-12px)}80%{transform:translateX(12px)}}
+.fl.y{background:#ffc933ee;color:#2b1a00;box-shadow:0 0 80px #ffc933}.wob{animation:wob 1s}@keyframes wob{0%,100%{transform:rotate(0) scale(1)}15%{transform:rotate(-4deg) scale(1.05)}30%{transform:rotate(4deg) scale(.97)}45%{transform:rotate(-3deg) scale(1.04)}60%{transform:rotate(3deg)}80%{transform:rotate(-1deg)}}
+body::before{content:'';position:fixed;inset:-50%;z-index:-1;pointer-events:none;background:conic-gradient(from 0deg at 50% 0%,transparent 0 20deg,#ffffff14 25deg,transparent 35deg 60deg,#ffc93314 70deg,transparent 80deg 110deg,#7b9bff1a 120deg,transparent 130deg);animation:spin 40s linear infinite}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(#fff 1.5px,transparent 2px),radial-gradient(#ffc933 1px,transparent 2px);background-size:90px 90px,140px 140px;background-position:0 0,40px 60px;opacity:.25;animation:tw 4s ease-in-out infinite alternate}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes tw{to{opacity:.07}}
+.hd{backdrop-filter:blur(6px);border-bottom:3px solid var(--g);box-shadow:0 4px 20px #0008}
+h1{background:linear-gradient(90deg,#ffc933,#fff6c2,#ffc933,#ff9d2e);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;animation:shine 4s linear infinite,bob 3s ease-in-out infinite;filter:drop-shadow(0 4px 0 #6a3d00) drop-shadow(0 0 18px #ffc93388)}
+@keyframes shine{to{background-position:300% 0}}@keyframes bob{50%{transform:translateY(-8px)}}
+.card{transition:transform .25s,box-shadow .25s;animation:rise .6s both}.card:hover{transform:translateY(-8px) scale(1.03) rotate(-1deg);box-shadow:0 18px 0 #12084f,0 0 60px #ffc93399}
+.card:nth-child(2){animation-delay:.1s}.card:nth-child(3){animation-delay:.2s}.card:nth-child(4){animation-delay:.3s}
+.card .ic{display:inline-block;animation:wig 2.5s ease-in-out infinite;filter:drop-shadow(0 8px 6px #0006)}
+@keyframes rise{from{transform:translateY(40px) scale(.9);opacity:0}}@keyframes wig{50%{transform:rotate(-8deg) scale(1.1)}}
+.btn{position:relative;overflow:hidden;transition:transform .15s,filter .15s}.btn:hover{filter:brightness(1.12);transform:translateY(-2px)}
+.btn::after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fff8,transparent);transform:skewX(-20deg)}.btn:hover::after{animation:sweep .7s}
+@keyframes sweep{to{left:130%}}
+.top{background:#0005;border-radius:18px;margin:6px 12px;border:2px solid #fff3}
+#tm{display:inline-block;min-width:2ch;padding:2px 12px;border-radius:12px;background:#0006;border:2px solid var(--g)}#tm.red{animation:pulse .5s infinite alternate;background:#ff3b4e88}
+@keyframes pulse{to{transform:scale(1.25)}}
+.q{background:linear-gradient(#ffffff22,#0006);box-shadow:0 8px 0 #0004,0 0 30px #7b2cff66;animation:in .35s both}@keyframes in{from{transform:translateY(20px) scale(.97);opacity:0}}
+.opt{background:linear-gradient(#5b8bff,#2a5cff);transition:transform .2s,box-shadow .2s;box-shadow:0 6px 0 #0005}.opt:hover{transform:translateY(-3px)}.opt.ok{box-shadow:0 0 40px #19c37d,0 6px 0 #0c7a50}
+.pic{box-shadow:0 0 0 6px #7b2cff,0 0 50px #ffc933aa}
+.chip{transition:transform .2s,box-shadow .2s;box-shadow:0 4px 0 #0005}.chip.sel{transform:scale(1.06);box-shadow:0 0 20px #ffc933aa}
+.bump{animation:bump .6s}@keyframes bump{40%{transform:scale(1.7);color:#fff}}
+.win{text-shadow:0 0 20px #ffc933,0 4px 0 #6a3d00}
+.toast{background:linear-gradient(#ffe27a,#ffc933);color:#2b1a00;border:4px solid #fff;animation:tup .5s both}@keyframes tup{from{transform:translate(-50%,30px) scale(.5);opacity:0}60%{transform:translate(-50%,-10px) scale(1.1)}}
+#bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}#bg span{position:absolute;bottom:-60px;font-size:34px;opacity:.3;animation:flt linear infinite}@keyframes flt{to{transform:translateY(-115vh) rotate(360deg)}}
+#cur::before,#cur::after{content:'';position:fixed;top:0;bottom:0;width:3.5vw;z-index:-1;pointer-events:none}#cur::before{left:0;background:linear-gradient(90deg,#8a0f1f,#e0263f 60%,#e0263f00)}#cur::after{right:0;background:linear-gradient(270deg,#8a0f1f,#e0263f 60%,#e0263f00)}
+.home,.res{animation:in .5s both}
+.mas{font-size:clamp(48px,9vw,110px);display:flex;justify-content:center;gap:20px}.mas span{display:inline-block;filter:drop-shadow(0 10px 6px #0007);animation:wig 2s ease-in-out infinite}.mas span:nth-child(2){animation-delay:.3s}.mas span:nth-child(3){animation-delay:.6s}
+.chip .sc{text-shadow:0 0 12px #ffc933aa}.top span{text-shadow:0 2px 0 #0006}
+body.neo{background:radial-gradient(ellipse at 50% 0%,#0a4d8a,#1a0050 55%,#000 100%) fixed}body.neo::after{top:auto;inset:auto -50% 0 -50%;height:45%;opacity:.5;animation:none;background-image:linear-gradient(#00e5ff55 2px,transparent 2px),linear-gradient(90deg,#00e5ff55 2px,transparent 2px);background-size:60px 60px;transform:perspective(300px) rotateX(60deg);transform-origin:bottom}
+.vp{position:relative;margin:6px auto;width:min(94vw,calc(42vh*1.76));aspect-ratio:600/340;border:4px solid #00e5ff;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 0 25px #00e5ff,0 0 70px #7b2cff}.vp svg,.vp .im{width:100%;height:100%;display:block}.im{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.zin{animation:zin .9s both}@keyframes zin{from{transform:scale(2.6);filter:blur(10px);opacity:0}}.boom{animation:boom .8s}@keyframes boom{20%{transform:scale(1.12) rotate(-3deg);filter:brightness(2)}50%{transform:scale(.94) rotate(2deg)}}
+.cl{display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,#2a5cff,#7b2cff);border:3px solid var(--g);border-radius:16px;padding:8px 16px;margin:6px auto;max-width:900px;font-size:clamp(17px,2.6vw,32px);font-weight:700}.cl.nw{animation:flip .6s both}.cl.lk{background:#0006;border:3px dashed #fff4;opacity:.7}.cl b{background:var(--g);color:#2b1a00;border-radius:50%;min-width:1.7em;height:1.7em;display:inline-flex;align-items:center;justify-content:center}
+@keyframes flip{from{transform:rotateX(90deg) scale(.9);opacity:0}}.mys{font-size:clamp(70px,13vw,160px);text-align:center;line-height:1.1;animation:wig 2s ease-in-out infinite;filter:drop-shadow(0 0 25px #ffc933)}
+body{font-family:'Trebuchet MS','Segoe UI',Verdana,sans-serif}
+body[data-t='g1'],body[data-t='g1s']{--th:#2a7bff}body[data-t='g2'],body[data-t='g2s']{--th:#ff9d2e}body[data-t='g3'],body[data-t='g3s']{--th:#19c37d}body[data-t='g7'],body[data-t='g7s']{--th:#ff3fa4}body[data-t='g8'],body[data-t='g8s']{--th:#ff7a18}body[data-t='g9'],body[data-t='g9s']{--th:#00e5ff}body[data-t='g11'],body[data-t='g11s']{--th:#b04cff}body[data-t='g12'],body[data-t='g12s']{--th:#ff3b4e}
+.hd{border-bottom-color:var(--th,#ffc933)}.top{border-color:var(--th,#fff3);box-shadow:0 0 22px var(--th,transparent)}.q{border-color:var(--th,#fff4);box-shadow:0 8px 0 #0004,0 0 40px var(--th,#7b2cff66)}.ans{text-shadow:0 0 22px currentColor}.chip.sel{border-color:var(--th,#ffc933)}.tr{background:#0004;border-radius:18px;margin:6px 10px;padding:4px 8px}
+body[data-t='g13'],body[data-t='g13s']{--th:#ff3fa4}
+.dk{text-align:center;padding:8px;border-radius:24px;margin:6px 10px;animation:dg 4s linear infinite}@keyframes dg{0%,100%{background:#ff3fa426}33%{background:#00e5ff26}66%{background:#ffc93326}}
+.ball{width:clamp(80px,15vw,160px);aspect-ratio:1;margin:0 auto;border-radius:50%;background:repeating-conic-gradient(#ffffff66 0 10deg,#0000 10deg 20deg),radial-gradient(circle at 35% 30%,#fff,#9fb4ff 35%,#5b6bd6 60%,#222a66);box-shadow:0 0 50px #fff8,0 0 110px #7b9bff;animation:sp 5s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.eq{display:flex;gap:6px;justify-content:center;align-items:flex-end;height:80px;margin:8px}.eq i{width:18px;height:100%;background:linear-gradient(#ffc933,#ff3fa4);border-radius:6px;transform-origin:bottom;animation:eqb .5s ease-in-out infinite alternate}.eq i:nth-child(2n){animation-duration:.35s}.eq i:nth-child(3n){animation-duration:.65s}.eq i:nth-child(4n){animation-delay:.2s}@keyframes eqb{from{transform:scaleY(.15)}}
+.mv{font-size:clamp(34px,7vw,90px);font-weight:900;color:#ffc933;text-shadow:0 0 25px #ffc933;line-height:1.1}
+.bk{font-size:clamp(60px,14vw,170px);font-weight:900;color:#aef0ff;text-shadow:0 0 40px #00e5ff;line-height:1;animation:ice 1s both}@keyframes ice{from{transform:scale(3);opacity:0;filter:blur(12px)}}
+.frz{background:linear-gradient(#bff4ff22,#00e5ff33);border:4px solid #9fe8ff;border-radius:24px;margin:6px 10px;padding:10px;text-align:center}
+body[data-t='g14'],body[data-t='g14s']{--th:#ffd21a}
+.bd5{display:grid;gap:10px;max-width:900px;margin:8px auto;padding:0 10px}.sl{display:flex;align-items:center;gap:12px;font-size:clamp(20px,3.2vw,40px);font-weight:900;padding:12px 18px;border-radius:16px;background:linear-gradient(#1b3cff,#0b1a8a);border:3px solid #9fb4ff;cursor:pointer;min-height:64px;box-shadow:0 5px 0 #0006}.sl b{background:var(--g);color:#2b1a00;border-radius:10px;min-width:1.8em;text-align:center}.sl span{flex:1;letter-spacing:3px;color:#9fb4ff}.sl.on{background:linear-gradient(#ffe27a,#ffc933);color:#2b1a00;border-color:#fff;cursor:default}.sl.on span{color:#2b1a00;letter-spacing:0}.sl.on i{font-style:normal;background:#2b1a00;color:var(--g);border-radius:10px;padding:2px 12px}.sl.nw{animation:flip2 .6s both}.sl.ms{opacity:.55;background:#334;border-color:#889}@keyframes flip2{from{transform:rotateX(90deg) scale(.9);opacity:0}}.xs{font-size:clamp(40px,8vw,100px);text-align:center;animation:pop .4s}
+body[data-t='g15'],body[data-t='g15s']{--th:#ffc933}
+.slot{position:relative;max-width:1100px;margin:26px auto 10px;padding:22px 16px;border-radius:28px;background:linear-gradient(#7b1230,#3a0716);border:6px solid var(--g);box-shadow:0 0 0 6px #ff3b4e,0 0 60px #ffc933aa,0 12px 0 #12084f}.slot::before{content:'';position:absolute;left:24px;right:24px;top:-24px;height:12px;border-radius:6px;background:repeating-linear-gradient(90deg,#ffe27a 0 14px,transparent 14px 36px);animation:bl 1.2s ease-in-out infinite alternate}@keyframes bl{to{opacity:.35}}
+.reels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}.rw small{display:block;color:var(--g);font-weight:900;margin-bottom:6px;font-size:clamp(14px,2vw,22px);text-align:center;letter-spacing:2px}.rl{background:#fffbe6;color:#2b1a00;border:5px solid var(--g);border-radius:18px;min-height:clamp(100px,17vh,180px);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;font-size:clamp(17px,2.5vw,32px);font-weight:900;box-shadow:inset 0 8px 18px #0004}.rl.sp{filter:blur(1.2px);background:#fff3b0}.rl.stop{animation:pop .5s;box-shadow:0 0 30px #ffc933,inset 0 8px 18px #0004}
+body[data-t='g16'],body[data-t='g16s']{--th:#ff7b3b}
+.bomb{font-size:clamp(100px,22vw,250px);text-align:center;line-height:1.05;filter:drop-shadow(0 0 30px #ff3b4e);animation:bsh 1s ease-in-out infinite}.bomb.warm{animation-duration:.5s}.bomb.hot{animation-duration:.18s;filter:drop-shadow(0 0 55px #f00)}@keyframes bsh{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.06)}}
+.bm{font-size:clamp(60px,14vw,170px);font-weight:900;color:#ff7b3b;text-shadow:0 0 40px #ff3b4e;line-height:1;text-align:center;animation:ice 1s both}
+</style></head><body>
+<div class="hd">
+<button class="btn sm2" onclick="hm()">🏠 Beranda</button>
+<button class="btn sm2 bl" id="bm" onclick="S.music=!S.music;hdr()">🎵 Musik ON</button>
+<label>Vol <input type="range" min="0" max="1" step=".05" value=".4" oninput="S.mv=+this.value"></label>
+<button class="btn sm2 bl" id="bf" onclick="S.fx=!S.fx;hdr()">🔊 Efek ON</button>
+<label>Vol <input type="range" min="0" max="1" step=".05" value=".7" oninput="S.sv=+this.value"></label>
+<button class="btn sm2 bl" onclick="fs()">⛶ Layar Penuh</button>
+</div>
+<div id="b"></div><div id="m"></div><div id="cf"></div><div id="md"></div><div id="bg"></div><div id="cur"></div>
+<script>
+const $=s=>document.querySelector(s),e=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S={teams:[1,2,3,4].map(n=>({n:'Kelompok '+n,s:0})),sel:0,screen:'home',music:true,fx:true,mv:.4,sv:.7};
+let G=null,Q=null,LAST={},M2={m:'A',t:10},T={id:0,s:0,run:0,pz:0};
+const shuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const fmt=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+/* ===== DATA ===== */
+const I=[['🐘','Gajah','Hewan besar berbelalai'],['🐱','Kucing','Hewan peliharaan yang mengeong'],['🦁','Singa','Raja hutan'],['🐟','Ikan','Hidup di air dan bersirip'],['🐔','Ayam','Berkokok di pagi hari'],['✏️','Pensil','Alat tulis yang bisa dihapus'],['📚','Buku','Dibaca, banyak halamannya'],['🎒','Tas','Dibawa murid ke sekolah'],['📏','Penggaris','Dipakai mengukur panjang'],['✂️','Gunting','Memotong kertas'],['🍎','Apel','Buah merah, pernah jatuh menimpa Newton'],['🍌','Pisang','Buah kuning melengkung'],['🍚','Nasi','Makanan pokok kita'],['🍉','Semangka','Hijau di luar, merah berbiji di dalam'],['⚽','Sepak bola','Olahraga dengan gawang'],['🚲','Sepeda','Beroda dua, dikayuh'],['👩‍🏫','Guru','Profesi mulia di sekolah'],['👨‍⚕️','Dokter','Mengobati orang sakit'],['⏰','Jam','Penunjuk waktu'],['☂️','Payung','Dipakai saat hujan']];
+const QS=`Mana lebih berat, 1 kg kapas atau 1 kg besi?|Sama berat|Besi|Kapas|Tergantung ukuran
+Apa yang makin banyak diambil makin besar?|Lubang|Gunung|Batu|Air
+Ada 3 apel, kamu ambil 2. Berapa apel yang kamu punya?|2|1|3|5
+Berapa bulan dalam setahun yang punya 28 hari?|12 bulan (semua)|1 bulan|2 bulan|Tidak ada
+Apa yang bisa pecah tanpa dijatuhkan?|Janji|Gelas|Telur|Kaca
+Apa yang selalu datang tetapi tidak pernah tiba?|Besok|Kemarin|Lusa|Hari ini
+Apa yang punya kepala dan ekor tetapi tidak punya badan?|Koin|Ular|Ikan|Kecoak
+Apa yang naik tetapi tidak pernah turun?|Umur|Balon|Harga|Tangga
+Apa ibu kota Australia?|Canberra|Sydney|Melbourne|Perth
+Planet terbesar di tata surya?|Jupiter|Saturnus|Bumi|Neptunus
+Siapa penjahit Bendera Pusaka?|Fatmawati|Cut Nyak Dien|Kartini|Dewi Sartika
+Hewan tercepat di darat?|Cheetah|Singa|Kuda|Rusa
+Lambang sila ketiga Pancasila?|Pohon beringin|Banteng|Padi dan kapas|Rantai
+Gas yang dihirup manusia untuk bernapas?|Oksigen|Nitrogen|Karbon dioksida|Hidrogen
+Samudra terluas di dunia?|Pasifik|Atlantik|Hindia|Arktik
+Siapa Bapak Pendidikan Nasional?|Ki Hajar Dewantara|Soekarno|Moh. Hatta|Ahmad Dahlan
+Hari Pendidikan Nasional jatuh pada tanggal?|2 Mei|20 Mei|17 Agustus|25 November
+Hari Guru Nasional jatuh pada tanggal?|25 November|2 Mei|28 Oktober|10 November
+Tut Wuri ...?|Handayani|Mangun Karso|Sungsang|Pamrih
+Hewan berkaki delapan?|Laba-laba|Semut|Lebah|Kupu-kupu
+Campuran warna biru dan kuning menghasilkan?|Hijau|Ungu|Oranye|Cokelat
+Berapa jumlah sisi segi enam?|6|5|8|7
+15 + 27 − 10 = ?|32|42|22|35
+8 × 7 = ?|56|54|63|48
+Setengah dari seperempat adalah?|Seperdelapan|Seperenam|Sepertiga|Setengah
+100 : 4 × 5 = ?|125|5|20|500
+Berapa menit dalam 2,5 jam?|150|120|130|180
+Kelipatan persekutuan terkecil dari 3 dan 4?|12|7|24|9
+0,5 + 0,25 = ?|0,75|0,55|0,7|1,25
+9 × 9 − 9 = ?|72|81|63|90
+Ranah penilaian: kognitif, afektif, dan ...?|Psikomotor|Sosial|Spiritual|Emosional
+Kurikulum yang dikenalkan sejak 2022 untuk satuan pendidikan?|Kurikulum Merdeka|KBK|KTSP|Kurikulum 1994
+Perangkat ajar utama di Kurikulum Merdeka?|Modul Ajar|Prota|Prosem|Silabus
+Asesmen di awal pembelajaran disebut?|Diagnostik|Sumatif|Formatif|Portofolio
+P5 adalah Projek Penguatan Profil ...?|Pelajar Pancasila|Pendidik Profesional|Pelajar Prestasi|Prestasi Pancasila
+Guru bertanya "Ada pertanyaan?" Jawaban murid yang paling sering?|Diam|Ada|Banyak|Tidak tahu
+Buah apa yang suka dibicarakan orang?|Buah bibir|Apel|Pisang|Salak
+Benda bergigi banyak tetapi tidak bisa menggigit?|Sisir|Sendok|Piring|Gelas
+Sebelum Gunung Everest ditemukan, gunung tertinggi di dunia adalah?|Everest|K2|Kilimanjaro|Fuji
+Berapa kali kita bisa mengurangi 5 dari 25?|Sekali, setelahnya jadi 20|5 kali|25 kali|Tak terhingga
+Dokter memberi 3 pil, diminum tiap 30 menit. Habis dalam berapa lama?|1 jam|1,5 jam|3 jam|30 menit
+Berapa hewan tiap jenis yang dibawa Nabi Musa ke bahtera?|Tidak ada (itu Nabi Nuh)|2|1|7
+Apa yang makin basah saat dipakai untuk mengeringkan?|Handuk|Rambut|Baju|Lantai
+Apa milikmu yang lebih sering dipakai orang lain?|Nama|Uang|Pulpen|Buku
+Spontan! Presiden pertama Republik Indonesia?|Soekarno|Moh. Hatta|Soeharto|Habibie
+Spontan! Hari setelah Kamis?|Jumat|Rabu|Sabtu|Senin
+Spontan! Berapa jumlah huruf vokal?|5|4|6|7
+Spontan! Lagu kebangsaan Indonesia?|Indonesia Raya|Garuda Pancasila|Halo-Halo Bandung|Rayuan Pulau Kelapa
+Spontan! Warna lampu lalu lintas yang di tengah?|Kuning|Merah|Hijau|Biru
+Spontan! Sila pertama Pancasila?|Ketuhanan Yang Maha Esa|Persatuan Indonesia|Kemanusiaan yang adil dan beradab|Keadilan sosial
+Spontan! Mata uang Jepang?|Yen|Won|Yuan|Ringgit`.split('\n').map(l=>l.split('|'));
+const P=s=>s.split('\n').map(l=>l.split('|'));
+const QL={1:QS,2:P(`12 × 12 − 44 = ?|100|88|110|124
+Berapa 25% dari 480?|120|96|140|240
+Sudut segitiga 50° dan 60°. Sudut ketiganya?|70°|80°|60°|90°
+Ibu kota Kanada?|Ottawa|Toronto|Vancouver|Montreal
+Pencipta lagu Indonesia Raya?|W.R. Supratman|Ismail Marzuki|C. Simanjuntak|Kusbini
+Sumpah Pemuda diikrarkan tahun?|1928|1945|1908|1926
+Benua terkecil di dunia?|Australia|Eropa|Antartika|Amerika Selatan
+Unsur kimia dengan simbol Fe?|Besi|Fosfor|Fluor|Perak
+Organ yang memompa darah?|Jantung|Paru-paru|Hati|Ginjal
+3/4 + 1/8 = ?|7/8|4/12|1/2|9/8
+Selisih 1 gross (144) dan 1 lusin?|132|12|100|156
+Konsep Zona Perkembangan Proksimal berasal dari?|Vygotsky|Piaget|Skinner|Pavlov
+Piaget: usia 7–11 tahun masuk tahap?|Operasional konkret|Praoperasional|Sensorimotor|Operasional formal
+Asesmen di akhir periode untuk menyimpulkan capaian?|Sumatif|Formatif|Diagnostik|Awal
+Level tertinggi taksonomi Bloom revisi?|Mencipta|Menganalisis|Mengevaluasi|Mengingat
+Peternak punya 17 domba, semua kecuali 9 mati. Sisa berapa?|9|8|17|0
+Berapa angka 9 dari 1 sampai 100?|20|19|11|10
+Apa yang hilang jika namanya disebut?|Kesunyian|Rahasia|Angin|Bayangan
+Dua ayah dan dua anak makan 3 telur, masing-masing satu. Kok bisa?|Hanya 3 orang (kakek, ayah, cucu)|Satu tidak makan|Telur dibelah|Salah hitung
+Berapa kelipatan 7 antara 50 dan 80?|4|3|5|6`),3:P(`15% dari 15% dari 2000 = ?|45|30|450|4,5
+5 mesin buat 5 barang dalam 5 menit. 100 mesin buat 100 barang dalam?|5 menit|100 menit|20 menit|1 menit
+Bilangan prima terkecil lebih dari 50?|53|51|57|59
+2⁵ − 3³ = ?|5|7|−5|1
+Rata-rata 4 bilangan = 15. Jika bilangan 9 dihapus, rata-rata sisanya?|17|15|18|16
+Volume kubus rusuk 4 cm?|64 cm³|16 cm³|48 cm³|96 cm³
+Ibu kota Turki?|Ankara|Istanbul|Izmir|Bursa
+Selat pemisah Sumatra dan Semenanjung Malaysia?|Selat Malaka|Selat Sunda|Selat Karimata|Selat Lombok
+Perjanjian yang membelah Mataram jadi Surakarta dan Yogyakarta?|Giyanti|Linggarjati|Renville|Salatiga
+Penulis novel Laskar Pelangi?|Andrea Hirata|Habiburrahman|Tere Liye|Pramoedya
+Hukum Newton ketiga membahas?|Aksi–reaksi|Inersia|Percepatan|Gravitasi
+Rumus kimia garam dapur?|NaCl|KCl|NaOH|CaCO3
+Ejaan baku yang benar?|Apotek|Apotik|Aptek|Apotèk
+Ejaan baku yang benar?|Analisis|Analisa|Analisys|Analisi
+Pembelajaran berdiferensiasi menyesuaikan dengan?|Kebutuhan belajar murid|Kemauan guru|Jumlah jam|Kurikulum lama
+Scaffolding dalam pembelajaran berarti?|Bantuan bertahap|Menghafal|Hukuman|Remedial
+10 : 0,5 = ?|20|5|10|2
+Pria menunjuk foto: Ayah orang ini adalah anak ayahku. Aku tak punya saudara. Foto siapa?|Anaknya sendiri|Dirinya|Ayahnya|Keponakan
+Punya kota tanpa rumah, hutan tanpa pohon, sungai tanpa air. Apa?|Peta|Mimpi|Globe|Lukisan
+1 + 2 + 3 + ... + 20 = ?|210|200|220|190`)};
+const IL={1:I,2:[['🦒','Jerapah','Leher panjang'],['🐢','Kura-kura','Membawa rumah di punggung'],['🦉','Burung hantu','Aktif di malam hari'],['🧮','Sempoa','Alat hitung manual'],['🔬','Mikroskop','Melihat benda sangat kecil'],['🌋','Gunung berapi','Bisa meletus'],['🍍','Nanas','Berduri dan bermahkota'],['🧭','Kompas','Penunjuk arah'],['🔭','Teleskop','Melihat bintang'],['🎺','Terompet','Alat musik tiup'],['🪁','Layang-layang','Terbang dengan benang'],['🥥','Kelapa','Airnya segar']],3:[['🦥','Kungkang','Hewan paling lambat di pohon'],['🦔','Landak','Tubuh berduri'],['🐙','Gurita','Delapan lengan'],['🦘','Kanguru','Melompat, punya kantung'],['🧲','Magnet','Menarik besi'],['⚓','Jangkar','Menahan kapal'],['🧯','Alat pemadam api','Dipakai saat kebakaran'],['🕯️','Lilin','Menyala lalu meleleh'],['⌛','Jam pasir','Waktu dari butiran'],['🧩','Puzzle','Kepingan disusun'],['🪣','Ember','Wadah air'],['🧦','Kaus kaki','Dipakai di kaki']]};let LV=1;
+QL[1].push(...P(`Berapa hasil 6 × 6?|36|32|42|30
+Hewan yang bertelur dan bisa terbang?|Burung|Kucing|Sapi|Kambing
+Hari ketiga dalam seminggu (mulai Senin)?|Rabu|Selasa|Kamis|Jumat
+Alat tulis di papan tulis hitam tradisional?|Kapur|Spidol|Pensil|Krayon
+Berapa hari dalam seminggu?|7|6|5|8
+Matahari terbit dari arah?|Timur|Barat|Utara|Selatan
+Hewan penghasil susu?|Sapi|Ayam|Ikan|Bebek
+Warna bagian atas bendera Indonesia?|Merah|Putih|Biru|Kuning
+Berapa 100 − 37?|63|67|73|57
+Alat musik yang dipukul?|Drum|Seruling|Gitar|Biola
+Planet tempat kita tinggal?|Bumi|Mars|Venus|Bulan
+Buah kuning melengkung?|Pisang|Apel|Jeruk|Anggur
+Berapa kaki seekor kucing?|4|2|6|8
+Tempat guru mengajar?|Sekolah|Pasar|Rumah sakit|Bandara
+Berapa 5 + 5 × 2?|15|20|12|25`));
+QL[2].push(...P(`7² + 3² = ?|58|52|49|64
+Akar kuadrat dari 169?|13|14|12|17
+Benua dengan negara terbanyak?|Afrika|Asia|Eropa|Amerika
+Ibu kota Jepang?|Tokyo|Kyoto|Osaka|Seoul
+Proses tumbuhan membuat makanan?|Fotosintesis|Respirasi|Transpirasi|Fermentasi
+Alat pengukur suhu?|Termometer|Barometer|Higrometer|Speedometer
+Penemu lampu pijar?|Thomas Edison|Nikola Tesla|Newton|Einstein
+Danau terbesar di Indonesia?|Danau Toba|Danau Poso|Danau Singkarak|Danau Maninjau
+Sungai terpanjang di Indonesia?|Kapuas|Mahakam|Musi|Bengawan Solo
+Presiden kedua RI?|Soeharto|Habibie|Soekarno|Gus Dur
+Pelukis Mona Lisa?|Leonardo da Vinci|Picasso|Van Gogh|Michelangelo
+IPAS singkatan dari?|Ilmu Pengetahuan Alam dan Sosial|Ilmu Pasti dan Sosial|Ilmu Pengetahuan Agama dan Sosial|Ilmu Praktis Alam Sejahtera
+Alur Tujuan Pembelajaran disingkat?|ATP|RPP|KKM|LKPD
+LKPD kepanjangannya?|Lembar Kerja Peserta Didik|Lembar Kerja Pelajar Dasar|Lembar Kegiatan Pendidik|Lembar Kontrol Peserta Didik
+Berapa derajat sudut siku-siku?|90°|60°|180°|45°
+2,5 × 4 = ?|10|8|12|9
+Berapa 3/5 dari 100?|60|30|50|75
+Huruf apa yang ada di tengah kata PARIS?|R|A|I|P
+1 + 1 dalam bilangan biner?|10|2|11|0
+0,2 × 0,3 = ?|0,06|0,6|0,5|0,23`));
+QL[3].push(...P(`Berapa bilangan prima antara 1 dan 20?|8|7|9|10
+(−3)³ + 5² = ?|−2|52|2|−52
+FPB dari 36 dan 48?|12|6|24|144
+KPK dari 6, 8, dan 12?|24|48|12|72
+Luas lingkaran jari-jari 7 cm (π = 22/7)?|154 cm²|44 cm²|49 cm²|308 cm²
+Presiden RI ke-4?|Abdurrahman Wahid|Habibie|Megawati|Soeharto
+Pertempuran 10 November 1945 terjadi di?|Surabaya|Semarang|Bandung|Ambarawa
+Organisasi pergerakan pertama (1908)?|Budi Utomo|Sarekat Islam|Indische Partij|Taman Siswa
+Candi Buddha terbesar di dunia?|Borobudur|Prambanan|Mendut|Sewu
+Zat hijau pada daun?|Klorofil|Hemoglobin|Karoten|Melanin
+Lapisan atmosfer tempat terjadi cuaca?|Troposfer|Stratosfer|Mesosfer|Termosfer
+Pulau Komodo berada di provinsi?|Nusa Tenggara Timur|Nusa Tenggara Barat|Bali|Sulawesi Selatan
+Ibu kota Kenya?|Nairobi|Lagos|Dodoma|Addis Ababa
+Ejaan baku yang benar?|Risiko|Resiko|Rizico|Risco
+Ejaan baku yang benar?|Izin|Ijin|Idzin|Ijjin
+Ejaan baku yang benar?|Kualitas|Kwalitas|Kuwalitas|Qualitas
+Hierarki kebutuhan dikemukakan oleh?|Maslow|Bandura|Bruner|Thorndike
+Konstruktivisme menekankan pengetahuan ...?|Dibangun sendiri oleh murid|Dituangkan guru|Dihafal|Diwariskan
+Kamu menyalip pelari peringkat 2. Kamu peringkat berapa?|2|1|3|Tidak tahu
+Berapa total titik pada satu dadu (semua sisi) × 2 dadu?|42|21|36|48
+3 orang membersihkan 3 ruangan dalam 3 jam. 9 orang membersihkan 9 ruangan dalam?|3 jam|9 jam|1 jam|6 jam`));
+IL[1].push(['🍊','Jeruk','Buah bulat oranye, kaya vitamin C'],['🐄','Sapi','Menghasilkan susu'],['🚗','Mobil','Kendaraan roda empat'],['🌻','Bunga matahari','Menghadap ke matahari'],['🎹','Piano','Tuts hitam dan putih'],['🏠','Rumah','Tempat tinggal']);
+IL[2].push(['🦀','Kepiting','Berjalan menyamping dan bercapit'],['🐧','Pinguin','Burung kutub yang tidak bisa terbang'],['🧪','Tabung reaksi','Alat laboratorium'],['🏺','Guci','Wadah dari tanah liat'],['🔦','Senter','Penerang yang dibawa'],['🛶','Perahu','Kendaraan air kecil']);
+IL[3].push(['🦩','Flamingo','Burung merah muda berkaki panjang'],['🦎','Cicak','Merayap di dinding'],['🧶','Benang wol','Bahan untuk merajut'],['🔔','Lonceng','Berbunyi saat digoyang'],['🪡','Jarum','Dipakai menjahit'],['🧸','Boneka beruang','Mainan anak berbulu']);
+const lv=f=>`<div class="row">${[1,2,3].map(l=>`<button class="btn ${LV===l?'':'bl'}" onclick="LV=${l};${f}">${['','MUDAH','SEDANG','SULIT'][l]}</button>`).join('')}</div>`;
+/* ===== AUDIO ===== */
+let AC=null,ms=0,mi=0;
+function ac(){if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}
+function tone(f,d,ty,v,at){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime+(at||0);o.type=ty||'sine';o.frequency.value=f;g.gain.setValueAtTime(.25*v+.0001,t);g.gain.exponentialRampToValueAtTime(.0005,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d)}catch(x){}}
+const NT=[523,659,784,659,587,740,880,740,659,784,988,784,523,659,784,1047];
+function mus(){if(ms)return;ms=1;setInterval(()=>{if(!S.music||S.mv<=0||S.screen==='g13')return;const k=mi++;tone((S.screen==='home'?NT:S.screen[0]==='v'?NT3:NT2)[k%16],.22,'triangle',S.mv*.5);if(k%4===0){tone([131,147,175,196][(k>>2)%4],.5,'sine',S.mv*.8);kick(S.mv)}if(k%2===1)tone(2000,.03,'square',S.mv*.12);if(k%8===4)noise(.08,S.mv*.5);if(k%8===0)[[262,330,392],[220,262,330],[175,220,262],[196,247,294]][(k>>3)%4].forEach(f=>tone(f,1.9,'sine',S.mv*.35))},260)}
+function noise(d,v,at,f){try{const a=ac(),n=Math.floor(a.sampleRate*d),b=a.createBuffer(1,n,a.sampleRate),x=b.getChannelData(0);for(let i=0;i<n;i++)x[i]=(Math.random()*2-1)*(1-i/n);const s=a.createBufferSource(),g=a.createGain();s.buffer=b;g.gain.value=.3*v;if(f){const fl=a.createBiquadFilter();fl.type='bandpass';fl.frequency.value=f;s.connect(fl);fl.connect(g)}else s.connect(g);g.connect(a.destination);s.start(a.currentTime+(at||0))}catch(x){}}
+function slide(f1,f2,d,ty,v,at){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime+(at||0);o.type=ty;o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(.25*v+.0001,t);g.gain.exponentialRampToValueAtTime(.0005,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d)}catch(x){}}
+function sfx(n){if(!S.fx)return;if(n==='boom'){noise(.9,S.sv*1.2,0);noise(.5,S.sv,0,500);slide(300,40,.9,'sawtooth',S.sv,0);kick(S.sv)}if(n==='scratch'){noise(.35,S.sv*.8,0,1800);slide(900,120,.35,'sawtooth',S.sv*.6,0)}if(n==='drum')for(let i=0;i<14;i++)noise(.05,S.sv*.6,i*.045);if(n==='menang')for(let i=0;i<12;i++)noise(.2,S.sv*.7,.4+i*.12,2200);if(n==='wow'){for(let i=0;i<5;i++)noise(.22,S.sv*.7,.1+i*.1,2500)}else if(n==='benar')noise(.25,S.sv*.6,.05,3000);if(n==='gagal'){noise(.2,S.sv*.4,0);slide(400,110,.7,'sawtooth',S.sv*.8,.1)}({benar:[[523,0],[659,.1],[784,.2],[1047,.2,'triangle',.3],[659,.2,'triangle',.3]],salah:[[220,0,'sawtooth'],[165,.15,'sawtooth']],habis:[[300,0,'square'],[300,.25,'square'],[200,.5,'square']],tick:[[880,0]],start:[[440,0],[660,.12]],menang:[[523,0],[659,.15],[784,.3],[1047,.45],[784,.6],[1047,.75]],wow:[[523,0],[659,.08],[784,.16],[1047,.24],[1319,.34],[1568,.46]],gagal:[[300,0,'sawtooth'],[220,.18,'sawtooth'],[150,.36,'sawtooth']],lucu:[[600,0,'sawtooth',.12],[900,.1,'sawtooth',.12],[400,.2,'sawtooth',.12],[200,.3,'square',.25],[800,.5,'triangle',.1],[1000,.6,'triangle',.1],[1200,.7,'triangle',.15]],klik:[[800,0,'square',.05]],koin:[[988,0,'square',.08],[1319,.08,'square',.25]],tada:[[523,0,'square',.12],[659,.1,'square',.12],[784,.2,'square',.12],[1047,.3,'square',.4]],sirine:[[900,0,'sawtooth',.15],[600,.15,'sawtooth',.15],[900,.3,'sawtooth',.15],[600,.45,'sawtooth',.2]],drum:[[100,.63,'sine',.3]],scratch:[[80,.3,'sine',.05]],beku:[[1568,.4,'sine',.5],[2093,.55,'sine',.6]],lepas:[[523,0,'square',.1],[784,.12,'square',.2],[1047,.24,'square',.3]],ding:[[1319,0,'sine',.4],[1760,.08,'sine',.5]],boom:[[50,.5,'sine',.3]],next:[[400,0,'triangle',.08],[700,.07,'triangle',.1]],buka:[[500,0,'sine',.1],[800,.08,'sine',.12]],jeda:[[500,0,'sine',.1],[350,.1,'sine',.15]],lanjut:[[350,0,'sine',.1],[500,.1,'sine',.15]],petunjuk:[[1000,0,'sine',.1],[1200,.1,'sine',.15]],reset:[[600,0,'triangle',.1],[300,.1,'triangle',.2]]})[n].forEach(([f,t,ty,d])=>tone(f,d||.22,ty,S.sv,t))}
+document.addEventListener('pointerdown',()=>{ac();mus()},{once:true});
+document.addEventListener('click',ev=>{if(ev.target.closest&&ev.target.closest('.btn,.opt,.chip,.sm'))sfx('klik')});
+/* ===== UTIL ===== */
+function hdr(){$('#bm').textContent='🎵 Musik '+(S.music?'ON':'OFF');$('#bf').textContent='🔊 Efek '+(S.fx?'ON':'OFF')}
+function fs(){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(x){}}
+function conf(n){const c=$('#cf'),k=['#ffc933','#ff3b4e','#2a5cff','#7b2cff','#19c37d'];let h='';for(let i=0;i<(n||60);i++)h+=`<i class="cf" style="left:${Math.random()*100}%;background:${k[i%5]};width:${6+Math.random()*10}px;border-radius:${i%3?'0':'50%'};animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()}s"></i>`;c.insertAdjacentHTML('beforeend',h);setTimeout(()=>{c.innerHTML=''},5000)}
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1400)}
+function award(p){const t=S.teams[S.sel];t.s+=p;board();const el=document.querySelectorAll('.chip .sc')[S.sel];if(el)el.classList.add('bump');sfx('koin');toast('+'+p+' untuk '+t.n)}
+function tclear(){clearInterval(T.id);T.id=0;T.run=0;T.pz=0}
+function tm(){const el=$('#tm');if(el){el.textContent=S.screen==='g1'?fmt(T.s):T.s;el.className=(S.screen!=='g1'&&T.s<=3&&T.run)?'red':''}}
+function board(){document.body.dataset.t=S.screen;const b=$('#b');if(S.screen==='home'||S.screen==='res'||S.screen==='v'||S.screen==='vs'){b.innerHTML='';return}
+const mx=Math.max(...S.teams.map(t=>t.s));b.innerHTML='<div class="bd">'+S.teams.map((t,i)=>`<div class="chip${i===S.sel?' sel':''}" onclick="selT(${i})"><div class="nm">${t.s===mx&&mx>0?'👑 ':''}${e(t.n)} <button class="sm" onclick="ren(${i},event)">✎</button></div><div class="sc">${t.s}</div><div><button class="sm" onclick="adj(${i},-100,event)">−100</button><button class="sm" onclick="adj(${i},25,event)">+25</button><button class="sm" onclick="adj(${i},100,event)">+100</button></div></div>`).join('')+`<button class="sm w" onclick="addT()">+ Kelompok</button><button class="sm w" onclick="delT()">− Kelompok</button><button class="sm w" onclick="rst()">Reset Skor</button></div>`}
+function rf(){if(S.screen==='g1'&&G)draw1();else if(S.screen==='g2'&&Q)draw2();else if((S.screen==='g3'||S.screen==='g7')&&W)wdraw();else if(S.screen==='g8'&&K8)d8();else if(S.screen==='g9'&&PB)d9();else if(S.screen==='g11'&&SA)d11();else if(S.screen==='g12'&&SB)d12();else if(S.screen==='g13'&&DB)d13();else if(S.screen==='g14'&&SU)d14();else if(S.screen==='g15'&&SL)d15();else if(S.screen==='g16'&&BM)d16()}
+function selT(i){S.sel=i;board();rf()}
+function adj(i,p,ev){ev.stopPropagation();S.teams[i].s+=p;board();rf()}
+function ren(i,ev){ev.stopPropagation();inp('Nama peserta/kelompok:',S.teams[i].n,v=>{if(v&&v.trim()){S.teams[i].n=v.trim().slice(0,20);board();rf()}})}
+function addT(){if(S.teams.length<8){S.teams.push({n:'Kelompok '+(S.teams.length+1),s:0});board()}}
+function rst(){ask('Reset semua skor ke 0?',()=>{S.teams.forEach(t=>t.s=0);board();rf()})}
+function ask(m,cb){$('#md').innerHTML=`<div class="mdl"><div class="bx"><p>${e(m)}</p><button class="btn bl" onclick="md()">BATAL</button><button class="btn" onclick="md(1)">YA</button></div></div>`;window._cb=cb}
+function md(y){$('#md').innerHTML='';const c=window._cb;window._cb=null;if(y&&c)c()}
+function inp(m,d,cb){$('#md').innerHTML=`<div class="mdl"><div class="bx"><p>${e(m)}</p><input id="mi" value="${e(d)}" maxlength="20" style="font-size:24px;width:90%"><br><button class="btn bl" onclick="md()">BATAL</button><button class="btn" onclick="const v=$('#mi').value;md();window._c2(v)">SIMPAN</button></div></div>`;window._c2=cb}
+function hm(){if((S.screen==='g1'||S.screen==='g2'||S.screen==='g3'||S.screen==='g7'||S.screen==='g8'||S.screen==='g9'||S.screen==='v'||S.screen==='g11'||S.screen==='g12'||S.screen==='g13'||S.screen==='g14'||S.screen==='g15'||S.screen==='g16')&&(G||Q||W||K8||PB||V||SA||SB||DB||SU||SL||BM))ask('Kembali ke beranda? Permainan akan diakhiri.',home);else home()}
+/* ===== HOME ===== */
+function home(){S.screen='home';G=Q=W=K8=PB=SA=SB=null;DB&&(dstop(),clearTimeout(DB.st),clearInterval(DB.mt));DB=null;SU=null;SL&&(clearInterval(SL.iv),(SL.to||[]).forEach(clearTimeout));SL=null;clearTimeout(BT);BM=null;V&&clearTimeout(V.cd);V=null;document.body.classList.remove('neo');try{speechSynthesis.cancel()}catch(x){}tclear();board();$('#m').innerHTML=`<div class="home"><h1>PAK PANCA<br>ICE BREAKING ARENA</h1><h2>Waktunya Guru-Guru Bermain!</h2><div class="mas"><span>👨‍🏫</span><span>🎓</span><span>👩‍🏫</span></div><p class="tag">Guru Ceria, Belajar Bersama, Seru Bersama!</p><div class="cards"><div class="card"><div class="ic">🖼️</div><h3>Game 1 – TEBAK GAMBAR MISTERIUS</h3><p>Tebak gambar yang tersembunyi sebelum gambarnya terbuka sepenuhnya.</p><button class="btn" onclick="g1()">MAIN SEKARANG</button></div><div class="card"><div class="ic">⚡</div><h3>Game 2 – SIAPA GURU PALING CEPAT?</h3><p>Jawab pertanyaan dengan cepat, tepat, dan jadilah pemenang.</p><button class="btn" onclick="g2()">MAIN SEKARANG</button></div><div class="card"><div class="ic">👍</div><h3>Game 3 – BENAR ATAU SALAH?</h3><p>Uji pengetahuan dan naluri guru. Jangan sampai terkecoh!</p><button class="btn" onclick="g3()">MAIN SEKARANG</button></div><div class="card"><div class="ic">🤪</div><h3>Game 7 – PILIH JAWABAN PALING ABSURD</h3><p>Pilih jawaban paling kocak. Siap-siap tertawa bersama!</p><button class="btn" onclick="g7()">MAIN SEKARANG</button></div><div class="card"><div class="ic">🏫</div><h3>Game 8 – KALAU SAYA JADI KEPALA SEKOLAH</h3><p>Berimajinasi liar jadi kepala sekolah sehari. Jawaban paling kocak menang!</p><button class="btn" onclick="g8()">MAIN SEKARANG</button></div><div class="card"><div class="ic">🗣️</div><h3>Game 9 – PAK PANCA BILANG!</h3><p>Ikuti perintah dari kursi, tapi awas jebakan! Seru, heboh, dan bikin cair.</p><button class="btn" onclick="g9()">MAIN SEKARANG</button></div><div class="card"><div class="ic">👁️</div><h3>Game 10 – JANGAN TERTIPU MATA!</h3><p>The Ultimate Visual Challenge: ilusi optik dan tebakan visual yang bikin mata ragu.</p><button class="btn" onclick="g10()">MAIN SEKARANG</button></div><div class="card"><div class="ic">🕵️</div><h3>Game 11 – SIAPAKAH AKU?</h3><p>Tebak benda, hewan, dan profesi dari petunjuk bertingkat. Makin cepat benar, makin besar poinnya!</p><button class="btn" onclick="g11()">MAIN SEKARANG</button></div><div class="card"><div class="ic">🤥</div><h3>Game 12 – DUA BENAR, SATU BOHONG!</h3><p>Tiga pernyataan, satu pembohong. Tunjuk dengan jari: nomor berapa yang bohong?</p><button class="btn" onclick="g12()">MAIN SEKARANG</button></div><div class="card"><div class="ic">🩩</div><h3>Game 13 – DISKO BEKU!</h3><p>Musik berputar, semua goyang dari kursi. Begitu musik berhenti: BEKU dengan gaya paling kocak!</p><button class="btn" onclick="g13()">MAIN SEKARANG</button></div><div class="card"><div class="ic">📊</div><h3>Game 14 – SURVEI SERATUS GURU</h3><p>Tebak jawaban terpopuler seperti kuis TV! Buka papan, hindari X, dan rebut bank poin.</p><button class="btn" onclick="g14()">MAIN SEKARANG</button></div><div class="card"><div class="ic">🎰</div><h3>Game 15 – MESIN KEJUTAN</h3><p>Tarik tuas! Mesin slot memilih SIAPA, TANTANGAN, dan GAYA yang bikin satu ruangan tertawa.</p><button class="btn" onclick="g15()">MAIN SEKARANG</button></div><div class="card"><div class="ic">💣</div><h3>Game 16 – BOM KATA!</h3><p>Oper bom sambil menyebut kata. Waktu meledak rahasia, siapa yang memegang bom, kena hukuman lucu!</p><button class="btn" onclick="g16()">MAIN SEKARANG</button></div></div></div>`}
+/* ===== GAME 1 ===== */
+function g1(){S.screen='g1s';G=null;tclear();board();$('#m').innerHTML=`<div class="home"><h1>TEBAK GAMBAR<br>MISTERIUS</h1><h2>Pilih level</h2>${lv('g1()')}<button class="btn" style="font-size:28px" onclick="st1()">MULAI</button></div>`}
+function st1(){S.teams.forEach(t=>t.s=0);S.screen='g1';const p=IL[LV];G={p,o:shuf(p.map((_,i)=>i)),i:0,c:0};board();ld1();sfx('start')}
+function ld1(){tclear();T.s=0;T.id=setInterval(()=>{T.s++;tm()},1000);G.op=Array(20).fill(0);G.h=0;G.d=0;G.k=0;AW.clear();G.pts=null;draw1()}
+function draw1(){const x=G.p[G.o[G.i]],n=G.op.filter(v=>v).length,t=S.teams[S.sel];
+$('#m').innerHTML=`<div class="top"><span>Soal ${G.i+1}/${G.p.length} • ${['','Mudah','Sedang','Sulit'][LV]}</span><span>${e(t.n)}: ${t.s} poin</span><span>⏱ <b id="tm">${fmt(T.s)}</b></span><span>Terbuka ${n*5}%</span></div><div class="pic"><div class="em">${x[0]}</div><div class="tl">${G.op.map(v=>`<i class="${v?'o':''}"></i>`).join('')}</div></div><div class="hint">${G.h?'💡 '+e(x[2]):''}${(G.k||G.d)?' 🔑 '+e(x[1]):''}</div><div class="ctl"><input id="ja" class="ji" placeholder="Ketik jawaban..." autocomplete="off" onkeydown="if(event.key==='Enter')cek1()"><button class="btn ok" onclick="cek1()">CEK JAWABAN</button></div>${tr()}<div class="ctl"><button class="btn bl" onclick="op1()">BUKA GAMBAR</button><button class="btn bl" onclick="G.h=1;sfx('petunjuk');draw1()">LIHAT PETUNJUK</button><button class="btn ok" onclick="ok1()">JAWABAN BENAR</button><button class="btn no" onclick="no1()">JAWABAN SALAH</button><button class="btn" onclick="nx1()">SOAL BERIKUTNYA</button><button class="btn sm2 bl" onclick="ld1()">ULANGI SOAL</button><button class="btn sm2 bl" onclick="G.k=!G.k;draw1()">🔑 Kunci (host)</button><button class="btn sm2 no" onclick="end1()">AKHIRI</button></div>`}
+function op1(){if(G.d)return;const c=G.op.map((v,i)=>v?-1:i).filter(i=>i>=0);shuf(c).slice(0,4-LV).forEach(i=>G.op[i]=1);sfx('buka');draw1()}
+function ok1(){}
+function no1(){if(G.d)return;sfx('salah');toast('Salah, lanjut!')}
+function nx1(){if(G.i>=G.p.length-1)return fin(1,G.p.length,G.c);G.i++;sfx('next');ld1()}
+function end1(){ask('Akhiri sesi dan lihat hasil akhir?',()=>fin(1,G.i+1,G.c))}
+const nz=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');
+const same=(i,a)=>{i=nz(i);a=nz(a);return !!i&&(i===a||(i.length>=4&&(a.includes(i)||i.includes(a))))};
+function fx(ok){const d=document.createElement('div');d.className='fl '+(ok?'g':'r');d.textContent=ok?'✅ BENAR!':'❌ SALAH!';document.body.appendChild(d);setTimeout(()=>d.remove(),1100);const m=$('#m');m.classList.remove('shake');if(!ok){void m.offsetWidth;m.classList.add('shake')}sfx(ok?'wow':'gagal');if(ok)conf(90)}
+function cek1(){if(G.d)return;const v=$('#ja').value;if(!v.trim())return;if(same(v,G.p[G.o[G.i]][1])){G.x=1;ok1();G.x=0;fx(1)}else fx(0)}
+function cek2(){if(Q.d)return;const v=$('#ja').value;if(!v.trim())return;const q=Q.p[Q.o[Q.i]];let ok=same(v,q[1]);const k='abcd'.indexOf(nz(v));if(nz(v).length===1&&M2.m==='A')ok=k>=0&&Q.opt[k]===0;if(ok){Q.x=1;ok2();Q.x=0;fx(1)}else fx(0)}
+/* ===== GAME 2 ===== */
+function g2(){S.screen='g2';Q=null;tclear();board();$('#m').innerHTML=`<div class="home"><h1>SIAPA GURU<br>PALING CEPAT?</h1><h2>Pilih level</h2>${lv('g2()')}<h2>Pilih mode</h2><div class="row"><button class="btn ${M2.m==='A'?'':'bl'}" onclick="M2.m='A';g2()">MODE A – PILIHAN GANDA</button><button class="btn ${M2.m==='B'?'':'bl'}" onclick="M2.m='B';g2()">MODE B – JAWAB CEPAT</button></div><h2>Timer</h2><div class="row">${[5,10,15,20].map(s=>`<button class="btn ${M2.t===s?'':'bl'}" onclick="M2.t=${s};g2()">${s} detik</button>`).join('')}</div><button class="btn" style="font-size:28px" onclick="st2()">MULAI</button></div>`}
+function st2(){S.teams.forEach(t=>t.s=0);const p=QL[LV];Q={p,o:shuf(p.map((_,i)=>i)),i:0,c:0};board();sfx('start');ld2()}
+function ld2(){tclear();T.s=M2.t;Q.sel=-1;Q.rev=0;Q.d=0;Q.to=0;Q.opt=shuf([0,1,2,3]);AW.clear();draw2()}
+function draw2(){const q=Q.p[Q.o[Q.i]],t=S.teams[S.sel];
+$('#m').innerHTML=`<div class="top"><span>Soal ${Q.i+1}/${Q.p.length}</span><span>${e(t.n)}: ${t.s} poin</span><span>Mode ${M2.m} • ${['','Mudah','Sedang','Sulit'][LV]}</span><span>⏱ <b id="tm" class="${T.s<=3&&T.run?'red':''}">${T.s}</b></span></div><div class="q">${e(q[0])}</div>`+
+(M2.m==='A'?`<div class="opts">${Q.opt.map((o,k)=>{const c=Q.rev?(o===0?' ok':(k===Q.sel?' no':'')):(k===Q.sel?' sel':'');return `<button class="opt${c}" onclick="pk(${k})"><b>${'ABCD'[k]}</b>${e(q[o+1])}</button>`}).join('')}</div>`:(Q.rev?`<div class="ans">✅ ${e(q[1])}</div>`:''))+
+(Q.to?'<div class="ans bad">⏰ WAKTU HABIS!</div>':'')+
+`<div class="ctl"><input id="ja" class="ji" placeholder="Ketik jawaban..." autocomplete="off" onkeydown="if(event.key==='Enter')cek2()"><button class="btn ok" onclick="cek2()">CEK JAWABAN</button></div>${tr()}<div class="ctl"><button class="btn bl" onclick="ts()">▶ MULAI TIMER</button><button class="btn bl" onclick="tp()">⏯ JEDA / LANJUTKAN</button><button class="btn bl" onclick="tx()">⏹ HENTIKAN</button><button class="btn" onclick="rv()">TAMPILKAN JAWABAN</button><button class="btn ok" onclick="ok2()">BENAR +100</button><button class="btn no" onclick="no2()">SALAH</button><button class="btn sm2 bl" onclick="ld2()">ULANGI</button><button class="btn sm2" onclick="nx2()">LEWATI</button><button class="btn" onclick="nx2()">SOAL BERIKUTNYA</button><button class="btn sm2 no" onclick="end2()">AKHIRI</button></div>`}
+function run2(){T.run=1;T.pz=0;T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;Q.to=1;sfx('habis');draw2();return}if(T.s<=3)sfx('tick');tm()},1000)}
+function ts(){tclear();T.s=M2.t;Q.to=0;sfx('start');run2();draw2()}
+function tp(){if(T.run){clearInterval(T.id);T.id=0;T.run=0;T.pz=1;tm();sfx('jeda')}else if(T.pz&&T.s>0){sfx('lanjut');run2()}}
+function tx(){sfx('reset');tclear();T.s=M2.t;Q.to=0;draw2()}
+function pk(k){if(Q.rev)return;Q.sel=k;draw2()}
+function rv(){if(Q.rev)return;Q.rev=1;tclear();if(M2.m==='A')sfx(Q.sel>=0&&Q.opt[Q.sel]===0?'benar':'salah');draw2()}
+function ok2(){}
+function no2(){if(Q.d)return;sfx('salah');toast('Salah – 0 poin')}
+function nx2(){if(Q.i>=Q.p.length-1)return fin(2,Q.p.length,Q.c);Q.i++;sfx('next');ld2()}
+function end2(){ask('Akhiri sesi dan lihat hasil akhir?',()=>fin(2,Q.i+1,Q.c))}
+/* ===== GAME 3 & 7 ===== */
+let W=null;
+const T3=P(`Kelelawar termasuk kelompok mamalia.|B|Kelelawar menyusui anaknya dan satu-satunya mamalia yang bisa terbang sejati.
+Matahari mengelilingi Bumi.|S|Bumi yang mengelilingi Matahari.
+Gurita memiliki tiga jantung.|B|Dua jantung memompa darah ke insang, satu ke seluruh tubuh.
+Tomat secara botani termasuk buah.|B|Tomat berkembang dari bunga dan menyimpan biji.
+Petir tidak pernah menyambar tempat yang sama dua kali.|S|Gedung tinggi bisa tersambar petir berkali-kali.
+Madu yang disimpan baik hampir tidak pernah basi.|B|Kadar airnya rendah dan sifatnya menghambat bakteri.
+Manusia hanya memakai 10% otaknya.|S|Itu mitos. Seluruh bagian otak aktif.
+Ibu kota Australia adalah Sydney.|S|Ibu kotanya Canberra.
+Air murni mendidih pada 100°C di permukaan laut.|B|Di dataran tinggi titik didihnya lebih rendah.
+Pancasila ditetapkan sebagai dasar negara pada 18 Agustus 1945.|B|Ditetapkan PPKI sehari setelah proklamasi.
+Hari Guru Nasional diperingati setiap 25 November.|B|Bertepatan dengan hari lahir PGRI.
+Ki Hajar Dewantara mendirikan Taman Siswa.|B|Didirikan di Yogyakarta pada 1922.
+Kurikulum Merdeka menghapus mata pelajaran matematika.|S|Matematika tetap menjadi mata pelajaran.
+Penilaian formatif memberi umpan balik selama proses belajar.|B|Tujuannya memperbaiki pembelajaran, bukan sekadar memberi nilai akhir.
+Guru yang baik tidak boleh pernah salah di depan kelas.|S|Mengakui kesalahan justru memberi teladan bagi murid.
+Pohon pisang adalah pohon berkayu sejati.|S|Batangnya semu dari pelepah daun; pisang tergolong herba raksasa.
+Koala punya sidik jari yang mirip sidik jari manusia.|B|Fakta unik yang diteliti para ilmuwan.
+Lidah jerapah berwarna ungu kehitaman.|B|Warna gelapnya diduga melindungi dari sengatan matahari.
+Biji stroberi berada di luar buahnya.|B|Biji kecil di permukaan itu sebenarnya buah-buah mungil.
+Garis khatulistiwa melewati wilayah Indonesia.|B|Melewati antara lain Sumatra, Kalimantan, dan Sulawesi.
+Indonesia memiliki lebih dari 17.000 pulau.|B|Menjadikannya negara kepulauan terbesar di dunia.
+Paus biru termasuk kelompok ikan.|S|Paus adalah mamalia yang bernapas dengan paru-paru.
+Es batu lebih berat dari air sehingga tenggelam.|S|Es lebih ringan sehingga mengapung.
+Angka nol termasuk bilangan genap.|B|Nol habis dibagi 2.
+Satu lusin sama dengan 10 buah.|S|Satu lusin sama dengan 12.
+Segitiga sama sisi memiliki tiga sudut yang masing-masing 60°.|B|Jumlah sudut segitiga 180°.
+Tulang terkecil manusia berada di telinga.|B|Namanya sanggurdi (stapes).
+Rumus kimia garam dapur adalah NaCl.|B|Natrium klorida.
+Piramida Giza terletak di Mesir.|B|Dekat kota Kairo.
+Lebah jantan yang membuat madu.|S|Madu dibuat lebah pekerja betina.
+Burung unta dapat terbang tinggi.|S|Burung unta tak bisa terbang, tetapi larinya sangat cepat.
+Murid kidal sebaiknya dipaksa menulis dengan tangan kanan.|S|Kidal itu normal dan tidak perlu dipaksa.
+Jika semua kucing adalah hewan dan semua hewan makhluk hidup, maka semua kucing makhluk hidup.|B|Itu penalaran logika yang sah.
+Satu kilogram besi lebih berat dari satu kilogram kapas.|S|Keduanya sama-sama 1 kilogram.
+Pada pukul 3.00 jarum jam membentuk sudut siku-siku.|B|Sudutnya 90°.
+Samudra Pasifik adalah samudra terluas di dunia.|B|Luasnya lebih dari sepertiga permukaan Bumi.
+Secara botani, pisang termasuk buah beri (berry).|B|Sementara stroberi justru bukan beri sejati.
+Rapat guru yang dijadwalkan 30 menit selalu selesai tepat waktu.|S|Bagian 'hal-hal lain' biasanya membuatnya molor.
+Manusia berkedip kurang dari sekali sehari.|S|Rata-rata belasan kali per menit.
+Matahari adalah sebuah bintang.|B|Bintang terdekat dengan Bumi.
+Menyapa murid dengan nama dapat membantu kedekatan dan rasa aman belajar.|B|Hubungan guru-murid yang positif mendukung belajar.
+Cahaya merambat lebih cepat dari suara.|B|Itu sebabnya kilat terlihat sebelum guntur terdengar.`);
+const T7=P(`Murid lupa bawa pensil. Alasannya?|Pensilnya sedang cuti tahunan|Tertinggal di dunia mimpi|Dipinjam kakaknya yang sudah kerja|Sedang mengurus paspor|3|Pensilnya ke luar negeri, muridnya masih di kelas.
+Murid lupa membawa buku PR. Katanya...|Bukunya malu dinilai|Dimakan kucing yang kini jadi pintar|Sedang bertapa di rak|Dibawa ayah lembur ke kantor|1|Kucingnya layak naik kelas.
+Murid lupa topi saat upacara. Solusinya?|Memakai nampan tutup saji|Menunduk terus sampai bubar|Topinya diwakilkan lewat surat kuasa|Pinjam topi kepala sekolah|2|Surat kuasa harus bermaterai.
+Hal paling ramai di ruang guru saat istirahat?|Diskusi serius cicilan gorengan|Rebutan kursi dekat kipas|Seminar 'Siapa yang bawa sambal?'|Rapat darurat mencari charger|2|Sambal menyatukan nusa bangsa.
+Rapat dijadwalkan 30 menit, nyatanya...|Selesai saat bel pulang bunyi dua kali|'Hal-hal lain' lebih panjang dari agenda|Terpotong karena proyektor mogok|Selesai saat lampu padam, rapatnya lanjut gelap|1|Hal lain-lain punya bab dan subbab.
+Pembina upacara bilang 'sedikit pesan', lalu...|Pesannya punya bab dan subbab|Barisan belakang mulai bertapa|Bendera lelah menunggu|Matahari ikut menyimak pelan-pelan|0|Ada pendahuluan, isi, dan daftar pustaka.
+Guru diminta mengisi laporan yang sama untuk kelima kalinya. Ia...|Menamai tiap laporan seperti anaknya sendiri|Menempel foto pensil sebagai bukti|Mengisi pakai tinta penuh harapan|Berharap laporannya ikut rapat|0|Laporan keempat sudah naik kelas.
+Bel pulang berbunyi. Apa yang terjadi pertama?|Pintu kelas jadi gerbang kemerdekaan|Murid sudah di gerbang sebelum bel selesai|Guru menyiapkan sandal diam-diam|Papan tulis menghela napas lega|3|Papan tulis juga butuh istirahat.
+Guru: 'Siapa yang belum mengumpulkan?' Murid...|Mendadak mengamati langit-langit|Menunjuk teman sebelah dengan sopan|Berkata 'Sudah, Bu, di hati'|Berlatih pura-pura mengheningkan cipta|2|Dikumpulkan di hati, dinilai di hati juga.
+Proyektor tidak menyala. Solusi guru?|Meniup layar penuh harapan|Menjelaskan dengan pantomim|Menyuruh murid membayangkan slide|Mengundang teknisi lewat doa bersama|1|Pantomim siklus air sangat menyentuh.
+Murid ditanya 'Ibu kota Indonesia?' Jawabnya...|'Tergantung musim, Bu'|'Yang ada macetnya, Bu'|'Kota yang sering muncul di kuis'|'Ibu juga kota, kan?'|0|Musim hujan atau kemarau?
+Guru lupa nama muridnya. Taktik?|Menyebut 'Nak yang pintar' ke semua|Menamai semua anak 'Budi'|Absen ulang dengan gaya drumben|Bilang 'Namamu sedang disamarkan'|1|Jumlah Budi mendadak 31.
+Murid menyelipkan pensil di telinga. Tujuannya?|Antena sinyal belajar|Cadangan jika otak hang|Menyamar jadi tukang kayu|Supaya terlihat sibuk|0|Sinyalnya hanya sampai kantin.
+Guru mendengar murid berbisik-bisik. Ia...|Mengheningkan cipta sejenak|Ikut berbisik dengan teknik bisik terbalik|Menunggu bisikan kehabisan baterai|Bertanya 'ada gosip baru?'|1|Bisik terbalik hanya bisa didengar papan tulis.
+Kapur habis di tengah pelajaran. Guru...|Menulis dengan jari penuh keyakinan|Menyuruh murid membayangkan rumusnya|Mengutus ketua kelas ke toko kapur lintas kecamatan|Menerangkan sambil menari|2|Perjalanan dinas kapur, SPJ menyusul.
+Murid ditanya cita-cita. Jawabnya...|Jadi bel sekolah biar dinanti semua orang|Jadi guru piket biar bisa jalan-jalan|Jadi hari Minggu|Jadi penghapus agar bisa menghapus PR|2|Dinanti, disayang, dan selalu terlalu singkat.
+Pengumuman guru piket soal sandal tertukar:|Sandal kiri mencari pasangan hidupnya|Sandal merah muda galau di depan kelas 3|Ditemukan sepasang sandal yang tak sepasang|Identitas sandal mohon segera dilaporkan|0|Kisah cinta sandal berakhir dengan reuni.
+Kepala sekolah bilang 'sebentar saja' di depan mikrofon, lalu...|Satuan 'sebentar' belum ada di SI|Peserta sudah pindah zona waktu|Mikrofon minta cuti|Menyetel alarm cadangan|0|Sebentar versi pidato, bukan versi jam.
+Alasan murid terlambat yang paling kreatif?|Menunggu lampu hijau yang tak kunjung hijau|Menolong semut menyeberang|Bangun, tetapi tubuhnya belum ikut|Ada rapat tetangga di depan pintu|2|Rapat jiwa dan raga belum kuorum.
+Nilai 100 terlihat seperti 10 setelah dicoret. Murid...|Meminta transfer nol dari rekening lain|Mencari nol yang hilang di kantin|Menunjuk jari bukti sisa nol|'Nol saya dipinjam laut, Bu'|3|Nolnya sedang liburan ke laut.
+Galon ruang guru habis. Respons?|Sidang paripurna menunjuk kurir resmi|Mengundang hujan lewat doa bersama|Semua tiba-tiba rajin minum teh embun|Jurus 'nanti juga ada yang ganti'|3|Jurus legendaris, galonnya yang tak pernah ganti.
+Wajah guru-guru di Senin pagi seperti...|Sinyal 1 bar tetapi tetap bekerja|Password yang lupa disimpan|Hari Jumat yang tersesat|Baterai 2% tanpa charger|0|Sinyalnya 1 bar, doanya 5 bar.
+Ujian dimulai, murid mendadak...|Jadi astronom menatap langit-langit|Mengenali semua serat meja|Bertanya arti hidup di soal nomor 1|Mengheningkan cipta untuk rumus yang gugur|3|Hening cipta untuk rumus yang gugur.
+Absen dipanggil, murid yang tertidur menjawab...|'Hadir secara rohani, Bu'|'Saya ada dalam tidur nyenyak'|'Presensi saya diproses server mimpi'|'Mohon tunggu, loading 99%'|2|Server mimpinya sering maintenance.
+Papan pengumuman sekolah isinya...|Lomba menghitung jumlah tempelan|Pengumuman bahwa pengumuman telah dipindah|Selebaran 'Dicari: sendok sejak 2019'|Brosur kursus kesabaran|2|Sendoknya masih menunggu pemilik.
+Murid melihat nilai ulangannya lalu...|Menatap angka seperti menatap mantan|Meminta remedial supaya tambah|Merobek kertas dengan senyum filosofis|Menutupnya dengan buku seperti rahasia negara|3|Rahasia negara level kelas.
+Wi-Fi sekolah lemot saat belajar daring. Guru...|Mengirim materi lewat merpati pos|Memindahkan kelas ke tiang bendera yang sinyalnya kuat|Menyiarkan lewat toa musala|Meminta murid menyalin dari ingatan masa depan|1|Kelas daring berlokasi di titik sinyal terkuat.
+Murid tanya 'Bu, ini dipakai di kehidupan nyata?' Guru...|'Untuk menjadi detektif rumus'|'Supaya tak tertipu diskon'|'Dipakai di ujian, itu nyata kan?'|'Tidak, tapi otakmu jadi berotot'|2|Ujian: sisi nyata dunia pendidikan.
+Guru lupa kacamata saat mengoreksi tugas. Ia...|Mengandalkan intuisi dan perasaan|Menebak dari wangi kertas|Meminjam mata ketua kelas|Menilai dari gaya tulisan|1|Wangi kertas kuning dapat nilai 90.
+Lomba 17-an paling kocak di sekolah?|Memasukkan pensil ke botol sambil merem|Balap karung estafet antar-guru|Lomba menghias absen|Menyusun proposal sambil jalan jongkok|3|Proposalnya tetap harus rangkap lima.
+Murid piket menyapu, hasilnya...|Debu pindah rumah ke kolong meja|Sampah rapi di bawah karpet imajiner|Lantai bersih menurut arsip|Sapunya ikut bersih-bersih diri|0|Debu butuh rumah baru.
+Guru minta murid bernyanyi. Pilihannya...|'Balonku' dengan penghayatan penuh|Lagu daerah versi rap|Teriak 'Hore!' beberapa nada|Tepuk tangan tanpa lagu|2|Hore adalah nada kesukaan semua orang.
+Sertifikat pelatihan guru akhirnya...|Terselip di map entah apa|Siap dipajang, bingkainya belum jadi|Masih diedarkan di grup sebagai legenda|Dikirim ke alamat 'nanti saja'|2|Legenda sertifikat yang tak kunjung tiba.
+Murid mengaku jam tangannya hilang di kelas. Guru...|Membuka sidang 'Misteri Detik'|Memanggil detektif dari kelas sebelah|Mengumumkan lewat toa: 'Waktu hilang!'|Meminta semua murid saling menjaga waktu|2|Waktu hilang, tapi bel tetap berbunyi.
+Inventaris: kursi 40, meja 39. Guru menulis...|'Satu meja sedang bersembunyi'|Mengangkat murid jadi meja|Menghitung ulang sampai angka setuju|Laporan: 'meja astral'|0|Meja gaib biasanya hadir saat akreditasi.
+Murid tanya 'Kenapa belajar sejarah?' Guru:|Biar tahu mantan negeri kita|Agar tak mengulang kesalahan, terutama PR|Supaya ada alasan upacara|Karena masa lalu bayar iuran|1|Sejarah mengajari PR agar tidak ketinggalan lagi.
+Listrik padam di kelas. Guru...|Mengadakan sesi cerita seram edukatif|Menyulap kelas jadi kemah tematik|Menyuruh murid belajar dari cahaya semangat|Mengumumkan libur darurat rasa|2|Cahaya semangat belum bersertifikat SNI.
+Murid ketiduran di kelas. Guru membangunkan dengan...|'Selamat, kamu lulus tidur tingkat dasar'|'Jangan bangunkan, ia sedang mengisi daya'|Memutar 'Halo-Halo Bandung'|'Mimpimu ibu catat sebagai tugas'|3|Tugas mimpi dikumpulkan besok.
+Pada rapat wali murid, pertanyaan pertama biasanya...|'Ini selesainya kapan, Bu?'|'Ada konsumsinya tidak?'|'Parkir motor di mana, ya?'|'Kursi gurunya boleh dicoba?'|3|Kursinya tidak seempuk kesabaran gurunya.
+Guru memberi PR 'sedikit saja'. Di bayangan murid, itu...|Dua buku tebal dan esai tentang kehidupan|Sebuah candi dalam semalam|PR yang dikerjakan sambil menunggu bulan|Sedikitnya sepanjang sungai|1|Candinya jadi, pasirnya belum datang.`);
+const WT={3:{t:10,n:10},7:{t:15,n:10}},WD={3:T3,7:T7};
+function g3(){wsetup(3)}function g7(){wsetup(7)}
+function wsetup(g){S.screen='g'+g+'s';W=null;tclear();board();const c=WT[g];$('#m').innerHTML=`<div class="home"><h1>${g===3?'BENAR ATAU<br>SALAH?':'PILIH JAWABAN<br>PALING ABSURD'}</h1><h2>Timer</h2><div class="row">${(g===3?[5,10,15]:[10,15,20]).map(s=>`<button class="btn ${c.t===s?'':'bl'}" onclick="WT[${g}].t=${s};wsetup(${g})">${s} detik</button>`).join('')}</div><h2>Jumlah soal</h2><div class="row">${[10,20,0].map(n=>`<button class="btn ${c.n===n?'':'bl'}" onclick="WT[${g}].n=${n};wsetup(${g})">${n||'SEMUA ('+WD[g].length+')'}</button>`).join('')}</div><button class="btn" style="font-size:28px" onclick="wst(${g})">MULAI</button></div>`}
+function wst(g){S.teams.forEach(t=>t.s=0);S.screen='g'+g;const d=WD[g],n=WT[g].n||d.length;W={g,o:shuf(d.map((_,i)=>i)).slice(0,n),i:0,c:0,t:WT[g].t};board();sfx('start');wld()}
+function wld(){tclear();T.s=W.t;W.rev=0;W.d=0;W.to=0;W.opt=shuf([0,1,2,3]);AW.clear();wdraw()}
+function wdraw(){const g=W.g,q=WD[g][W.o[W.i]],t=S.teams[S.sel];let b='';
+if(g===3){if(W.rev)b=`<div class="ans${q[1]==='S'?' bad':''}">${q[1]==='B'?'✅ BENAR':'❌ SALAH'}</div><div class="hint">💡 ${e(q[2])}</div>`}
+else{b=`<div class="opts">${W.opt.map((o,k)=>{const a=W.rev&&o===+q[5];return `<div class="opt${a?' ok':''}"><b>${'ABCD'[k]}</b>${e(q[o+1])}${a?' 🤪':''}</div>`}).join('')}</div>`;if(W.rev)b+=`<div class="hint">🤪 ${e(q[6])}</div>`}
+$('#m').innerHTML=`<div class="top"><span>Soal ${W.i+1}/${W.o.length}</span><span>${e(t.n)}: ${t.s} poin</span><span>⏱ <b id="tm" class="${T.s<=3&&T.run?'red':''}">${T.s}</b></span></div><div class="q">${e(q[0])}</div>${b}${W.to?'<div class="ans bad">⏰ WAKTU HABIS!</div>':''}${tr()}<div class="ctl"><button class="btn bl" onclick="wts()">▶ MULAI TIMER</button><button class="btn bl" onclick="wtp()">⏯ JEDA / LANJUT</button><button class="btn bl" onclick="wtx()">⏹ RESET TIMER</button><button class="btn" onclick="wrv()">${g===3?'TAMPILKAN JAWABAN':'TAMPILKAN HASIL'}</button><button class="btn ok" onclick="wok()">${g===3?'BENAR / BERI POIN +100':'BERIKAN POIN +100'}</button><button class="btn sm2 bl" onclick="wld()">ULANGI</button><button class="btn sm2" onclick="wnx()">LEWATI</button><button class="btn" onclick="wnx()">SOAL BERIKUTNYA</button><button class="btn sm2 no" onclick="wend()">AKHIRI</button></div>`}
+function wrun(){T.run=1;T.pz=0;T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;W.to=1;sfx('habis');wdraw()}else{if(T.s<=3)sfx('tick');tm()}},1000)}
+function wts(){tclear();T.s=W.t;W.to=0;sfx('start');wrun();wdraw()}
+function wtp(){if(T.run){clearInterval(T.id);T.id=0;T.run=0;T.pz=1;tm();sfx('jeda')}else if(T.pz&&T.s>0){sfx('lanjut');wrun()}}
+function wtx(){sfx('reset');tclear();T.s=W.t;W.to=0;wdraw()}
+function wrv(){if(W.rev)return;W.rev=1;tclear();if(W.g===3)sfx('wow');wdraw();if(W.g===7)silly()}
+function silly(){sfx('lucu');const c=$('#cf'),E=['🤪','😂','🤣','🤡','🎈','🥳'];let h='';for(let i=0;i<40;i++)h+=`<i class="cf" style="left:${Math.random()*100}%;font-size:${28+Math.random()*30}px;width:auto;height:auto;animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()}s">${E[i%6]}</i>`;c.insertAdjacentHTML('beforeend',h);setTimeout(()=>{c.innerHTML=''},5000);const d=document.createElement('div');d.className='fl y';d.textContent='🤪 ABSURD!!';document.body.appendChild(d);setTimeout(()=>d.remove(),1100);const m=$('#m');m.classList.remove('wob');void m.offsetWidth;m.classList.add('wob')}
+function wok(){}
+function wnx(){if(W.i>=W.o.length-1)return fin(W.g,W.o.length,W.c);W.i++;sfx('next');wld()}
+function wend(){ask('Akhiri sesi dan lihat hasil akhir?',()=>fin(W.g,W.i+1,W.c))}
+/* ===== GAME 16 ===== */
+let BM=null,BT=0;const BMT={n:8};
+const CAT16=`BUAH\nALAT TULIS\nHEWAN berkaki empat\nBENDA di dapur\nNAMA KOTA di Indonesia\nMATA PELAJARAN SD\nPROFESI atau pekerjaan\nWARNA\nJUDUL LAGU ANAK-ANAK\nMAKANAN khas daerah\nBENDA di dalam kelas\nCABANG OLAHRAGA\nALAT MUSIK\nNAMA PULAU di Indonesia\nHEWAN yang hidup di air\nSAYURAN\nBENDA di tas guru\nJAJANAN pasar\nKENDARAAN\nNAMA NEGARA di Asia\nANGGOTA TUBUH\nMINUMAN\nTEMPAT di sekolah\nBAHAN MAKANAN pokok\nNAMA BUNGA\nHEWAN yang bisa terbang\nJENIS PAKAIAN\nBENDA di kamar tidur\nSIFAT guru yang baik\nPERALATAN dapur atau rumah tangga`.split('\n');
+const PEN=`Nyanyikan satu baris lagu anak-anak bersama-sama\nJoget kompak selama 10 detik\nTirukan suara kambing bergantian\nPose superhero serentak\nUcapkan Saya cinta hari Senin sebanyak lima kali\nMenari ala robot selama 10 detik\nPerkenalkan tim dengan suara opera\nBerdiri dan tepuk tangan lima kali sambil tertawa\nJalan di tempat seperti model catwalk\nTirukan gaya guru piket yang tegas tapi lucu\nTeriak bersama: Hidup guru!\nSalam hormat ala upacara ke seluruh ruangan\nTirukan suara bel sekolah bergantian\nCeritakan satu lelucon sekolah\nPuji tim lawan dengan tulus\nTirukan ayam berkokok bersama-sama\nNyanyikan Balonku dengan nada paling rendah\nGoyang pinggul pelan selama 10 detik\nTos dengan tiga orang di dekatmu\nBuat yel-yel singkat untuk tim`.split('\n');
+function g16(){S.screen='g16s';clearTimeout(BT);BM=null;tclear();board();$('#m').innerHTML=`<div class='home'><h1>BOM KATA!</h1><p class='tag'>Sebutkan kata sesuai kategori lalu oper bom ke tim berikutnya. Waktu meledak dirahasiakan. Tim yang memegang bom saat meledak kena hukuman, tim lain dapat +100!</p><h2>Jumlah ronde</h2><div class='row'>${[5,8,12].map(n=>`<button class='btn ${BMT.n===n?'':'bl'}' onclick='BMT.n=${n};g16()'>${n} ronde</button>`).join('')}</div><button class='btn' style='font-size:28px' onclick='st16()'>MULAI</button></div>`}
+function st16(){S.teams.forEach(t=>t.s=0);S.screen='g16';BM={n:BMT.n,i:0,c:0,ph:'idle',h:0,o:shuf(CAT16.map((_,i)=>i))};board();sfx('start');ld16()}
+function ld16(){clearTimeout(BT);BM.ph='idle';BM.h=Math.random()*S.teams.length|0;BM.passes=0;d16()}
+function d16(){const t=S.teams[S.sel],h=S.teams[BM.h]||S.teams[0],ph=BM.ph,r=ph==='run'?Math.max(0,(BM.end-Date.now())/BM.total):1;
+$('#m').innerHTML=`<div class='top'><span>Ronde ${BM.i+1}/${BM.n}</span><span>${e(t.n)}: ${t.s} poin</span>${ph==='run'?`<span>🔁 Oper: ${BM.passes}</span>`:''}</div><div class='q' style='font-size:clamp(22px,3.8vw,48px)'>📋 Sebutkan nama: ${e(CAT16[BM.o[BM.i]])}</div>`+
+(ph==='boom'?`<div class='bm'>💥 BOOM!</div><div class='ans bad'>KENA BOM: ${e(h.n)}</div><div class='hint'>😈 Hukuman: ${e(BM.pen)}</div><div class='hint'>Tim lain mendapat +100 poin!</div>`:`<div id='bomb' class='bomb${ph==='run'?(r<.35?' hot':r<.7?' warm':''):''}'>💣</div><div class='ans'>${ph==='run'?`🤚 Bom ada di: ${e(h.n)}`:'Siap? Bom akan dinyalakan!'}</div><div class='hint'>${ph==='run'?'Sebut satu kata sesuai kategori, lalu tekan OPER ke tim berikutnya. Jangan sampai meledak di tanganmu!':'Waktu meledak rahasia. Bisa 15 detik, bisa 40 detik!'}</div>`)+
+`<div class='ctl'>${ph==='idle'?`<button class='btn no' style='font-size:28px' onclick='play16()'>🔥 NYALAKAN BOM!</button>`:ph==='run'?`<button class='btn ok' style='font-size:28px' onclick='op16()'>➡️ OPER BOM!</button><button class='btn no' onclick='wr16()'>❌ KATA SALAH / ULANG (-3 dtk)</button>`:`<button class='btn bl' onclick='rr16()'>🔀 HUKUMAN LAIN</button><button class='btn' onclick='nx16()'>RONDE BERIKUTNYA</button>`}<button class='btn sm2 bl' onclick='sk8()'>LIHAT SKOR</button><button class='btn sm2 no' onclick='end16()'>AKHIRI</button></div>`}
+function play16(){if(BM.ph!=='idle')return;BM.ph='run';BM.total=(15+Math.random()*25)*1000;BM.end=Date.now()+BM.total;sfx('start');tk16();d16()}
+function tk16(){if(!BM||BM.ph!=='run')return;const left=BM.end-Date.now();if(left<=0)return boom16();const r=left/BM.total;if(S.fx)tone(r<.35?1500:1000,.05,'square',S.sv*.6);const b=$('#bomb');if(b)b.className='bomb'+(r<.35?' hot':r<.7?' warm':'');BT=setTimeout(tk16,Math.max(160,850*r+160))}
+function op16(){if(BM.ph!=='run')return;BM.h=(BM.h+1)%S.teams.length;BM.passes++;sfx('next');d16()}
+function wr16(){if(BM.ph!=='run')return;BM.end-=3000;sfx('gagal');d16();const m=$('#m');m.classList.remove('shake');void m.offsetWidth;m.classList.add('shake')}
+function boom16(){clearTimeout(BT);BM.ph='boom';BM.pen=rn15(PEN);BM.c++;if(S.teams.length>1)S.teams.forEach((t,i)=>{if(i!==BM.h)t.s+=100});sfx('boom');conf(120);board();d16();const m=$('#m');m.classList.remove('shake');void m.offsetWidth;m.classList.add('shake')}
+function rr16(){BM.pen=rn15(PEN);sfx('klik');d16()}
+function nx16(){if(BM.i>=BM.n-1)return fin(16,BM.n,BM.c);BM.i++;sfx('next');ld16()}
+function end16(){ask('Akhiri sesi dan lihat hasil akhir?',()=>{clearTimeout(BT);fin(16,BM.i+1,BM.c)})}
+/* ===== GAME 15 ===== */
+let SL=null;const SLT={n:10,t:15},JK=['SEMUA GURU!','Berdiri, tepuk tangan 10 kali, dan teriak HORE!','dengan semangat 17-an!'],rn15=a=>a[Math.random()*a.length|0];
+const WHO=`Guru yang memakai baju paling berwarna
+Guru yang duduk paling dekat PID
+Guru yang duduk paling belakang
+Guru yang rumahnya paling jauh dari sekolah
+Guru yang tadi pagi minum kopi
+Guru yang suka makan pedas
+Guru yang pernah tersesat di jalan
+Guru yang namanya paling awal di abjad
+Guru yang paling lama mengabdi
+Guru yang paling baru bergabung
+Seluruh peserta di barisan kiri
+Seluruh peserta di barisan kanan
+Dua guru yang duduk bersebelahan
+Guru yang tadi pagi sarapan nasi
+Guru yang membawa tas paling besar
+Guru yang suka menyanyi
+Guru yang paling jago bercanda
+Guru yang ulang tahunnya paling dekat dari hari ini
+Guru yang bisa menyebut nama lengkap kepala sekolah paling cepat
+Satu kelompok pilihan host`.split('\n');
+const WHAT=`Perkenalkan dirimu 10 detik dengan fakta unik
+Tirukan suara hewan pilihan teman
+Nyanyikan satu baris lagu anak-anak
+Puji teman di sebelahmu dengan tulus
+Ceritakan murid paling lucu yang pernah diajar
+Tunjukkan pose terkeren sambil berdiri
+Ceritakan kejadian lucu saat mengajar
+Gambarkan sekolahmu hanya dengan tiga kata
+Berikan hormat ala upacara ke teman
+Tirukan gaya mengajar guru favoritmu
+Sebutkan lima nama buah dalam 5 detik
+Jelaskan pekerjaanmu tanpa bersuara
+Berikan motivasi singkat untuk seluruh ruangan
+Ceritakan makanan paling aneh yang pernah dicoba
+Ajak semua peserta bertepuk tangan berirama
+Tirukan suara bel sekolah
+Ucapkan Selamat pagi dengan lima gaya berbeda
+Jadilah pembawa acara TV selama 10 detik
+Berikan satu nasihat lucu untuk murid
+Ceritakan hobi rahasiamu
+Sebutkan tiga hal yang kamu syukuri hari ini
+Tirukan cara murid menjawab saat tidak tahu
+Buat yel-yel singkat untuk sekolah
+Perkenalkan temanmu seperti pembawa acara
+Bacakan pengumuman sekolah dengan dramatis`.split('\n');
+const HOW=`sambil menari kecil
+dengan suara robot
+dengan gaya pembawa berita
+sambil berbisik
+dengan logat daerah pilihanmu
+sambil berdiri di atas satu kaki
+dengan gaya opera
+sambil tertawa terus
+sambil memegang mikrofon imajiner
+dengan ekspresi sangat dramatis
+dengan suara pelan lalu sangat keras
+dengan gaya superhero
+sambil mengangkat satu tangan
+seperti komentator sepak bola
+dengan gaya guru galak versi komedi
+sambil bergoyang
+dengan gaya penyiar radio
+sambil tersenyum lebar tanpa henti
+dengan suara anak kecil
+dengan gaya pidato kemerdekaan`.split('\n');
+function g15(){S.screen='g15s';SL&&(clearInterval(SL.iv),(SL.to||[]).forEach(clearTimeout));SL=null;tclear();board();const c=SLT;$('#m').innerHTML=`<div class='home'><h1>MESIN<br>KEJUTAN</h1><p class='tag'>Tarik tuas! Mesin memilih SIAPA harus melakukan APA dengan GAYA seperti apa. Awas, ada JACKPOT x3!</p><h2>Waktu tampil</h2><div class='row'>${[10,15,20].map(s=>`<button class='btn ${c.t===s?'':'bl'}' onclick='SLT.t=${s};g15()'>${s} detik</button>`).join('')}</div><h2>Jumlah putaran</h2><div class='row'>${[5,10,15].map(n=>`<button class='btn ${c.n===n?'':'bl'}' onclick='SLT.n=${n};g15()'>${n} putaran</button>`).join('')}</div><button class='btn' style='font-size:28px' onclick='st15()'>MULAI</button></div>`}
+function st15(){S.teams.forEach(t=>t.s=0);S.screen='g15';SL={n:SLT.n,t:SLT.t,i:0,c:0,ph:'idle',to:[],iv:0,cur:['','',''],stp:[0,0,0],fin:['','',''],mult:1};board();sfx('start');d15()}
+function d15(){const t=S.teams[S.sel],ph=SL.ph,f=SL.fin;
+$('#m').innerHTML=`<div class='top'><span>Putaran ${SL.i+1}/${SL.n}</span><span>${e(t.n)}: ${t.s} poin</span>${ph==='done'?`<span>⏱ <b id='tm' class='${T.s<=3&&T.run?'red':''}'>${T.s}</b></span>`:''}</div><div class='slot'><div class='reels'>${['SIAPA','TANTANGAN','GAYA'].map((l,k)=>`<div class='rw'><small>${l}</small><div id='r${k}' class='rl${SL.stp[k]?' stop':ph==='spin'?' sp':''}'>${e(SL.cur[k]||'❓')}</div></div>`).join('')}</div></div>${ph==='done'?`${SL.mult>1?`<div class='ans'>🎰 JACKPOT x3! Poin tiga kali lipat!</div>`:''}<div class='mv' style='font-size:clamp(20px,3.4vw,44px)'>🎤 ${e(f[0])}: ${e(f[1])} ${e(f[2])}!</div>`:`<div class='hint'>${ph==='spin'?'🎰 Mesin berputar...':'Siap? Tarik tuas dan lihat siapa yang kena!'}</div>`}${ph==='done'?`<div class='ctl tr'><b>⭐ Beri poin +${100*SL.mult} ke:</b>${S.teams.map((x,i)=>`<button class='btn sm2 ${AW.has(i)?'ok':'bl'}' onclick='ga15(${i})'>${AW.has(i)?'✓ ':''}${e(x.n)}</button>`).join('')}</div>`:''}<div class='ctl'>${ph==='idle'?`<button class='btn' style='font-size:30px' onclick='spin15()'>🎰 TARIK TUAS!</button>`:ph==='done'?`<button class='btn bl' onclick='t15()'>⏱ MULAI TIMER</button><button class='btn sm2 bl' onclick='spin15()'>🔁 PUTAR ULANG</button><button class='btn' onclick='nx15()'>PUTARAN BERIKUTNYA</button>`:''}<button class='btn sm2 bl' onclick='sk8()'>LIHAT SKOR</button><button class='btn sm2 no' onclick='end15()'>AKHIRI</button></div>`}
+function spin15(){if(SL.ph==='spin')return;SL.ph='spin';SL.to.forEach(clearTimeout);SL.to=[];tclear();T.s=0;AW.clear();SL.d=0;SL.stp=[0,0,0];SL.cur=['','',''];const jp=Math.random()<.12;SL.mult=jp?3:1;SL.fin=jp?JK.slice():[rn15(WHO),rn15(WHAT),rn15(HOW)];d15();let n=0;SL.iv=setInterval(()=>{[WHO,WHAT,HOW].forEach((L,k)=>{if(!SL.stp[k]){SL.cur[k]=rn15(L);const el=$('#r'+k);if(el)el.textContent=SL.cur[k]}});if(n++%2===0)sfx('klik')},90);[1500,2600,3700].forEach((ms,k)=>SL.to.push(setTimeout(()=>{if(!SL||SL.ph!=='spin')return;SL.stp[k]=1;SL.cur[k]=SL.fin[k];const el=$('#r'+k);if(el){el.textContent=SL.fin[k];el.classList.remove('sp');el.classList.add('stop')}sfx('ding');if(k===2){clearInterval(SL.iv);SL.ph='done';if(SL.mult>1){sfx('menang');conf(150)}else{sfx('tada');conf(50)}d15()}},ms)))}
+function t15(){tclear();T.s=SL.t;T.run=1;sfx('start');T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;sfx('habis');d15()}else{if(T.s<=3)sfx('tick');tm()}},1000);d15()}
+function ga15(i){if(AW.has(i))return;if(!SL.d){SL.d=1;SL.c++}AW.add(i);S.sel=i;sfx('benar');conf(30);award(100*SL.mult);d15()}
+function nx15(){SL.to.forEach(clearTimeout);if(SL.i>=SL.n-1)return fin(15,SL.n,SL.c);SL.i++;SL.ph='idle';SL.cur=['','',''];SL.stp=[0,0,0];SL.mult=1;AW.clear();tclear();T.s=0;sfx('next');d15()}
+function end15(){ask('Akhiri sesi dan lihat hasil akhir?',()=>{clearInterval(SL.iv);SL.to.forEach(clearTimeout);fin(15,SL.i+1,SL.c)})}
+/* ===== GAME 14 ===== */
+let SU=null;const SUT={n:8},PTS14=[40,25,15,12,8];
+const SVQ=P(`Sebutkan benda yang pasti ada di tas guru|Spidol|Buku absen|Botol minum|Kacamata|Dompet
+Sebutkan alasan guru terlambat ke sekolah|Macet|Kesiangan|Ban bocor|Anak rewel|Hujan
+Sebutkan makanan favorit di ruang guru|Gorengan|Kopi|Kue basah|Mi instan|Es teh
+Sebutkan hal yang bikin guru senang di sekolah|Bel pulang|Murid rajin|Gajian|Libur|Dapat apresiasi
+Sebutkan pekerjaan administrasi guru|Modul ajar|Absen|Nilai rapor|Laporan|Supervisi
+Sebutkan benda di kelas yang sering hilang|Spidol|Penghapus|Pulpen|Penggaris|Kapur
+Sebutkan tempat liburan favorit keluarga|Pantai|Gunung|Kampung halaman|Kebun binatang|Mal
+Sebutkan kalimat yang sering diucapkan guru di kelas|Perhatikan ke depan|Tenang, ya|Ayo kumpulkan|Siapa yang tahu?|Jangan ribut
+Sebutkan alasan murid belum mengerjakan PR|Lupa|Ketinggalan di rumah|Tidak tahu caranya|Sakit|Dimakan kucing
+Sebutkan minuman favorit guru|Kopi|Teh|Air putih|Es teh|Susu
+Sebutkan hewan yang cocok jadi maskot sekolah|Burung hantu|Elang|Gajah|Singa|Kupu-kupu
+Sebutkan perlengkapan upacara bendera|Bendera|Tiang|Tali|Topi|Mikrofon
+Sebutkan pelajaran yang paling disukai murid|Olahraga|Seni budaya|Prakarya|IPAS|Matematika
+Sebutkan cita-cita anak SD|Dokter|Polisi|Guru|Pilot|Tentara
+Sebutkan benda yang ada di ruang guru|Meja|Kursi|Dispenser|Kipas angin|Lemari
+Sebutkan kegiatan guru saat jam istirahat|Makan|Minum kopi|Mengoreksi|Mengobrol|Salat
+Sebutkan warna yang ada pada seragam SD|Putih|Merah|Cokelat|Biru|Kuning
+Sebutkan hal yang dilakukan guru sebelum tidur|Menyiapkan bahan ajar|Main HP|Mengoreksi|Berdoa|Mengobrol dengan keluarga
+Sebutkan jajanan di kantin sekolah|Gorengan|Bakso|Es teh|Cilok|Siomay
+Sebutkan alat tulis|Pensil|Pulpen|Penghapus|Penggaris|Spidol
+Sebutkan kendaraan guru ke sekolah|Motor|Mobil|Sepeda|Angkot|Jalan kaki
+Sebutkan benda yang disimpan di laci guru|Spidol|Stempel|Camilan|Charger|Map
+Sebutkan hal yang bikin guru stres|Tumpukan nilai|Administrasi|Murid ribut|Rapat|Laporan
+Sebutkan lagu yang sering dinyanyikan di sekolah|Indonesia Raya|Balonku|Garuda Pancasila|Naik-naik ke Puncak Gunung|Bintang Kecil
+Sebutkan hal yang bikin murid bahagia|Libur|Jam istirahat|Bel pulang|Bermain|Dapat nilai bagus`);
+function g14(){S.screen='g14s';SU=null;tclear();board();$('#m').innerHTML=`<div class='home'><h1>SURVEI<br>SERATUS GURU</h1><p class='tag'>Tebak jawaban terpopuler! Buka papan, hindari tiga X, dan rebut bank poin. Ronde terakhir bernilai DUA KALI LIPAT!</p><h2>Jumlah ronde</h2><div class='row'>${[5,8,12].map(n=>`<button class='btn ${SUT.n===n?'':'bl'}' onclick='SUT.n=${n};g14()'>${n} ronde</button>`).join('')}</div><button class='btn' style='font-size:28px' onclick='st14()'>MULAI</button></div>`}
+function st14(){S.teams.forEach(t=>t.s=0);S.screen='g14';SU={o:shuf(SVQ.map((_,i)=>i)).slice(0,SUT.n),n:SUT.n,i:0,c:0};board();sfx('start');ld14()}
+function ld14(){tclear();SU.rv=[0,0,0,0,0];SU.x=0;SU.bank=0;SU.d=0;SU.last=-1;SU.bad=[];T.s=20;AW.clear();d14()}
+function d14(){const o=$('#ja');window._kv=o?o.value:'';const q=SVQ[SU.o[SU.i]],t=S.teams[S.sel],m=SU.i===SU.n-1?2:1;
+$('#m').innerHTML=`<div class='top'><span>Ronde ${SU.i+1}/${SU.n}${m>1?' 🔥 x2':''}</span><span>${e(t.n)}: ${t.s} poin</span><span>💰 Bank: ${SU.bank}</span><span>⏱ <b id='tm' class='${T.s<=3&&T.run?'red':''}'>${T.s}</b></span></div><div class='q' style='font-size:clamp(22px,3.6vw,44px)'>📊 ${e(q[0])}</div><div class='bd5'>${[0,1,2,3,4].map(k=>SU.rv[k]?`<div class='sl ${SU.rv[k]===1?'on':'ms'}${SU.last===k?' nw':''}'><b>${k+1}</b><span>${e(q[k+1])}</span><i>${PTS14[k]*m}</i></div>`:`<div class='sl' onclick='op14(${k})'><b>${k+1}</b><span>?????</span></div>`).join('')}</div>${SU.x?`<div class='xs'>${'❌'.repeat(SU.x)}</div>`:''}<div class='hint'>Survei seru versi Pak Panca, bukan data resmi. ${SU.x>=3?'🚨 3 X! Tim lawan boleh mencuri bank!':'Tekan nomor untuk membuka jawaban yang benar.'}</div><div class='ctl'><input id='ja' class='ji' placeholder='Ketik jawaban survei...' autocomplete='off' onkeydown='if(event.keyCode===13)cek14()'><button class='btn ok' onclick='cek14()'>CEK JAWABAN</button></div>${SU.bad&&SU.bad.length?`<div class='hint'>❌ Tidak ada di papan: ${e(SU.bad.join(', '))}</div>`:''}<div class='ctl tr'><b>💰 Berikan bank (${SU.bank}) ke:</b>${S.teams.map((x,i)=>`<button class='btn sm2 ${AW.has(i)?'ok':'bl'}' onclick='bk14(${i})'>${AW.has(i)?'✓ ':''}${e(x.n)}</button>`).join('')}</div><div class='ctl'><button class='btn no' onclick='no14()'>❌ SALAH (X)</button><button class='btn bl' onclick='t14()'>⏱ TIMER 20 DETIK</button><button class='btn' onclick='all14()'>🔓 BUKA SEMUA</button><button class='btn' onclick='nx14()'>RONDE BERIKUTNYA</button><button class='btn sm2 bl' onclick='ld14()'>ULANGI</button><button class='btn sm2 bl' onclick='sk8()'>LIHAT SKOR</button><button class='btn sm2 no' onclick='end14()'>AKHIRI</button></div>`;const ja=$('#ja');if(ja&&window._kv)ja.value=window._kv}
+function op14(k){if(SU.rv[k])return;const m=SU.i===SU.n-1?2:1;SU.rv[k]=1;SU.last=k;SU.bank+=PTS14[k]*m;sfx('ding');if(SU.rv.every(v=>v)){sfx('wow');conf(60)}d14()}
+function cek14(){const ja=$('#ja'),v=ja?ja.value:'';if(!v.trim())return;const q=SVQ[SU.o[SU.i]],k=[0,1,2,3,4].find(j=>same(v,q[j+1]));ja.value='';window._kv='';if(k===undefined){SU.bad.push(v.trim());if(SU.x<3)SU.x++;d14();fx(0)}else if(SU.rv[k]){toast('Sudah terbuka di nomor '+(k+1))}else{op14(k);fx(1)}}
+function no14(){if(SU.x>=3)return;SU.x++;sfx('gagal');d14();const m=$('#m');m.classList.remove('shake');void m.offsetWidth;m.classList.add('shake')}
+function all14(){SU.rv=SU.rv.map(v=>v||2);SU.last=-1;sfx('drum');d14()}
+function t14(){tclear();T.s=20;T.run=1;sfx('start');T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;sfx('habis');d14()}else{if(T.s<=3)sfx('tick');tm()}},1000);d14()}
+function bk14(i){if(AW.has(i)||SU.bank<=0)return;if(!SU.d){SU.d=1;SU.c++}AW.add(i);S.sel=i;sfx('benar');conf(60);award(SU.bank);d14()}
+function nx14(){if(SU.i>=SU.n-1)return fin(14,SU.n,SU.c);SU.i++;sfx('next');ld14()}
+function end14(){ask('Akhiri sesi dan lihat hasil akhir?',()=>fin(14,SU.i+1,SU.c))}
+/* ===== GAME 13 ===== */
+let DB=null,DJ=0;const DBS={n:10,lv:1},DS=[523,587,659,784,880,784,659,587];
+const MV=P(`🕺|Goyang pinggul pelan-pelan
+💃|Putar badan di kursi
+🙌|Angkat tangan dan goyang-goyang
+🐔|Tirukan ayam menari
+🚶|Jalan di tempat sambil mengayun tangan
+🐧|Goyang ala penguin
+🤖|Gerakan robot kaku
+🏊|Berenang di udara
+🎸|Main gitar udara
+🥁|Main drum udara
+🧹|Menyapu sambil menari
+🚣|Mendayung perahu imajiner
+🐎|Naik kuda imajiner
+👏|Tepuk tangan berirama
+🎤|Nyanyi pakai mikrofon imajiner
+🦦|Jalan seperti bebek
+🌊|Bergelombang seperti ombak
+🛵|Naik motor sambil goyang
+🧗|Memanjat tangga imajiner
+🏋️|Angkat beban imajiner
+🍳|Mengaduk wajan sambil joget
+🧽|Mengelap jendela dengan irama
+🎻|Gesek biola udara
+🏓|Pukul bola pingpong imajiner
+🦘|Lompat kecil di tempat duduk
+🧚|Kepakkan sayap peri
+🐍|Goyang ular liuk-liuk
+🤹|Sulap bola imajiner`);
+const PS=P(`🦸|Superhero siap terbang
+🗿|Patung penjaga gerbang
+📸|Pose foto wisuda
+🧘|Meditasi sambil tersenyum
+🏆|Juara lomba tujuh belasan
+🕵️|Detektif menemukan petunjuk
+🧑‍🏫|Guru menerangkan di papan tulis
+🙋|Murid paling semangat mengangkat tangan
+😱|Kaget melihat nilai ulangan
+🎤|Penyanyi di puncak lagu
+🦖|Dinosaurus lapar
+🐒|Monyet sedang berpikir
+🏄|Peselancar di atas ombak
+🤸|Pesenam pose akhir
+🧜|Putri duyung bergaya
+👑|Raja dan ratu kelas
+📣|Orator berpidato
+🥷|Ninja bersembunyi
+🌳|Pohon tertiup angin
+✈️|Pesawat siap mendarat
+🎯|Pemanah membidik
+🐓|Ayam jago berkokok
+🧟|Zombie lupa jalan
+🤺|Pendekar pedang siaga
+🐘|Gajah mengangkat belalai
+🧞|Jin keluar dari lampu
+📺|Pembaca berita yang tegang
+🛡️|Prajurit menjaga benteng
+🎬|Aktor adegan dramatis
+🍕|Memegang pizza raksasa imajiner
+🚀|Roket siap meluncur
+🐱|Kucing bersantai manja
+🦒|Jerapah mengintip dari kejauhan
+🤡|Badut menyapa penonton
+🏌️|Pegolf mengayun tongkat
+🕴️|Mata-mata bergaya misterius
+🥇|Atlet memeluk medali
+🐸|Katak siap melompat`);
+function dstart(){dstop();const ms=30000/[100,125,150][DB.lv];let k=0;DJ=setInterval(()=>{if(S.fx){const v=S.sv;if(k%4===0)kick(v*.9);if(k%2===1)noise(.04,v*.5,0,6000);tone([110,110,147,131][(k>>2)%4],.2,'sawtooth',v*.35);if(k%2===0)tone(DS[(k*3+(k>>3))%8],.15,'square',v*.18)}k++},ms)}
+function dstop(){clearInterval(DJ);DJ=0}
+function g13(){S.screen='g13s';DB&&(dstop(),clearTimeout(DB.st),clearInterval(DB.mt));DB=null;tclear();board();$('#m').innerHTML=`<div class='home'><h1>DISKO BEKU!</h1><p class='tag'>Musik berputar, semua goyang dari kursi. Saat musik berhenti mendadak: BEKU dengan pose paling kocak!</p><h2>Tempo musik</h2><div class='row'>${[['SANTAI',0],['CEPAT',1],['GILA',2]].map(l=>`<button class='btn ${DBS.lv===l[1]?'':'bl'}' onclick='DBS.lv=${l[1]};g13()'>${l[0]}</button>`).join('')}</div><h2>Jumlah ronde</h2><div class='row'>${[5,10,15].map(n=>`<button class='btn ${DBS.n===n?'':'bl'}' onclick='DBS.n=${n};g13()'>${n} ronde</button>`).join('')}</div><button class='btn' style='font-size:28px' onclick='st13()'>MULAI</button></div>`}
+function st13(){S.teams.forEach(t=>t.s=0);S.screen='g13';DB={n:DBS.n,lv:DBS.lv,i:0,c:0,po:shuf(PS.map((_,i)=>i)),mv:0,mt:0,st:0};board();sfx('start');ld13()}
+function ld13(){dstop();clearInterval(DB.mt);clearTimeout(DB.st);tclear();T.s=0;DB.ph='idle';DB.d=0;AW.clear();d13()}
+function d13(){const t=S.teams[S.sel],m=MV[DB.mv],p=PS[DB.po[DB.i]],ph=DB.ph;
+$('#m').innerHTML=`<div class='top'><span>Ronde ${DB.i+1}/${DB.n}</span><span>${e(t.n)}: ${t.s} poin</span>${ph==='frz'?`<span>⏱ <b id='tm' class='${T.s<=3?'red':''}'>${T.s}</b></span>`:''}</div>`+
+(ph==='idle'?`<div class='dk'><div class='ball'></div><div class='mv'>🎧 SIAP-SIAP!</div><div class='hint'>Tekan PUTAR MUSIK. Goyang terus dari kursi, dan jangan lengah: musik bisa berhenti kapan saja!</div></div>`:ph==='play'?`<div class='dk'><div class='ball'></div><div class='eq'>${'<i></i>'.repeat(14)}</div><div class='mv'><span id='mve'>${m[0]}</span> <span id='mvt'>${e(m[1])}</span></div><div class='hint'>🎶 Terus bergoyang... musik berhenti sewaktu-waktu!</div></div>`:`<div class='frz'><div class='bk'>🧊 BEKU!!!</div><div class='mv' style='color:#fff'>${p[0]} ${e(p[1])}</div><div class='hint'>${ph==='frz'?'Tahan posenya! Jangan bergerak sedikit pun!':'📸 Waktu habis! Host memilih yang paling bergaya.'}</div></div>`)+
+(ph==='frz'||ph==='done'?`<div class='ctl tr'><b>⭐ Beri poin +100 ke tim yang paling bergaya:</b>${S.teams.map((x,i)=>`<button class='btn sm2 ${AW.has(i)?'ok':'bl'}' onclick='ga13(${i})'>${AW.has(i)?'✓ ':''}${e(x.n)}</button>`).join('')}</div>`:'')+
+`<div class='ctl'>${ph==='idle'?`<button class='btn' onclick='play13()'>▶ PUTAR MUSIK</button>`:ph==='play'?`<button class='btn no' onclick='frz13()'>✋ BEKU SEKARANG!</button><button class='btn bl' onclick='chg13()'>🔀 GANTI GERAKAN</button>`:`<button class='btn sm2 bl' onclick='ld13()'>ULANGI RONDE</button>`}${ph!=='play'?`<button class='btn' onclick='nx13()'>RONDE BERIKUTNYA</button>`:''}<button class='btn sm2 bl' onclick='sk8()'>LIHAT SKOR</button><button class='btn sm2 no' onclick='end13()'>AKHIRI</button></div>`}
+function chg13(){DB.mv=(DB.mv+1+(Math.random()*(MV.length-1)|0))%MV.length;const m=MV[DB.mv],a=$('#mve'),b=$('#mvt');if(a)a.textContent=m[0];if(b)b.textContent=m[1];sfx('klik')}
+function play13(){if(DB.ph!=='idle')return;DB.ph='play';DB.mv=Math.random()*MV.length|0;sfx('start');dstart();DB.mt=setInterval(chg13,4000);DB.st=setTimeout(frz13,(5+Math.random()*8)*1000);d13()}
+function frz13(){if(DB.ph!=='play')return;dstop();clearInterval(DB.mt);clearTimeout(DB.st);DB.ph='frz';sfx('scratch');setTimeout(()=>sfx('beku'),350);tclear();T.s=5;T.run=1;T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;DB.ph='done';sfx('lepas');d13()}else{sfx('tick');tm()}},1000);d13()}
+function ga13(i){if(AW.has(i))return;if(!DB.d){DB.d=1;DB.c++}AW.add(i);S.sel=i;sfx('benar');conf(30);award(100);d13()}
+function nx13(){if(DB.i>=DB.n-1)return fin(13,DB.n,DB.c);DB.i++;sfx('next');ld13()}
+function end13(){ask('Akhiri sesi dan lihat hasil akhir?',()=>{dstop();clearInterval(DB.mt);clearTimeout(DB.st);fin(13,DB.i+1,DB.c)})}
+/* ===== GAME 12 ===== */
+let SB=null;const SBT={t:15,n:10};
+const TL=P(`Madu bisa awet sangat lama|Lumba-lumba tidur dengan separuh otak tetap terjaga|Semut tidur 8 jam penuh tiap malam|2|Semut hanya tidur singkat berkali-kali sehari.
+Jantung udang berada di bagian kepalanya|Pisang secara botani termasuk buah beri|Matahari mengelilingi Bumi|2|Bumi yang mengelilingi Matahari.
+Merkurius adalah planet terdekat dengan Matahari|Saturnus tidak memiliki cincin|Jupiter adalah planet terbesar|1|Saturnus justru terkenal karena cincinnya.
+Air mendidih 100 derajat Celsius di permukaan laut|Es mengapung di atas air|Api bisa menyala di ruang hampa udara|2|Api membutuhkan oksigen untuk menyala.
+Kucing bisa memutar telinganya sampai sekitar 180 derajat|Anjing hanya bisa melihat hitam dan putih|Burung hantu bisa memutar kepala sekitar 270 derajat|1|Anjing bisa melihat warna, hanya saja terbatas.
+Borobudur terletak di Jawa Tengah|Ibu kota Australia adalah Sydney|Indonesia memiliki belasan ribu pulau|1|Ibu kota Australia adalah Canberra.
+Manusia dewasa memiliki 206 tulang|Jantung orang dewasa berdetak sekali tiap menit|Otak manusia sebagian besar terdiri dari air|1|Jantung dewasa berdetak sekitar 60 sampai 100 kali per menit.
+Cahaya merambat lebih cepat daripada suara|Kilat terlihat sebelum guntur terdengar|Guntur terdengar lebih dulu sebelum kilat terlihat|2|Cahaya lebih cepat, jadi kilat terlihat lebih dulu.
+Gurita memiliki tiga jantung|Kupu-kupu bisa merasakan dengan kakinya|Lebah jantan yang membuat madu|2|Madu dibuat oleh lebah pekerja betina.
+Hari Guru Nasional diperingati 25 November|Hari Pendidikan Nasional diperingati 2 Mei|Proklamasi kemerdekaan dibacakan pada 17 Agustus 1946|2|Proklamasi dibacakan pada 17 Agustus 1945.
+Pancasila memiliki lima sila|Sayap Garuda Pancasila masing-masing berbulu 17 helai|Sila ketiga Pancasila tentang Ketuhanan|2|Sila ketiga adalah Persatuan Indonesia.
+Kelelawar adalah mamalia|Paus biru adalah jenis ikan|Lumba-lumba bernapas dengan paru-paru|1|Paus biru adalah mamalia laut.
+Jerapah punya tujuh tulang leher seperti manusia|Lidah jerapah berwarna ungu kehitaman|Jerapah adalah hewan darat tercepat di dunia|2|Hewan darat tercepat adalah cheetah.
+Tomat secara botani termasuk buah|Wortel selalu berwarna oranye sejak dahulu|Stroberi memiliki biji di bagian luarnya|1|Wortel zaman dulu banyak yang berwarna ungu dan putih.
+Es krim mudah meleleh di suhu ruang|Garam dapat menurunkan titik beku air|Air selalu membeku pada suhu 10 derajat Celsius|2|Air murni membeku pada 0 derajat Celsius.
+Pelangi biasa dibagi menjadi tujuh warna|Pelangi bisa disentuh dengan tangan|Pelangi terbentuk karena cahaya terurai oleh tetes air|1|Pelangi hanya efek cahaya dan tak punya wujud.
+Piramida Giza ada di Mesir|Menara Eiffel ada di Paris|Patung Liberty ada di London|2|Patung Liberty berada di New York.
+Candi Prambanan ada di Jawa|Danau Toba ada di Sumatra Utara|Gunung Bromo ada di Sulawesi|2|Gunung Bromo ada di Jawa Timur.
+Kopi berasal dari biji buah pohon kopi|Teh dan kopi sama-sama mengandung kafein|Cokelat dibuat dari biji kelapa|2|Cokelat dibuat dari biji kakao.
+Manusia berkedip belasan kali per menit|Sidik jari setiap orang berbeda|Kuku tumbuh lebih cepat daripada rambut|2|Rambut tumbuh lebih cepat daripada kuku.
+Anak kanguru lahir sangat kecil lalu merangkak ke kantung|Koala termasuk jenis beruang|Koala memakan daun eukaliptus|1|Koala adalah marsupial, bukan beruang.
+Gigi kelinci tumbuh terus sepanjang hidup|Gigi tikus juga tumbuh terus|Kerangka hiu terbuat dari tulang keras seperti ikan lain|2|Kerangka hiu terbuat dari tulang rawan.
+Sekolah dasar di Indonesia umumnya enam tahun|SMP umumnya tiga tahun|SMA umumnya lima tahun|2|SMA umumnya tiga tahun.
+Lagu kebangsaan Indonesia adalah Indonesia Raya|Bahasa resmi Indonesia adalah Bahasa Indonesia|Bendera Indonesia berwarna biru dan putih|2|Bendera Indonesia berwarna merah putih.
+Ayam jantan berkokok di pagi hari|Ayam bisa terbang melintasi samudra|Ayam termasuk jenis unggas|1|Ayam hanya bisa terbang pendek-pendek.
+Kuda bisa tidur sambil berdiri|Gajah bisa melompat tinggi|Lebah menghasilkan madu|1|Gajah tidak bisa melompat.
+Bulan memantulkan cahaya Matahari|Bulan punya cahaya sendiri|Bulan mengorbit Bumi|1|Bulan tidak bercahaya sendiri.
+Tulang paha adalah tulang terpanjang manusia|Tulang terkecil manusia ada di telinga|Manusia normalnya punya tiga ginjal|2|Manusia normalnya memiliki dua ginjal.
+Kentang tumbuh sebagai umbi di dalam tanah|Kentang adalah buah dari pohon tinggi|Kentang berasal dari Amerika Selatan|1|Kentang adalah umbi batang, bukan buah pohon.
+Lidah bisa merasakan manis, asin, asam, dan pahit|Hidung berperan besar dalam rasa makanan|Pedas adalah salah satu rasa dasar lidah|2|Pedas adalah sensasi nyeri, bukan rasa dasar.
+Ikan bernapas dengan insang|Lumba-lumba bernapas dengan insang|Kura-kura bernapas dengan paru-paru|1|Lumba-lumba bernapas dengan paru-paru.
+Satu abad sama dengan 100 tahun|Satu dasawarsa sama dengan 10 tahun|Satu windu sama dengan 7 tahun|2|Satu windu sama dengan 8 tahun.
+Garis khatulistiwa melintasi Indonesia|Puncak Jaya adalah gunung tertinggi di Indonesia|Sungai terpanjang di dunia ada di Kalimantan|2|Sungai terpanjang diperebutkan Nil dan Amazon.
+Tidur cukup membantu daya ingat|Otak berhenti bekerja total saat tidur|Mimpi sering muncul saat tidur REM|1|Otak tetap aktif saat tidur.`);
+function g12(){S.screen='g12s';SB=null;tclear();board();const c=SBT;$('#m').innerHTML=`<div class='home'><h1>DUA BENAR,<br>SATU BOHONG!</h1><p class='tag'>Ada tiga pernyataan, satu di antaranya bohong. Tunjukkan 1, 2, atau 3 jari!</p><h2>Waktu berpikir</h2><div class='row'>${[10,15,20].map(s=>`<button class='btn ${c.t===s?'':'bl'}' onclick='SBT.t=${s};g12()'>${s} detik</button>`).join('')}</div><h2>Jumlah soal</h2><div class='row'>${[10,20,0].map(n=>`<button class='btn ${c.n===n?'':'bl'}' onclick='SBT.n=${n};g12()'>${n||'SEMUA ('+TL.length+')'}</button>`).join('')}</div><button class='btn' style='font-size:28px' onclick='st12()'>MULAI</button></div>`}
+function st12(){S.teams.forEach(t=>t.s=0);S.screen='g12';SB={o:shuf(TL.map((_,i)=>i)).slice(0,SBT.n||TL.length),i:0,c:0,t:SBT.t};board();sfx('start');ld12()}
+function ld12(){tclear();T.s=SB.t;SB.rev=0;SB.to=0;SB.d=0;SB.ord=shuf([0,1,2]);AW.clear();d12()}
+function d12(){const q=TL[SB.o[SB.i]],t=S.teams[S.sel],L=+q[3];
+$('#m').innerHTML=`<div class='top'><span>Soal ${SB.i+1}/${SB.o.length}</span><span>${e(t.n)}: ${t.s} poin</span><span>⏱ <b id='tm' class='${T.s<=3&&T.run?'red':''}'>${T.s}</b></span></div><div class='hint'>🤥 Satu pernyataan ini BOHONG. Yang mana?</div><div class='opts'>${SB.ord.map((o,k)=>`<div class='opt${SB.rev?(o===L?' no':' ok'):''}'><b>${k+1}</b>${e(q[o])}${SB.rev?(o===L?' 🤥':' ✅'):''}</div>`).join('')}</div>${SB.to&&!SB.rev?`<div class='ans bad'>⏰ WAKTU HABIS! Tunjuk jarimu!</div>`:''}${SB.rev?`<div class='ans bad'>🤥 YANG BOHONG: NOMOR ${SB.ord.indexOf(L)+1}</div><div class='hint'>💡 ${e(q[4])}</div>`:''}<div class='ctl tr'><b>⭐ Beri poin +100 ke tim yang benar:</b>${S.teams.map((x,i)=>`<button class='btn sm2 ${AW.has(i)?'ok':'bl'}' onclick='gb(${i})'>${AW.has(i)?'✓ ':''}${e(x.n)}</button>`).join('')}</div><div class='ctl'><button class='btn bl' onclick='r12s()'>▶ MULAI TIMER</button><button class='btn bl' onclick='tp12()'>⏯ JEDA / LANJUT</button><button class='btn bl' onclick='tx12()'>⏹ ULANGI TIMER</button><button class='btn' onclick='rv12()'>TAMPILKAN JAWABAN</button><button class='btn' onclick='nx12()'>SOAL BERIKUTNYA</button><button class='btn sm2 bl' onclick='ld12()'>ULANGI</button><button class='btn sm2 bl' onclick='sk8()'>LIHAT SKOR</button><button class='btn sm2 no' onclick='end12()'>AKHIRI</button></div>`}
+function r12(){T.run=1;T.pz=0;T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;SB.to=1;sfx('habis');d12()}else{if(T.s<=3)sfx('tick');tm()}},1000)}
+function r12s(){tclear();T.s=SB.t;SB.to=0;sfx('drum');r12();d12()}
+function tp12(){if(T.run){clearInterval(T.id);T.id=0;T.run=0;T.pz=1;tm();sfx('jeda')}else if(T.pz&&T.s>0){sfx('lanjut');r12()}}
+function tx12(){sfx('reset');tclear();T.s=SB.t;SB.to=0;d12()}
+function rv12(){if(SB.rev)return;SB.rev=1;tclear();sfx('wow');conf(40);d12();const m=$('#m');m.classList.remove('shake');void m.offsetWidth;m.classList.add('shake')}
+function gb(i){if(AW.has(i))return;if(!SB.d){SB.d=1;SB.c++}if(!SB.rev){SB.rev=1;tclear()}AW.add(i);S.sel=i;sfx('benar');conf(30);award(100);d12()}
+function nx12(){if(SB.i>=SB.o.length-1)return fin(12,SB.o.length,SB.c);SB.i++;sfx('next');ld12()}
+function end12(){ask('Akhiri sesi dan lihat hasil akhir?',()=>fin(12,SB.i+1,SB.c))}
+/* ===== GAME 11 ===== */
+let SA=null;const SM={a:0,n:10,l:1},PTS=[100,80,60,40,20];
+const SQ=P(`Lebah|🐝|Aku kecil tapi pekerja keras|Aku hidup berkoloni bersama seorang ratu|Aku bisa menyengat|Aku menari untuk memberi tahu teman letak bunga|Aku penghasil madu|Lebah pekerja menari goyang untuk menunjukkan arah dan jarak bunga.
+Kupu-kupu|🦋|Dulu aku makan daun dengan rakus|Aku pernah membungkus diri dalam kepompong|Tubuhku berubah total|Sayapku berwarna-warni|Aku dulunya seekor ulat|Proses perubahannya disebut metamorfosis sempurna.
+Kelelawar|🦇|Aku aktif di malam hari|Aku tidur menggantung terbalik|Aku memakai gema suara untuk melihat arah|Aku seekor mamalia|Aku satu-satunya mamalia yang bisa terbang sejati|Gema suara itu disebut ekolokasi.
+Gurita|🐙|Aku tidak punya tulang|Aku punya tiga jantung|Aku bisa menyemprotkan tinta|Aku jago berganti warna untuk menyamar|Aku punya delapan lengan|Dua jantungnya memompa ke insang dan satu ke seluruh tubuh.
+Kura-kura|🐢|Aku berjalan sangat pelan|Rumahku selalu kubawa|Umurku bisa ratusan tahun|Aku bisa menarik kepala ke dalam|Aku punya cangkang keras|Pelan-pelan tapi panjang umur, ya!
+Gajah|🐘|Tubuhku sangat besar|Telingaku lebar seperti kipas|Aku punya gading|Hidungku panjang dan lentur|Aku hewan darat terbesar|Gajah dikenal punya ingatan yang sangat baik.
+Jam Weker|⏰|Aku punya wajah tapi tidak punya mata|Aku punya jarum tapi tidak menjahit|Aku selalu berputar tapi tak pernah sampai|Aku berteriak di pagi hari|Aku membangunkanmu|Banyak orang menekan tombol tunda berkali-kali!
+Payung|☂️|Aku sering dibawa saat langit mendung|Aku bisa dibuka dan ditutup|Aku punya gagang dan rangka|Aku melindungi dari hujan dan panas|Aku sering tertinggal di angkot|Payung awalnya dipakai untuk menahan terik matahari.
+Kunci|🔑|Aku punya gigi tapi tak bisa menggigit|Aku kecil dan sering digantung|Aku sering hilang saat terburu-buru|Tanpaku pintu tak bisa dibuka|Aku dimasukkan ke lubang gembok|Kunci selalu hilang tepat saat paling dibutuhkan!
+Lampu|💡|Aku bisa menyala dan padam|Aku bergantung di langit-langit|Aku punya saklar|Aku menerangi ruangan|Thomas Edison dikenal berjasa mengembangkanku|Edison menyempurnakan lampu pijar yang tahan lama.
+Kacamata|👓|Aku dipakai di wajah|Aku punya dua lensa|Aku membantu yang pandangannya kabur|Aku bertengger di hidung|Aku sering dicari padahal sedang dipakai|Hampir semua orang pernah mencari kacamata yang ternyata di kepala!
+Magnet|🧲|Aku bisa menarik tanpa tangan|Aku punya dua kutub|Kutub senama saling menolak|Aku menarik besi dan baja|Jarum kompas bergerak karena aku|Bumi sendiri adalah magnet raksasa.
+Buku|📚|Aku punya banyak halaman|Aku tidak bicara tapi bisa mengajar|Aku punya sampul dan punggung|Aku dibaca di perpustakaan|Aku disebut jendela dunia|Ada pepatah: buku adalah jendela dunia.
+Gunting|✂️|Aku punya dua mata pisau|Aku bekerja dengan menjepit|Aku dipegang lewat dua lubang|Aku memotong kertas dan kain|Aku salah satu pemain dalam suit bersama batu dan kertas|Suit dimainkan di banyak negara.
+Tas Sekolah|🎒|Aku digendong di punggung|Aku punya banyak resleting|Aku diisi buku dan bekal|Isiku sering lebih berat dari pemilikku|Aku dibawa murid ke sekolah|Beban tas anak disarankan tidak terlalu berat.
+Sepeda|🚲|Aku punya dua roda|Aku bergerak tanpa mesin|Aku punya rantai dan pedal|Aku dikayuh|Aku ramah lingkungan|Sepeda tidak butuh bahan bakar selain tenaga kaki.
+Roket|🚀|Aku meluncur dengan api|Aku dihitung mundur sebelum berangkat|Aku menembus atmosfer|Aku membawa satelit dan astronot|Tujuanku luar angkasa|Hitung mundur 10 sampai 0 sudah jadi tradisi peluncuran.
+Kamera|📷|Aku punya lensa|Aku mengabadikan momen|Aku berbunyi cekrek|Aku dipakai fotografer|Aku membekukan waktu menjadi foto|Foto pertama di dunia diambil pada abad ke-19.
+Bumi|🌍|Aku tempat tinggal semua manusia|Tiga perempat permukaanku adalah air|Aku punya satu satelit alami|Aku planet ketiga dari Matahari|Aku berotasi sekali dalam sehari|Bumi satu-satunya planet yang diketahui memiliki kehidupan.
+Bulan|🌙|Bentukku berubah tiap malam|Aku tak punya cahaya sendiri|Aku memantulkan cahaya Matahari|Aku mengorbit Bumi|Manusia pertama menginjakkan kaki di permukaanku pada 1969|Itu terjadi lewat misi Apollo 11.
+Matahari|☀️|Aku sebuah bintang|Aku pusat tata surya|Cahayaku butuh sekitar 8 menit sampai ke Bumi|Aku terbit di timur|Tanpaku tak ada kehidupan di Bumi|Matahari menyumbang sekitar 99 persen massa tata surya.
+Pelangi|🌈|Aku muncul setelah hujan|Aku butuh matahari agar tampil|Aku berbentuk busur|Aku punya tujuh warna|Aku tidak bisa disentuh|Pelangi terjadi karena cahaya terurai oleh tetes air.
+Gunung Berapi|🌋|Aku berbentuk kerucut|Di dalamku ada magma|Aku bisa bergemuruh|Aku bisa meletus|Indonesia punya banyak diriku karena Cincin Api|Indonesia berada di jalur Cincin Api Pasifik.
+Kelapa|🥥|Aku punya air di dalamku|Aku punya sabut dan tempurung|Santan berasal dariku|Pohonku disebut pohon kehidupan|Hampir semua bagianku bermanfaat|Pohon kelapa banyak tumbuh di pantai tropis.
+Pisang|🍌|Aku berkulit kuning saat matang|Aku tumbuh dalam sisir|Monyet menyukaiku|Kulitku bisa bikin orang terpeleset|Aku enak digoreng jadi kudapan|Secara botani pisang termasuk buah beri.
+Semangka|🍉|Kulitku hijau bergaris|Dalamku merah dan berair|Aku punya banyak biji hitam|Aku segar saat siang panas|Aku besar dan bulat|Sekitar 92 persen semangka adalah air.
+Pizza|🍕|Aku bulat dan dipotong segitiga|Aku dipanggang|Keju meleleh di atasku|Asalku dari Italia|Aku sering diantar kurir motor|Pizza modern dikenal berasal dari kota Napoli.
+Mi|🍜|Aku panjang dan berkelok|Aku direbus|Aku sering disantap dengan kuah|Aku populer sebagai makanan cepat saji|Aku sering jadi pelengkap bakso|Mi sudah dikenal di Asia ribuan tahun lalu.
+Jagung|🌽|Aku tumbuh di ladang|Aku punya rambut tapi bukan di kepala|Bijiku berjajar rapi|Aku bisa direbus atau dibakar|Aku bisa jadi popcorn|Popcorn dibuat dari jenis jagung khusus.
+Sekolah|🏫|Aku punya bel|Banyak orang datang pagi dan pulang siang|Ada upacara bendera tiap Senin|Aku punya banyak kelas|Tempat guru dan murid bertemu|Bapak Ibu sedang membahas tempat kerjanya sendiri, hehe!
+Guru|👩‍🏫|Banyak profesi lahir dariku|Aku sering bangun pagi|Aku mengoreksi sampai larut malam|Aku dipanggil Bapak atau Ibu|Aku pahlawan tanpa tanda jasa|Hari Guru Nasional diperingati setiap 25 November.
+Dokter|👨‍⚕️|Aku memakai jas putih|Aku punya stetoskop|Aku memeriksa pasien|Aku menulis resep|Aku bekerja di rumah sakit|Tulisan resep dokter terkenal sulit dibaca, ya!
+Koki|👨‍🍳|Aku bekerja di dapur|Aku memakai topi tinggi putih|Aku memegang wajan dan spatula|Aku meracik bumbu|Aku memasak untuk pelanggan restoran|Topi tinggi koki disebut toque.
+Mobil Pemadam Kebakaran|🚒|Aku berwarna merah|Sirineku nyaring|Aku melaju kencang saat darurat|Aku membawa selang dan tangga|Aku memadamkan api|Warna merah dan sirinenya dibuat agar mudah dikenali.
+Astronot|👩‍🚀|Aku memakai pakaian khusus yang tebal|Aku melayang karena tanpa gravitasi terasa|Aku bekerja di luar Bumi|Aku naik roket|Aku menjelajah antariksa|Astronot bisa bertambah tinggi beberapa sentimeter di luar angkasa.
+Petani|🧑‍🌾|Aku bangun sebelum matahari terbit|Aku sering memakai caping|Aku menanam benih|Aku merawat sawah dan ladang|Berasmu ada karena aku|Petani adalah tulang punggung pangan kita.
+Pilot|👨‍✈️|Aku bekerja di ketinggian|Aku memakai seragam dengan garis di bahu|Aku duduk di kokpit|Aku memberi pengumuman kepada penumpang|Aku menerbangkan pesawat|Pesawat komersial terbang di ketinggian puluhan ribu kaki.
+Balon|🎈|Aku ringan|Aku diisi udara atau gas|Aku sering ada di pesta ulang tahun|Aku bisa melayang bila berisi helium|Aku bisa meletus dengan bunyi dor|Helium lebih ringan dari udara sehingga balon bisa naik.
+Es Krim|🍦|Aku dingin dan manis|Aku bisa meleleh|Aku dijual dalam cone atau cup|Aku punya banyak rasa|Aku bikin anak-anak senang di siang hari|Es krim cepat meleleh karena suhu ruang lebih hangat.
+Piano|🎹|Aku punya tuts hitam dan putih|Di dalamku ada banyak senar|Aku dimainkan dengan jari|Aku bisa memainkan banyak nada sekaligus|Aku alat musik berpedal|Piano standar memiliki 88 tuts.`);
+const HARD={Lebah:[`Aku punya ratu tapi tak pernah ikut kontes kecantikan`,`Kantor pusatku berbentuk segi enam`,`Aku menari tanpa musik, anehnya penontonku mengerti`],'Kupu-kupu':[`Dulu aku tukang makan daun sebelum jadi model busana`,`Aku pernah bertapa lama di dalam bungkus tanpa makan`,`Tak ada yang percaya wajahku dulu seburuk itu`],Kelelawar:[`Aku tak pernah salah arah padahal tidurku terbalik`,`Aku melihat dengan telinga ala sonar`,`Aku punya sayap tetapi bukan burung`],Gurita:[`Hatiku banyak, tulangku tidak ada`,`Aku seniman tinta tanpa kertas`,`Aku menyelinap lewat lubang sekecil mulut botol`],'Kura-kura':[`Aku juara balapan lambat`,`Aku bawa rumah tapi tak pernah bayar cicilan`,`Umurku mengalahkan kakek-kakek kalian`],Gajah:[`Aku bawa selang air ke mana-mana tanpa dicolok`,`Gigiku tumbuh keluar dan jadi barang mahal`,`Aku tak pernah lupa, makanya susah dikibuli`],'Jam Weker':[`Aku punya wajah tapi tak bisa tersenyum`,`Aku musuh bebuyutan orang yang suka tidur`,`Aku berbunyi sendiri kalau sudah waktunya`],Payung:[`Aku sering hilang tapi selalu dicari saat hujan`,`Aku mekar seperti bunga tiap kali dibuka`,`Aku punya rusuk tapi bukan manusia`],Kunci:[`Aku punya gigi tapi tak pernah ke dokter gigi`,`Aku kecil tapi bikin orang panik kalau hilang`,`Aku membuka tanpa tenaga, cukup diputar`],Lampu:[`Ide kamu menyala, aku ikut menyala`,`Aku bisa tertidur bila saklar ditekan`,`Kadang aku mati padahal tak ada yang berduka`],Kacamata:[`Aku hidup menumpang di hidung dan telinga`,`Aku mengubah dunia buram jadi jelas`,`Aku sering dicari padahal sedang menempel`],Magnet:[`Aku punya daya tarik tapi bukan soal ketampanan`,`Aku punya dua kutub tapi tak pernah ke luar negeri`,`Aku suka besi dan tak peduli plastik`],Buku:[`Aku punya punggung tapi tak bisa digendong`,`Aku bisa bikin kamu pintar atau mengantuk`,`Aku punya halaman tapi tak punya rumah`],Gunting:[`Aku selalu berpasangan dengan batu dan kertas`,`Aku punya dua kaki tapi tak bisa berjalan`,`Aku suka memotong tapi tak pernah dimarahi`],'Tas Sekolah':[`Aku ditunggangi tiap hari tanpa mengeluh`,`Isi perutku lebih banyak dari makan siang`,`Aku punya banyak kantong tapi tak pernah belanja`],Sepeda:[`Aku tak makan tapi bisa jalan kalau dikayuh`,`Aku punya dua kaki yang bukan kaki`,`Rantaiku bukan untuk penjara`],Roket:[`Aku berangkat dengan hitungan mundur`,`Aku boros bahan bakar demi lompatan jauh`,`Aku tak naik tangga tapi sampai ke bintang`],Kamera:[`Aku mencuri momen tapi tak dilaporkan`,`Aku punya mata tapi tak bisa berkedip`,`Kalau kamu bilang cheese, aku siap`],Bumi:[`Alamat tetap seluruh manusia`,`Aku berputar tanpa pernah pusing`,`Aku punya satu teman setia di langit`],Bulan:[`Aku sering dikira bersinar padahal menumpang`,`Wajahku berubah-ubah tiap malam`,`Aku ikut mengatur pasang surut air laut`],Matahari:[`Aku tak pernah tidur tapi selalu terbit`,`Aku dikelilingi planet-planet yang setia`,`Terlalu dekat denganku bikin kulit gosong`],Pelangi:[`Aku datang sesudah hujan tapi bukan untuk berteduh`,`Aku punya banyak warna tapi tak punya wujud`,`Tak ada yang pernah berhasil menyentuhku`],'Gunung Berapi':[`Kadang aku marah dan melempar batu panas`,`Aku punya kawah tapi bukan untuk memasak`,`Tanah di sekitarku jadi subur karenaku`],Kelapa:[`Aku berambut di luar dan bersusu di dalam`,`Aku bikin orang lari kalau jatuh dari pohon`,`Aku banyak dijual di pinggir pantai`],Pisang:[`Aku licin walau tak pernah olahraga`,`Aku menggantung dalam sisir`,`Monyet-monyet sangat setia padaku`],Semangka:[`Aku bulat dan hijau tapi bukan bola`,`Isi perutku merah dan penuh biji`,`Aku sebagian besar air tapi tak pernah mandi`],Pizza:[`Aku bulat tapi dipotong segitiga tanpa protes`,`Aku dipanggang tapi bukan roti bakar`,`Aku datang dalam kotak kardus`],Mi:[`Aku panjang tapi tak pernah dimarahi karena kusut`,`Aku suka mandi air panas`,`Kamu sering menyeruputku`],Jagung:[`Aku berambut tapi tak pernah keramas`,`Bijiku berjajar rapi seperti barisan tentara`,`Aku meletus jadi bunga putih di panci panas`],Sekolah:[`Katanya orang masuk bodoh keluar pintar`,`Aku punya upacara tiap Senin`,`Ada bel yang menentukan kapan orang senang`],Guru:[`Aku bicara berjam-jam tanpa ada yang bertepuk tangan`,`Aku sering menulis tapi bukan novelis`,`Aku pahlawan yang tak pernah minta patung`],Dokter:[`Tulisan tanganku paling misterius sedunia`,`Aku suka bertanya: di mana yang sakit?`,`Aku memakai alat yang mendengarkan jantung`],Koki:[`Aku bikin orang lapar sambil menahan kantuk`,`Topiku lebih tinggi dari hidungku`,`Aku memasak sambil dikejar waktu dan api`],'Mobil Pemadam Kebakaran':[`Aku selalu dikejar waktu dan mengiringi diri dengan sirine`,`Orang memberi jalan walau tak mengenalku`,`Aku membawa banyak air untuk melawan panas`],Astronot:[`Aku pernah makan makanan yang melayang`,`Pekerjaanku tanpa bobot dan tanpa alas`,`Aku pulang membawa foto Bumi dari jauh`],Petani:[`Aku bangun sebelum ayam dan kerja sebelum sarapan`,`Aku suka hujan tapi tak suka banjir`,`Tanpaku piringmu kosong`],Pilot:[`Aku duduk di depan sementara kalian menunggu di belakang`,`Aku bicara dengan menara tanpa pernah naik tangga`,`Aku sering bilang: mohon kencangkan sabuk pengaman`],Balon:[`Aku tak berotot tapi bisa membesar`,`Aku takut jarum dan duri`,`Aku selalu ada di pesta tapi tak ikut makan`],'Es Krim':[`Aku tak suka dipegang lama-lama`,`Aku menangis kalau kepanasan`,`Aku manis dan dingin, kalau lama jadi sungai kecil`],Piano:[`Aku punya 88 teman hitam putih`,`Aku bisa tertawa dan menangis sekaligus`,`Pedalku bukan untuk kaki sepeda`]};
+SQ.forEach(q=>{const h=HARD[q[0]];if(h){q.easy=q.slice(2,5);q.hard=h;q[2]=h[0];q[3]=h[1];q[4]=h[2]}});
+function g11(){S.screen='g11s';SA=null;tclear();board();$('#m').innerHTML=`<div class='home'><h1>SIAPAKAH AKU?</h1><p class='tag'>Petunjuk dibuka bertahap. Makin cepat benar, makin besar poinnya: 100, 80, 60, 40, 20.</p><h2>Tingkat kesulitan</h2><div class='row'>${[['MUDAH',0],['SULIT (ABSURD)',1]].map(l=>`<button class='btn ${SM.l===l[1]?'':'bl'}' onclick='SM.l=${l[1]};g11()'>${l[0]}</button>`).join('')}</div><h2>Cara membuka petunjuk</h2><div class='row'>${[['MANUAL',0],['OTOMATIS 8 DTK',8],['OTOMATIS 12 DTK',12]].map(m=>`<button class='btn ${SM.a===m[1]?'':'bl'}' onclick='SM.a=${m[1]};g11()'>${m[0]}</button>`).join('')}</div><h2>Jumlah soal</h2><div class='row'>${[10,20,0].map(n=>`<button class='btn ${SM.n===n?'':'bl'}' onclick='SM.n=${n};g11()'>${n||'SEMUA ('+SQ.length+')'}</button>`).join('')}</div><button class='btn' style='font-size:28px' onclick='st11()'>MULAI</button></div>`}
+function st11(){SQ.forEach(q=>{const c=SM.l?q.hard:q.easy;if(c){q[2]=c[0];q[3]=c[1];q[4]=c[2]}});S.teams.forEach(t=>t.s=0);S.screen='g11';SA={o:shuf(SQ.map((_,i)=>i)).slice(0,SM.n||SQ.length),i:0,c:0,auto:SM.a,t:SM.a};board();sfx('start');ld11()}
+function ld11(){tclear();SA.n=1;SA.rev=0;SA.d=0;SA.fresh=1;SA.bad=[];AW.clear();if(SA.auto){T.s=SA.t;r11()}d11()}
+function r11(){T.run=1;T.pz=0;T.id=setInterval(()=>{T.s--;if(T.s<=0){if(SA.n<5)nc11();else{tclear();T.s=0;sfx('habis');d11()}}else{if(T.s<=3)sfx('tick');tm()}},1000)}
+function d11(){const o=$('#ja');window._kv=o?o.value:'';const q=SQ[SA.o[SA.i]],t=S.teams[S.sel];
+$('#m').innerHTML=`<div class='top'><span>Soal ${SA.i+1}/${SA.o.length}</span><span>${e(t.n)}: ${t.s} poin</span><span>💰 Nilai: ${PTS[SA.n-1]}</span>${SA.auto?`<span>⏱ <b id='tm' class='${T.s<=3&&T.run?'red':''}'>${T.s}</b></span>`:''}</div><div class='mys'>${SA.rev?q[1]:'❓'}</div>${SA.rev?`<div class='ans'>🎉 ${e(q[0])}</div><div class='hint'>💡 ${e(q[7])}</div>`:`<div class='hint'>🕵️ SIAPAKAH AKU?</div>`}${[2,3,4,5,6].map((c,k)=>k<SA.n?`<div class='cl${k===SA.n-1&&SA.fresh?' nw':''}'><b>${k+1}</b>${e(q[c])}</div>`:`<div class='cl lk'><b>🔒</b>Petunjuk ${k+1}</div>`).join('')}${SA.rev?'':`<div class='ctl'><input id='ja' class='ji' placeholder='Ketik tebakan...' autocomplete='off' onkeydown='if(event.keyCode===13)cek11()'><button class='btn ok' onclick='cek11()'>CEK JAWABAN (${e(t.n)})</button></div>`}${SA.bad&&SA.bad.length&&!SA.rev?`<div class='hint'>❌ Tebakan salah: ${e(SA.bad.join(', '))} — buka petunjuk berikutnya lalu cek lagi!</div>`:''}<div class='ctl tr'><b>⭐ Beri poin (+${PTS[SA.n-1]}) ke:</b>${S.teams.map((x,i)=>`<button class='btn sm2 ${AW.has(i)?'ok':'bl'}' onclick='ga(${i})'>${AW.has(i)?'✓ ':''}${e(x.n)}</button>`).join('')}</div><div class='ctl'><button class='btn bl' onclick='nc11()'>🔓 PETUNJUK BERIKUTNYA</button>${SA.auto?`<button class='btn bl' onclick='tp11()'>⏯ JEDA / LANJUT</button>`:''}<button class='btn' onclick='rv11()'>TAMPILKAN JAWABAN</button><button class='btn' onclick='nx11()'>SOAL BERIKUTNYA</button><button class='btn sm2 bl' onclick='ld11()'>ULANGI</button><button class='btn sm2 bl' onclick='sk8()'>LIHAT SKOR</button><button class='btn sm2 no' onclick='end11()'>AKHIRI</button></div>`;SA.fresh=0;const ja=$('#ja');if(ja&&window._kv)ja.value=window._kv}
+function cek11(){if(SA.rev)return;const ja=$('#ja'),v=ja?ja.value:'';if(!v.trim())return;const q=SQ[SA.o[SA.i]];if(same(v,q[0])){if(!AW.has(S.sel)){if(!SA.d){SA.d=1;SA.c++}AW.add(S.sel);award(PTS[SA.n-1])}SA.rev=1;tclear();d11();fx(1)}else{SA.bad.push(v.trim());ja.value='';d11();fx(0)}}
+function nc11(){if(SA.n>=5||SA.rev)return;SA.n++;SA.fresh=1;if(SA.auto&&T.run)T.s=SA.t;sfx('petunjuk');d11()}
+function tp11(){if(T.run){clearInterval(T.id);T.id=0;T.run=0;T.pz=1;tm();sfx('jeda')}else if(T.pz&&T.s>0){sfx('lanjut');r11()}}
+function rv11(){if(SA.rev)return;SA.rev=1;tclear();sfx('tada');conf(60);d11()}
+function ga(i){if(AW.has(i))return;if(!SA.d){SA.d=1;SA.c++}AW.add(i);S.sel=i;sfx('benar');conf(30);award(PTS[SA.n-1]);d11()}
+function nx11(){if(SA.i>=SA.o.length-1)return fin(11,SA.o.length,SA.c);SA.i++;sfx('next');ld11()}
+function end11(){ask('Akhiri sesi dan lihat hasil akhir?',()=>fin(11,SA.i+1,SA.c))}
+/* ===== GAME 10 ===== */
+let V=null;const VM={t:15},NT3=[330,392,494,392,330,262,294,330,330,392,494,587,494,392,330,294];
+const pc=a=>a[Math.random()*a.length|0],OPEN=['Waduh, mata Bapak Ibu mulai tidak bisa dipercaya!','Awas, jangan sampai kalah sama gambar!','Fokus, Bapak Ibu! Mata bisa berbohong, lho!'],TENSE=['Waktu hampir habis! Yakin itu jawabannya?','Tik tok tik tok! Jangan sampai kalah sama gambar!'];
+function say(t){try{if(S.fx&&window.speechSynthesis){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';u.rate=1.05;u.pitch=1.2;u.volume=S.sv;speechSynthesis.speak(u)}}catch(x){}}
+const sv=b=>`<svg viewBox='0 0 600 340' xmlns='http://www.w3.org/2000/svg'>${b}</svg>`,rc=(x,y,w,h,f)=>`<rect x='${x}' y='${y}' width='${w}' height='${h}' fill='${f}'/>`,ln=(a,b,c,d,s,w)=>`<line x1='${a}' y1='${b}' x2='${c}' y2='${d}' stroke='${s||'#222'}' stroke-width='${w||6}'/>`,ci=(x,y,r,f)=>`<circle cx='${x}' cy='${y}' r='${r}' fill='${f}'/>`,BG=rc(0,0,600,340,'#fff8e1');
+function mk(n,img,q,r,w,e,ns){const o=ns||shuf([r,...w]);return{n,img,q,o,a:o.indexOf(r),e}}
+const CN=[['⭐','bintang'],['🍎','apel'],['🎈','balon'],['🐟','ikan'],['🍌','pisang'],['🌸','bunga'],['🐥','anak ayam'],['⚽','bola'],['📚','buku'],['🍩','donat']];
+const gCount=k=>{const [em,nm]=CN[k],d=CN[(k+3)%10][0],n=6+Math.random()*6|0,cs=shuf([...Array(18).keys()]);let b=BG;cs.slice(0,n+5).forEach((c,j)=>{b+=`<text x='${(c%6)*100+50+Math.random()*16-8}' y='${(c/6|0)*110+70+Math.random()*16-8}' font-size='52' text-anchor='middle'>${j<n?em:d}</text>`});return mk('Hitung Objek',sv(b),`Berapa jumlah ${nm} ${em} di gambar? (abaikan objek lain)`,n,shuf([n-2,n-1,n+1,n+2].filter(v=>v>0)).slice(0,3),'Mata cenderung melompat saat menghitung dan terkecoh objek pengacau. Hitung per baris agar akurat!')};
+const PR=[['🙂','🙃'],['😀','😁'],['🍎','🍅'],['🌕','🌝'],['🐶','🐕'],['⭐','🌟']];
+const gDiff=k=>{const [a,b]=PR[k],R=Math.random()*5|0,C=Math.random()*5|0;let t='';for(let r=0;r<5;r++)for(let c=0;c<5;c++)t+=`<text x='${60+c*120}' y='${58+r*64}' font-size='46' text-anchor='middle'>${r===R&&c===C?b:a}</text>`;const w=new Set();while(w.size<3){const r=Math.random()*5|0,c=Math.random()*5|0;if(r!==R||c!==C)w.add(`Baris ${r+1}, kolom ${c+1}`)}return mk('Cari yang Berbeda',sv(BG+t),`Satu ${b} menyelinap di antara ${a}. Di mana posisinya?`,`Baris ${R+1}, kolom ${C+1}`,[...w],'Saat banyak objek mirip, mata menyapu cepat dan melewatkan perbedaan kecil. Periksa per baris!')};
+const gChg=()=>{const s=shuf(CN.map(x=>x[0])),row=s.slice(0,6),j=Math.random()*6|0,bot=row.map((v,i)=>i===j?s[6]:v);let t='';row.forEach((v,i)=>{t+=`<text x='${60+i*96}' y='110' font-size='60' text-anchor='middle'>${v}</text><text x='${60+i*96}' y='270' font-size='60' text-anchor='middle'>${bot[i]}</text>`});return mk('Cari Kesalahan',sv(BG+t+`<text x='300' y='175' font-size='24' text-anchor='middle' fill='#555'>▲ ASLI ▲ • ▼ SALINAN ▼</text>`),'Baris bawah adalah salinan baris atas, tetapi ada satu yang berubah. Urutan ke berapa (dari kiri)?',`Urutan ke-${j+1}`,shuf([0,1,2,3,4,5].filter(i=>i!==j)).slice(0,3).map(i=>`Urutan ke-${i+1}`),'Otak sering mengisi kekosongan sendiri sehingga perubahan kecil lolos (change blindness).')};
+const AL=()=>[...IL[1],...IL[2],...IL[3]].filter(x=>!['Jarum','Ember','Flamingo','Kungkang','Layang-layang','Alat pemadam api','Kaus kaki','Puzzle','Sempoa','Kompas','Teleskop','Mikroskop'].includes(x[1]));
+const gSil=em=>mk('Tebak Bayangan',`<div class='im' style='background:linear-gradient(#ffe27a,#ffb300)'><span style='font-size:min(30vw,26vh);filter:brightness(0)'>${em[0]}</span></div>`,'Bayangan apakah ini?',em[1],shuf(AL().filter(x=>x[1]!==em[1])).slice(0,3).map(x=>x[1]),'Bentuk siluet sering cukup bagi otak untuk mengenali objek walau warna dan detailnya hilang.');
+const gZoom=em=>mk('Tebak dari Zoom',`<div class='im' style='background:#fff'><span style='display:inline-block;font-size:min(28vw,26vh);transform:scale(3);transform-origin:${35+Math.random()*30}% ${35+Math.random()*30}%'>${em[0]}</span></div>`,'Objek apakah yang diperbesar ini?',em[1],shuf(AL().filter(x=>x[1]!==em[1])).slice(0,3).map(x=>x[1]),'Gambar yang terlalu dekat menghilangkan konteks, sehingga otak harus menebak dari pola kecil.');
+const SC=[['merah','#ff2b2b'],['biru','#3d7bff'],['hijau','#19c37d'],['kuning','#ffd21a'],['ungu','#b04cff'],['oranye','#ff8a1f']];
+const gStr=(i,j)=>{const w=SC[i],c=SC[j];return mk('Efek Stroop',sv(rc(0,0,600,340,'#14142b')+`<text x='300' y='215' font-size='130' font-weight='900' text-anchor='middle' fill='${c[1]}'>${w[0].toUpperCase()}</text>`),'Sebut WARNA TINTA tulisan ini, bukan bacaannya!',c[0],shuf(SC.filter(x=>x[0]!==c[0]).map(x=>x[0])).slice(0,3),'Efek Stroop: membaca terjadi otomatis dan lebih cepat daripada menyebut warna, sehingga otak berkonflik.')};
+const arw=(y,s)=>ln(150,y,450,y)+[150,450].map((x,j)=>`<path d='M${x} ${y}l${(j?-30:30)*s} -34M${x} ${y}l${(j?-30:30)*s} 34' stroke='#222' stroke-width='6' fill='none'/>`).join('');
+const gML=f=>mk('Müller-Lyer',sv(BG+arw(100,f?1:-1)+arw(240,f?-1:1)),'Mana garis (poros) yang lebih panjang?','Sama panjang',['Garis atas','Garis bawah','Tidak bisa ditentukan'],'Ilusi Müller-Lyer: sirip yang mengarah keluar membuat garis tampak lebih panjang. Padahal keduanya persis sama.');
+const gPonzo=()=>mk('Ilusi Ponzo',sv(BG+ln(110,320,270,20,'#555',5)+ln(490,320,330,20,'#555',5)+ln(240,90,360,90,'#e0263f',10)+ln(240,250,360,250,'#2a5cff',10)),'Mana garis berwarna yang lebih panjang?','Sama panjang',['Garis merah (atas)','Garis biru (bawah)','Tidak bisa ditentukan'],'Rel yang menyempit memberi kesan jarak, jadi otak memperbesar garis yang tampak lebih jauh. Padahal sama panjang.');
+const ebb=(cx,n,R,r)=>{let b='';for(let i=0;i<n;i++){const a=i*6.2832/n;b+=ci(cx+R*Math.cos(a),170+R*Math.sin(a),r,'#7b2cff')}return b+ci(cx,170,34,'#e0263f')};
+const gEbb=f=>mk('Ilusi Ebbinghaus',sv(BG+(f?ebb(150,6,92,48)+ebb(450,8,52,14):ebb(150,8,52,14)+ebb(450,6,92,48))),'Mana lingkaran merah di tengah yang lebih besar?','Sama besar',['Yang kiri','Yang kanan','Tidak bisa ditentukan'],'Lingkaran yang dikelilingi benda besar tampak kecil, dan sebaliknya. Ukuran aslinya sama.');
+const gT=f=>mk('Garis Tegak vs Datar',sv(BG+(f?ln(200,300,400,300,'#2a5cff',10)+ln(300,300,300,100,'#e0263f',10):ln(100,300,300,300,'#2a5cff',10)+ln(100,300,100,100,'#e0263f',10))),'Mana yang lebih panjang: garis tegak (merah) atau garis datar (biru)?','Sama panjang',['Garis tegak (merah)','Garis datar (biru)','Tidak bisa ditentukan'],'Ilusi horizontal-vertikal: garis tegak tampak lebih panjang. Keduanya sama-sama 200 satuan.');
+const gCon=(g,f)=>mk('Kontras Warna',sv(`<defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='${f?'#111':'#f5f5f5'}'/><stop offset='1' stop-color='${f?'#f5f5f5':'#111'}'/></linearGradient></defs>`+rc(0,0,600,340,'url(#g)')+rc(40,130,80,80,g)+rc(480,130,80,80,g)),'Mana kotak abu-abu yang warnanya lebih gelap?','Sama persis',['Kotak kiri','Kotak kanan','Tidak bisa ditentukan'],'Otak menilai warna dari sekelilingnya (kontras simultan). Kedua kotak berwarna identik.');
+const gCafe=o=>{let b=rc(0,0,600,340,'#fff');for(let r=0;r<8;r++)for(let x=-84;x<600;x+=84)b+=rc(x+(r%2)*o,r*42,42,42,'#111');for(let r=1;r<8;r++)b+=ln(0,r*42,600,r*42,'#999',3);return mk('Dinding Kafe',sv(b),'Apakah garis-garis mendatar abu-abu ini sejajar atau miring?','Semuanya sejajar',['Miring ke kanan','Miring ke kiri','Bergelombang'],'Ilusi dinding kafe: pergeseran kotak hitam-putih membuat garis yang sejajar tampak miring.')};
+const gHer=()=>{let b=rc(0,0,600,340,'#fff');for(let r=0;r<3;r++)for(let c=0;c<4;c++)b+=rc(56+c*126,34+r*96,110,80,'#111');return mk('Kisi Hermann',sv(b),'Apakah ada titik abu-abu di perpotongan garis putih?','Tidak ada, itu hanya ilusi',['Ada, titik abu-abu sungguhan','Hanya di baris tengah','Hanya di pojok'],'Ilusi kisi Hermann: sel retina saling menghambat sehingga muncul bayangan abu-abu. Garisnya putih semua.')};
+const pw=(R,C,nr,nc)=>{const w=new Set();while(w.size<3){const r=Math.random()*nr|0,c=Math.random()*nc|0;if(r!==R||c!==C)w.add(`Baris ${r+1}, kolom ${c+1}`)}return [...w]};
+const gSq=n=>{const s=n===3?90:70,x0=300-n*s/2,y0=170-n*s/2;let b=BG;for(let i=0;i<=n;i++)b+=ln(x0,y0+i*s,x0+n*s,y0+i*s,'#7b2cff',5)+ln(x0+i*s,y0,x0+i*s,y0+n*s,'#7b2cff',5);const t=n*(n+1)*(2*n+1)/6;return mk('Hitung Persegi',sv(b),'Berapa jumlah SEMUA persegi (kecil, sedang, dan besar) pada gambar?',t,shuf([t-3,t-1,t+2,t+4]).slice(0,3),`Selain ${n*n} persegi kecil, ada persegi gabungan berbagai ukuran. Totalnya ${t}. Mata biasanya hanya menghitung yang kecil!`)};
+const gShade=h=>{const R=Math.random()*4|0,C=Math.random()*5|0;let b=BG;for(let r=0;r<4;r++)for(let c=0;c<5;c++)b+=ci(60+c*120,45+r*80,34,`hsl(${h},70%,${r===R&&c===C?58:50}%)`);return mk('Beda Warna',sv(b),'Satu lingkaran punya warna sedikit berbeda. Di mana posisinya?',`Baris ${R+1}, kolom ${C+1}`,pw(R,C,4,5),'Perbedaan terang yang kecil mudah terlewat karena otak menganggap warna yang mirip itu sama.')};
+const gZol=()=>{let b=BG;for(let i=0;i<4;i++){const y=60+i*72,d=i%2?1:-1;b+=ln(50,y,550,y,'#111',7);for(let x=70;x<540;x+=36)b+=ln(x-12,y-12*d,x+12,y+12*d,'#7b2cff',4)}return mk('Ilusi Zöllner',sv(b),'Apakah keempat garis hitam tebal ini sejajar?','Ya, semuanya sejajar',['Tidak, bergantian miring','Hanya dua yang sejajar','Semuanya melebar ke kanan'],'Ilusi Zöllner: garis-garis pendek yang bersilangan membuat garis hitam tampak miring. Padahal semuanya sejajar.')};
+const gPog=()=>{const k=.4+Math.random()*.2,yc=310-k*380,ys=[yc,...shuf([-62,-31,31,62]).slice(0,3).map(o=>yc+o)].sort((a,b)=>a-b),a=ys.indexOf(yc)+1;let b=BG+ln(60,310,220,310-k*160,'#e0263f',7)+rc(220,20,160,300,'#7b9bff');ys.forEach((y,i)=>{b+=ci(450,y,17,'#fff')+`<text x='450' y='${y+7}' font-size='20' font-weight='900' text-anchor='middle'>${i+1}</text>`});return mk('Poggendorff',sv(b),'Garis merah masuk ke balok biru lalu lurus keluar di sisi kanan. Keluar tepat di titik nomor berapa?',`Titik ${a}`,[],'Ilusi Poggendorff: balok memutus garis sehingga otak salah menebak kelanjutannya. Hanya penggaris yang bisa memastikan.',[1,2,3,4].map(i=>`Titik ${i}`))};
+const gAng=d=>{const c=Math.cos(d*Math.PI/180),s=Math.sin(d*Math.PI/180);return mk('Tebak Sudut',sv(BG+ln(240,280,460,280,'#222',7)+ln(240,280,240+220*c,280-220*s,'#222',7)+`<path d='M300 280A60 60 0 0 0 ${240+60*c} ${280-60*s}' stroke='#e0263f' fill='none' stroke-width='5'/>`),'Sudut yang ditandai garis merah kira-kira berapa derajat?',`${d}°`,[d-20,d+20,d-40,d+40,d-60,d+60].filter(v=>v>5&&v<175).slice(0,3).map(v=>v+'°'),'Menaksir sudut sering meleset karena panjang garis dan posisi ikut memengaruhi persepsi. Sudut ini tepat '+d+'°.')};
+const gLet=L=>{const A='ABEFHKMNRX';let b=BG,n=0;for(let r=0;r<5;r++)for(let c=0;c<10;c++){const ch=A[Math.random()*10|0];if(ch===L)n++;b+=`<text x='${30+c*60}' y='${60+r*55}' font-size='44' font-family='monospace' font-weight='bold' text-anchor='middle' fill='#222'>${ch}</text>`}if(!n)return gLet(L);return mk('Hitung Huruf',sv(b),`Berapa kali huruf ${L} muncul di gambar?`,n,[n-2,n-1,n+1,n+2].filter(v=>v>=0).slice(0,3),'Mata mudah melewatkan huruf yang bentuknya mirip. Hitung baris demi baris!')};
+const gPat=p=>{const cs=shuf(SC).slice(0,p);let b=BG;for(let i=0;i<8;i++)b+=ci(45+i*72,170,30,cs[i%p][1]);b+=ci(45+8*72,170,30,'#fff')+`<text x='${45+8*72}' y='185' font-size='44' font-weight='900' text-anchor='middle' fill='#e0263f'>?</text>`;const nx=cs[8%p][0];return mk('Lanjutkan Pola',sv(b),'Warna apa yang melanjutkan pola pada lingkaran bertanda tanya?',nx,shuf(SC.map(x=>x[0]).filter(x=>x!==nx)).slice(0,3),`Polanya berulang tiap ${p} warna, jadi lingkaran berikutnya berwarna ${nx}.`)};
+const PT=[['69','96'],['O','0'],['b','d'],['m','n'],['E','F'],['8','B']];
+const gDT=k=>{const [a,x]=PT[k],R=Math.random()*4|0,C=Math.random()*6|0;let b=BG;for(let r=0;r<4;r++)for(let c=0;c<6;c++)b+=`<text x='${50+c*100}' y='${75+r*80}' font-size='54' font-weight='bold' text-anchor='middle' fill='#222'>${r===R&&c===C?x:a}</text>`;return mk('Cari Huruf/Angka',sv(b),`Satu '${x}' bersembunyi di antara '${a}'. Di mana posisinya?`,`Baris ${R+1}, kolom ${C+1}`,pw(R,C,4,6),'Karakter yang mirip membuat otak otomatis menganggapnya sama. Teliti satu per satu!')};
+const gBig=h=>{const R=Math.random()*4|0,C=Math.random()*5|0;let b=BG;for(let r=0;r<4;r++)for(let c=0;c<5;c++)b+=ci(60+c*120,45+r*80,r===R&&c===C?31:27,`hsl(${h},75%,55%)`);return mk('Lingkaran Terbesar',sv(b),'Lingkaran mana yang ukurannya paling besar?',`Baris ${R+1}, kolom ${C+1}`,pw(R,C,4,5),'Ukuran yang selisihnya kecil sulit dibandingkan ketika objek berderet banyak.')};
+const gLen=()=>{const L=shuf([200,214,228]),nm=['Merah','Biru','Hijau'],cl=['#e0263f','#2a5cff','#19c37d'];let b=BG;L.forEach((l,i)=>{const x=40+Math.random()*(520-l);b+=ln(x,90+i*80,x+l,90+i*80,cl[i],14)});return mk('Garis Terpanjang',sv(b),'Garis berwarna mana yang paling panjang?',nm[L.indexOf(228)],[...nm.filter(x=>x!==nm[L.indexOf(228)]),'Semuanya sama'],'Ujung garis yang tidak sejajar menyulitkan perbandingan. Selisihnya hanya sekitar 6% saja.')};
+let VL=1;const HN=new Set(['Hitung Persegi','Poggendorff','Tebak Sudut','Garis Terpanjang','Beda Warna','Lingkaran Terbesar','Cari Huruf/Angka','Hitung Huruf','Ilusi Zöllner']);
+function vbuild(){const p=[];CN.forEach((_,k)=>p.push(gCount(k)));for(let k=0;k<6;k++)p.push(gDiff(k),gChg(),gStr(k,(k+1+Math.random()*4|0)%6));shuf(AL()).slice(0,8).forEach(x=>p.push(gSil(x)));shuf(AL()).slice(0,6).forEach(x=>p.push(gZoom(x)));p.push(gML(1),gML(0),gPonzo(),gEbb(1),gEbb(0),gT(1),gT(0),gCon('#888',1),gCon('#777',0),gCon('#999',1),gCafe(21),gCafe(14),gHer(),gSq(3),gSq(4),gZol(),gPog(),gPog(),gPog(),gLen(),gLen(),gLen(),gLen());[0,200,120,280].forEach(h=>p.push(gShade(h),gBig(h)));shuf([35,50,65,110,125,140,155]).slice(0,5).forEach(d=>p.push(gAng(d)));shuf('ABEFHKMNRX'.split('')).slice(0,3).forEach(L=>p.push(gLet(L)));[3,4,3,4].forEach(q=>p.push(gPat(q)));for(let k=0;k<6;k++)p.push(gDT(k));const pl=VL===0?p.filter(x=>!HN.has(x.n)):VL===2?p.filter(x=>HN.has(x.n)):p,cn={},out=[];shuf(pl).forEach(x=>{cn[x.n]=(cn[x.n]||0)+1;if(cn[x.n]<=2)out.push(x)});return out}
+function g10(){S.screen='vs';V=null;tclear();board();document.body.classList.add('neo');$('#m').innerHTML=`<div class="home"><h1>JANGAN TERTIPU<br>MATA!</h1><h2>THE ULTIMATE VISUAL CHALLENGE</h2><p class="tag">Pilih tingkat kesulitan</p><div class="row">${[['MUDAH',0],['SEDANG',1],['SULIT',2]].map(l=>`<button class="btn ${VL===l[1]?'':'bl'}" onclick="VL=${l[1]};g10()">${l[0]}</button>`).join('')}</div><p class="tag">Pilih mode waktu menjawab</p><div class="row">${[['SANTAI',15],['CEPAT',10],['EKSTREM',5]].map(m=>`<button class="btn ${VM.t===m[1]?'':'bl'}" onclick="VM.t=${m[1]};g10()">${m[0]} (${m[1]} dtk)</button>`).join('')}</div><button class="btn" style="font-size:28px" onclick="vst()">MULAI PERMAINAN</button></div>`}
+function vst(){V={q:vbuild().slice(0,10),i:0,t:VM.t,res:[],cnt:0,cd:0};sfx('start');$('#m').innerHTML=`<div class="home"><h1>ATURAN MAIN</h1><div class="q" style="text-align:left;font-size:clamp(18px,2.8vw,32px)">1. Lihat layar baik-baik, semua guru menjawab serentak.<br>2. Jawab lisan atau tunjuk pilihan A, B, C, atau D.<br>3. Waktu menjawab ${V.t} detik per tantangan.<br>4. Host mengunci jawaban, lalu mata kita dibongkar!<br>5. Ada 10 tantangan. Jangan sampai tertipu!</div><button class="btn" style="font-size:28px" onclick="vcd(3)">SIAP! HITUNG MUNDUR</button></div>`}
+function vcd(n){clearTimeout(V.cd);$('#m').innerHTML=`<div class="home"><h1 style="font-size:clamp(100px,30vw,320px)">${n||'GO!'}</h1></div>`;sfx(n?'tick':'start');V.cd=setTimeout(()=>n?vcd(n-1):vload(),900)}
+function vload(){tclear();T.s=V.t;V.rev=0;V.sus=0;V.to=0;V.mk=null;V.new=1;V.nar=pc(OPEN);say(V.nar);vrun();vdraw()}
+function vrun(){T.run=1;T.pz=0;T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;V.to=1;V.nar='Waktu habis! Mari kita bongkar jawabannya...';sfx('habis');vdraw()}else{if(T.s<=5)kick(S.sv);if(T.s===3){V.nar=pc(TENSE);say(V.nar);vdraw()}else tm()}},1000)}
+function vdraw(){document.body.classList.add('neo');const x=V.q[V.i],z=V.new?' zin':'';V.new=0;
+$('#m').innerHTML=`<div class="top"><span>BABAK ${V.i+1}/10</span><span>✅ ${V.cnt}</span><span>⏱ <b id="tm" class="${T.s<=3&&T.run?'red':''}">${T.s}</b></span></div><div class="vp${z}${V.sus?' boom':''}">${x.img}</div><div class="q" style="font-size:clamp(20px,3.2vw,38px);padding:10px">${e(x.q)}</div><div class="opts">${x.o.map((o,k)=>`<div class="opt${V.rev&&k===x.a?' ok':''}"><b>${'ABCD'[k]}</b>${e(o)}</div>`).join('')}</div><div class="hint">🎙️ ${e(V.nar)}</div>${V.sus?'<div class="ans">🥁 TUNGGU... TUNGGU...</div>':''}${V.to&&!V.rev&&!V.sus?'<div class="ans bad">⏰ WAKTU HABIS!</div>':''}${V.rev?`<div class="ans">✅ ${'ABCD'[x.a]}. ${e(x.o[x.a])}</div><div class="hint">💡 ${e(x.e)}</div>`:''}<div class="ctl">${V.rev?`<button class="btn ok" onclick="vmark(1)">✅ GURU BENAR</button><button class="btn no" onclick="vmark(0)">🤡 GURU TERTIPU</button>`:`<button class="btn bl" onclick="vtp()">⏯ JEDA / LANJUT</button><button class="btn bl" onclick="vtx()">⏹ ULANGI TIMER</button><button class="btn" onclick="vrv()">🔓 KUNCI JAWABAN</button>`}<button class="btn" onclick="vnx()">TANTANGAN BERIKUTNYA</button><button class="btn sm2 no" onclick="ask('Akhiri sesi dan lihat hasil akhir?',vfin)">AKHIRI</button></div>`}
+function vtp(){if(T.run){clearInterval(T.id);T.id=0;T.run=0;T.pz=1;tm();sfx('jeda')}else if(T.pz&&T.s>0){sfx('lanjut');vrun()}}
+function vtx(){sfx('reset');tclear();T.s=V.t;V.to=0;vrun();vdraw()}
+function vrv(){if(V.rev||V.sus)return;tclear();sfx('drum');const i=V.i;V.sus=1;V.nar='Yakin itu jawabannya? Kita lihat sekarang...';vdraw();setTimeout(()=>{if(!V||V.i!==i)return;V.sus=0;V.rev=1;V.nar='Nah, ini dia jawaban yang sebenarnya!';sfx('wow');conf(50);vdraw()},900)}
+function vmark(ok){if(!V.rev||V.mk!=null)return;V.mk=ok;V.res[V.i]={n:V.q[V.i].n,ok};if(ok){V.cnt++;sfx('benar');conf(80);V.nar='Hebat! Guru-guru tidak gampang tertipu!'}else{sfx('gagal');V.nar='Selamat! Ternyata mata kita berhasil ditipu!';const m=$('#m');m.classList.remove('shake');void m.offsetWidth;m.classList.add('shake')}say(V.nar);vdraw()}
+function vnx(){if(!V.res[V.i])V.res[V.i]={n:V.q[V.i].n,ok:null};if(V.i>=9)return vfin();V.i++;sfx('next');vload()}
+function vfin(){tclear();clearTimeout(V.cd);for(let i=0;i<=V.i;i++)if(!V.res[i])V.res[i]={n:V.q[i].n,ok:null};const c=V.cnt,g=c>=9?'DETEKTIF VISUAL 🕵️':c>=7?'RAJA ILUSI 👑':c>=4?'PENGAMAT PEMULA 🧐':'KORBAN TIPUAN MATA 🤡';S.screen='res';board();sfx('menang');conf(150);say('Selamat! Gelar Bapak Ibu adalah '+g.replace(/[^A-Za-z ]/g,''));
+$('#m').innerHTML=`<div class="res"><h1>HASIL TANTANGAN</h1><div class="win">${g}</div><p style="font-size:24px">Tantangan berhasil dipecahkan bersama: <b>${c}</b> dari <b>${V.res.length}</b></p><div class="list">${V.res.map((r,i)=>`<div><span>${i+1}. ${e(r.n)}</span><b>${r.ok==null?'➖':r.ok?'✅':'🤡'}</b></div>`).join('')}</div><button class="btn" onclick="g10()">MAIN LAGI</button><button class="btn bl" onclick="home()">KEMBALI KE MENU</button></div>`}
+/* ===== GAME 9 ===== */
+const NT2=[392,494,587,494,440,523,659,523,392,494,587,784,659,523,494,392];
+function kick(v){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime;o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(40,t+.15);g.gain.setValueAtTime(.5*v,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.2)}catch(x){}}
+(()=>{const E=['🎈','⭐','📚','✏️','🎵','🍎','🔔','💡'];let h='';for(let i=0;i<14;i++)h+=`<span style="left:${i*7+Math.random()*5}%;animation-duration:${14+Math.random()*14}s;animation-delay:-${Math.random()*20}s">${E[i%8]}</span>`;$('#bg').innerHTML=h})();
+let PB=null;const PBT={t:5,n:10};
+const CM=P(`Tepuk tangan 3 kali!|1
+Berdiri lalu duduk kembali!|1
+Angkat kedua tangan ke atas!|1
+Tepuk paha 4 kali!|1
+Sentuh hidung dengan jari telunjuk!|1
+Lambaikan tangan ke guru di sebelahmu!|1
+Tos dengan teman di samping!|1
+Tiru suara kucing: Meong!|1
+Tiru suara ayam berkokok!|1
+Putar badan ke kanan!|1
+Pegang telinga kirimu!|1
+Acungkan jempol ke seluruh ruangan!|1
+Tersenyum selebar-lebarnya!|1
+Tepuk tangan sambil berdiri!|1
+Goyangkan bahu selama 3 detik!|1
+Peluk dirimu sendiri!|1
+Tunjukkan angka 5 dengan jari!|1
+Pura-pura mengetik di keyboard!|1
+Tiup balon imajiner!|1
+Salam hormat ala upacara!|1
+Menari kecil di kursi!|1
+Teriak 'Hore!' pelan-pelan!|1
+Tutup mata selama 3 detik!|1
+Sapa guru di depanmu dengan senyum!|1
+Tepuk bahu teman di kananmu!|1
+Mengangguk seperti burung pelatuk!|1
+Gerakkan kaki seperti berjalan di tempat!|1
+Pose superhero sambil duduk!|1
+Tarik napas panjang lalu hembuskan!|1
+Tepuk tangan dua kali lalu tepuk paha!|1
+Angkat tangan kananmu!|0
+Berdiri sekarang!|0
+Tepuk tangan 2 kali!|0
+Sentuh telinga kirimu!|0
+Tiru suara kucing!|0
+Putar badan ke kiri!|0
+Acungkan jempol!|0
+Tunjukkan angka 3 dengan jari!|0
+Tos dengan teman di sebelahmu!|0
+Goyangkan bahumu!|0`);
+function g9(){S.screen='g9s';PB=null;tclear();board();const c=PBT;$('#m').innerHTML=`<div class="home"><h1>PAK PANCA<br>BILANG!</h1><p class="tag">Lakukan perintah HANYA jika didahului 'Pak Panca bilang'. Tanpa itu, jangan bergerak!</p><h2>Waktu bergerak</h2><div class="row">${[3,5,8].map(s=>`<button class="btn ${c.t===s?'':'bl'}" onclick="PBT.t=${s};g9()">${s} detik</button>`).join('')}</div><h2>Jumlah perintah</h2><div class="row">${[10,20,0].map(n=>`<button class="btn ${c.n===n?'':'bl'}" onclick="PBT.n=${n};g9()">${n||'SEMUA ('+CM.length+')'}</button>`).join('')}</div><button class="btn" style="font-size:28px" onclick="st9()">MULAI</button></div>`}
+function st9(){S.teams.forEach(t=>t.s=0);S.screen='g9';PB={o:shuf(CM.map((_,i)=>i)).slice(0,PBT.n||CM.length),i:0,c:0,t:PBT.t};board();sfx('start');ld9()}
+function ld9(){tclear();T.s=PB.t;PB.rev=0;PB.to=0;PB.d=0;AW.clear();d9()}
+function d9(){const q=CM[PB.o[PB.i]],t=S.teams[S.sel];
+$('#m').innerHTML=`<div class="top"><span>Perintah ${PB.i+1}/${PB.o.length}</span><span>${e(t.n)}: ${t.s} poin</span><span>⏱ <b id="tm" class="${T.s<=3&&T.run?'red':''}">${T.s}</b></span></div><div class="q" style="font-size:clamp(28px,6vw,72px)">${q[1]==='1'?'<div style="color:#ffc933;font-size:.6em">🗣️ PAK PANCA BILANG:</div>':''}${e(q[0])}</div>${PB.to?'<div class="ans bad">🛑 BERHENTI! WAKTU HABIS</div>':''}${PB.rev?(q[1]==='1'?'<div class="ans">✅ PERINTAH SAH! Semua harus bergerak!</div>':'<div class="ans bad">🚨 JEBAKAN! Tanpa kata Pak Panca bilang, yang bergerak SALAH!</div>'):''}<div class="ctl tr"><b>⭐ Beri poin ke tim yang benar:</b>${S.teams.map((x,i)=>`<button class="btn sm2 ${AW.has(i)?'ok':'bl'}" onclick="gp(${i})">${AW.has(i)?'✓ ':''}${e(x.n)}</button>`).join('')}</div><div class="ctl"><button class="btn bl" onclick="p9ts()">▶ MULAI TIMER</button><button class="btn bl" onclick="p9tp()">⏯ JEDA / LANJUT</button><button class="btn bl" onclick="p9tx()">⏹ ULANGI TIMER</button><button class="btn" onclick="p9rv()">TAMPILKAN HASIL</button><button class="btn" onclick="p9nx()">PERINTAH BERIKUTNYA</button><button class="btn sm2 bl" onclick="ld9()">ULANGI</button><button class="btn sm2 bl" onclick="sk8()">LIHAT SKOR</button><button class="btn sm2 no" onclick="ask('Akhiri sesi dan lihat hasil akhir?',()=>fin(9,PB.i+1,PB.c))">AKHIRI</button></div>`}
+function p9run(){T.run=1;T.pz=0;T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;PB.to=1;sfx('habis');d9()}else{if(T.s<=3)sfx('tick');tm()}},1000)}
+function p9ts(){tclear();T.s=PB.t;PB.to=0;sfx('drum');p9run();d9()}
+function p9tp(){if(T.run){clearInterval(T.id);T.id=0;T.run=0;T.pz=1;tm();sfx('jeda')}else if(T.pz&&T.s>0){sfx('lanjut');p9run()}}
+function p9tx(){sfx('reset');tclear();T.s=PB.t;PB.to=0;d9()}
+function p9rv(){if(PB.rev)return;PB.rev=1;tclear();const ok=CM[PB.o[PB.i]][1]==='1';d9();if(ok){sfx('tada');conf(60)}else{sfx('sirine');const m=$('#m');m.classList.remove('shake');void m.offsetWidth;m.classList.add('shake')}}
+function gp(i){if(AW.has(i))return;if(!PB.d){PB.d=1;PB.c++}PB.rev=1;tclear();AW.add(i);S.sel=i;sfx('benar');conf(30);award(100);d9()}
+function p9nx(){if(PB.i>=PB.o.length-1)return fin(9,PB.o.length,PB.c);PB.i++;sfx('next');ld9()}
+/* ===== GAME 8 ===== */
+let K8=null;const K8T={t:15},KW=new Set();
+const CAT=[['😂','LUCU',100,'Paling Lucu'],['🎨','KREATIF',75,'Paling Kreatif'],['⚡','SPONTAN',50,'Paling Spontan'],['🤯','TAK TERDUGA',25,'Paling Tak Terduga']];
+const QK=P(`Kalau semua murid tiba-tiba bisa membaca pikiran guru, apa keputusan pertama Anda?|Pikiran saya diganti lagu dangdut saja|Wajib berpikir positif sebelum masuk kelas|0
+Kalau guru boleh tidur siang 30 menit di sekolah, bagaimana aturan resminya?|Wajib pakai bantal berlogo sekolah|Dengkur maksimal 40 desibel|0
+Kalau bel berbunyi tetapi semua guru bersembunyi, apa tindakan Anda?|Ikut bersembunyi, kepala sekolah juga manusia|Menyiarkan 'ada diskon gorengan' lewat toa|0
+Kalau murid memberi nilai rapor untuk gurunya, berapa nilai yang pantas Anda dapat?|Delapan koma lima, dikurangi saat rapat molor|Seratus, karena saya yang menulis soalnya|0
+Kalau sekolah dapat anggaran Rp1 miliar yang harus habis dalam sehari, apa yang Anda beli?|Seribu kursi pijat untuk ruang guru|Kolam renang di lapangan upacara|0
+Kalau kepala sekolah harus mengajar sambil berjoget, bagaimana caranya?|Rumus Pythagoras diiringi koplo|Tiap bab ditutup goyang dua jari|0
+Kalau semua guru berubah jadi superhero, siapa yang paling cocok jadi pemimpinnya?|Guru piket, sudah kebal kekacauan|Guru yang selalu bawa spidol cadangan|0
+Kalau murid tidak mau pulang karena terlalu betah, apa yang Anda lakukan?|Menyetel suara bel pulang tiap 10 menit|Memasang Wi-Fi super di rumah mereka|0
+Kalau setiap guru terlambat harus menyanyi di depan sekolah, lagu apa pilihan Anda?|'Burung Kakak Tua' sambil mengepak|Lagu perpisahan versi lebih ceria|0
+Kalau Anda bisa menghapus satu pekerjaan administrasi selamanya, apa yang dihapus?|Laporan yang isinya sama dengan kemarin|Absen, diganti pelukan kehadiran|0
+Kalau semua guru wajib memakai kostum hewan saat mengajar, kostum apa pilihan Anda?|Kuda nil, biar tak ada yang berani ribut|Burung hantu, tampak bijak walau mengantuk|1
+Kalau kepala sekolah digantikan seekor kambing selama sehari, apa yang terjadi?|Rapat singkat: 'Mbeee' disetujui|Pidato upacara sepuluh detik dan semua lega|1
+Kalau rapat guru harus sambil naik kuda, siapa yang paling cepat sampai?|Guru yang selalu datang sebelum bel|Guru olahraga, tapi kudanya minta istirahat|1
+Kalau murid boleh memberi PR kepada guru, PR apa yang paling berat?|Menjawab 'kenapa langit biru?' lima halaman|Menghitung jumlah bintang sebelum besok|1
+Kalau papan tulis bisa bicara, apa keluhan pertamanya?|'Jangan tulis rumus di wajah saya'|'Kapur tadi pedas sekali'|0
+Kalau guru boleh meminta satu fasilitas paling aneh, apa permintaan Anda?|Kasur hotel bintang lima di ruang guru|Bel sekolah diganti suara ayam berkokok|0
+Kalau upacara bendera diganti lomba, lomba apa yang Anda adakan?|Memasukkan paku ke botol sambil menyanyi|Estafet bendera gaya model|0
+Kalau sekolah punya maskot hidup, hewan apa dan namanya siapa?|Bebek bernama Pak Quack Sakti|Kucing bernama Kepala Piket|0
+Kalau jam pelajaran dipotong jadi 20 menit, apa yang Anda lakukan dengan sisa waktu?|Seminar 'Cara Tidur Singkat'|Menambah waktu pijat jari|0
+Kalau ada hari 'Guru Boleh Salah', apa aturan mainnya?|Salah boleh asal salahnya lucu|Papan tulis tidak boleh protes|0
+Kalau ruang guru diubah jadi kafe, apa menu andalannya?|Kopi 'Rapat Molor' tanpa gula|Gorengan paket revisi RPP|0
+Kalau murid memanggil Anda dengan julukan, julukan apa yang Anda harapkan?|Si Penyabar Nasional|Guru Sultan Spidol|0
+Kalau sekolah punya satpam robot, apa tugas pertamanya?|Memberi salam sambil menagih PR|Menjaga agar sandal tak tertukar|0
+Kalau kantin menjual menu berdasarkan mata pelajaran, apa menunya?|Nasi Goreng Integral|Es Teh Kimia|0
+Kalau hukuman terlambat adalah mendongeng, dongeng apa yang Anda siapkan?|Si Kancil dan Absen yang Hilang|Legenda Sandal Sebelah|0
+Kalau guru bisa teleportasi ke sekolah, apa yang pertama dilakukan?|Memastikan tidak kepagian lalu pulang lagi|Mencari kopi di dimensi lain|0
+Kalau lapangan sekolah jadi tempat wisata, apa wahana andalannya?|Perosotan raksasa dari lantai atas|Labirin PR|0
+Kalau kepala sekolah diberi satu kekuatan super, apa yang paling berguna?|Mengubah PR jadi permen|Membekukan waktu saat rapat molor|0
+Kalau sekolah punya lagu wajib tiap pagi, lagu apa pilihan Anda?|'Bangun Pagi' versi hip-hop|'Menanam Jagung' dengan koreografi|0
+Kalau ada tombol 'ulangi hari' untuk guru, hari apa yang Anda ulangi?|Hari semua murid mengumpulkan tugas|Hari Wi-Fi sekolah ngebut|0
+Kalau murid menulis surat cinta untuk guru, isinya apa?|'Terima kasih sudah sabar menunggu jawaban saya'|'Rumus Ibu paling indah'|0
+Kalau semua guru saling menilai gaya mengajar, kategori apa saja?|Suara paling merdu|Spidol paling awet|0
+Kalau ada lomba 'Guru Paling Kreatif', apa tantangannya?|Mengajar tanpa suara selama 10 menit|Menerangkan fotosintesis lewat tarian|0
+Kalau ruang guru melarang membahas pekerjaan, topik apa yang dibahas?|Resep sambal paling nendang|Harga cabai dan masa depan|0
+Kalau setiap kelas dapat hewan peliharaan, hewan apa yang cocok?|Kura-kura, biar belajar sabar|Hamster bernama Pak Ketua|0
+Kalau Anda membuat slogan sekolah, apa slogannya?|'Cerdas Bersama, Pulang Bahagia'|'Belajar Gembira, Gorengan Menyala'|0
+Kalau setiap guru punya jurus andalan di kelas, jurus apa pilihan Anda?|Jurus Satu Tatapan Seribu Diam|Jurus Spidol Terbang|0
+Kalau murid memilih satu guru jadi penyanyi resmi, siapa dan lagu apa?|Guru bersuara paling lantang|Guru dengan lagu favorit jadul|0
+Kalau sekolah punya kotak saran suara hati, isinya apa?|'Bisakah libur diperbanyak?'|'Rapat dibuat sambil naik kereta saja'|0
+Kalau Anda membuat aturan baru untuk kepala sekolah, aturannya apa?|Rapat maksimal satu gorengan|Kepala sekolah wajib bawa permen|0
+Kalau murid membawa hewan peliharaan ke sekolah, apa kebijakan Anda?|Hewan ikut upacara asal pakai topi|Hewan jadi asisten guru piket|0
+Kalau waktu istirahat dipakai untuk satu kegiatan unik, kegiatan apa?|Lomba tidur cepat tanpa suara|Konser dadakan ruang guru|0
+Kalau guru dilarang memakai spidol sehari, apa gantinya?|Mengajar dengan gerakan tubuh|Menulis di udara, murid menafsirkan|0
+Kalau seragam guru boleh bebas, seperti apa seragam Anda?|Jas laboratorium bermotif batik|Kaos 'Saya Guru, Saya Tangguh'|0
+Kalau sekolah dapat hadiah mobil, untuk apa Anda memakainya?|Mobil keliling pengambil PR|Antar-jemput guru yang kesiangan|0
+Kalau ada malam bakat guru, bakat apa yang Anda tampilkan?|Menirukan semua suara bel sekolah|Sulap menghilangkan tumpukan kertas|0
+Kalau ada satu kata dilarang diucapkan di sekolah, kata apa?|'Nanti'|'Sebentar lagi'|0
+Kalau semua kelas diberi nama makanan, kelas Anda bernama apa?|Kelas Rendang, biar sabar sampai matang|Kelas Bakwan, biar renyah|0
+Kalau Anda menambah satu mata pelajaran baru, apa pilihannya?|Seni Menunda Rapat dengan Elegan|Ilmu Menggambar di Papan Tulis|0
+Kalau sekolah menyediakan ruang menangis lucu, apa isinya?|Tisu kecil dan komik kocak|Boneka bebek berbunyi|0
+Kalau papan tulis mogok bicara dan memilih bernyanyi, lagu apa pilihannya?|Dangdut tentang penghapus yang patah hati|Lagu kapur yang rindu|1
+Kalau guru dan murid bertukar suara sehari, apa yang terjadi?|Kelas jadi paduan suara kebingungan|Upacara berubah jadi stand-up comedy|1
+Kalau sekolah pindah ke atas awan, apa aturan barunya?|Dilarang menjatuhkan penghapus|Bel diganti guntur yang sopan|1
+Kalau semua kursi sekolah bisa berjalan sendiri, apa yang Anda lakukan?|Mengajak jalan-jalan keliling lapangan|Mengajari mereka berbaris disiplin|1
+Kalau kepala sekolah dipilih lewat lomba makan kerupuk, apa strateginya?|Berlatih dengan kerupuk raksasa tiap malam|Menunjuk wakil: kerupuk berjalan|1
+Kalau bel sekolah diganti suara kucing mengeong, bagaimana respons murid?|Semua pulang sambil mengeong|Guru ikut mengeong saat rapat|1
+Kalau satu hari sekolah isinya hanya pesta kostum, tema apa pilihan Anda?|Pahlawan pensil raksasa|Tumpukan buku berjalan|1
+Kalau guru bisa jadi satu hewan di sekolah, hewan apa dan tugasnya?|Burung hantu penjaga lembur|Kucing pengawas jam piket|0
+Kalau murid membuat peraturan untuk guru, aturan pertamanya apa?|Guru wajib tersenyum tiap pagi|Dilarang bilang 'ini mudah'|0
+Kalau seharian guru hanya boleh berbisik, bagaimana jalannya pelajaran?|Papan tulis jadi pemandu suara|Murid jadi pendengar yang sangat setia|0`);
+function g8(){S.screen='g8s';K8=null;tclear();board();$('#m').innerHTML=`<div class="home"><h1>KALAU SAYA JADI<br>KEPALA SEKOLAH</h1><h2>Timer</h2><div class="row">${[10,15].map(s=>`<button class="btn ${K8T.t===s?'':'bl'}" onclick="K8T.t=${s};g8()">${s} detik</button>`).join('')}</div><button class="btn" style="font-size:28px" onclick="st8(0)">MULAI</button><button class="btn no" style="font-size:28px" onclick="st8(1)">🤪 MODE GILA!</button></div>`}
+function st8(m){S.teams.forEach(t=>t.s=0);S.screen='g8';K8={o:shuf(QK.map((_,i)=>i).filter(i=>!m||QK[i][3]==='1')),i:0,t:K8T.t,m,cp:{}};board();if(m)silly&&sfx('lucu');else sfx('start');ld8()}
+function ld8(){tclear();T.s=K8.t;K8.q=K8.o[K8.i];K8.ex=0;K8.to=0;K8.mg=K8.m;KW.clear();d8()}
+function d8(){const q=QK[K8.q],t=S.teams[S.sel];
+$('#m').innerHTML=`<div class="top"><span>Soal ${K8.i+1}/${K8.o.length}</span><span>${e(t.n)}: ${t.s} poin</span><span>⏱ <b id="tm" class="${T.s<=3&&T.run?'red':''}">${T.s}</b></span></div>${K8.mg?'<div class="ans bad">🤪 MODE GILA!!</div>':''}<div class="q">${e(q[0])}</div>${K8.ex?`<div class="hint">💡 Contoh: ${e(q[1])}${q[2]?' • '+e(q[2]):''}</div>`:''}${K8.to?'<div class="ans bad">⏰ WAKTU HABIS!</div>':''}<div class="ctl tr"><b>Pilih tim:</b>${S.teams.map((x,i)=>`<button class="btn sm2 ${i===S.sel?'':'bl'}" onclick="S.sel=${i};board();d8()">${e(x.n)}</button>`).join('')}</div><div class="ctl tr"><b>🏅 Beri poin ke ${e(t.n)}:</b>${CAT.map((c,k)=>`<button class="btn sm2 ${KW.has(S.sel+'-'+k)?'ok':'bl'}" onclick="gk(${k})">${c[0]} ${c[1]} +${c[2]}</button>`).join('')}</div><div class="ctl"><button class="btn bl" onclick="k8ts()">▶ MULAI TIMER</button><button class="btn bl" onclick="k8tp()">⏯ JEDA / LANJUT</button><button class="btn bl" onclick="k8tx()">⏹ ULANGI TIMER</button><button class="btn" onclick="K8.ex=1;sfx('petunjuk');d8()">TAMPILKAN JAWABAN CONTOH</button><button class="btn no" onclick="crazy()">🤪 MODE GILA!</button><button class="btn" onclick="nx8()">PERTANYAAN BERIKUTNYA</button><button class="btn sm2 bl" onclick="sk8()">LIHAT SKOR</button><button class="btn sm2 no" onclick="ask('Akhiri sesi dan lihat hasil akhir?',fin8)">AKHIRI</button></div>`}
+function k8run(){T.run=1;T.pz=0;T.id=setInterval(()=>{T.s--;if(T.s<=0){tclear();T.s=0;K8.to=1;sfx('habis');d8()}else{if(T.s<=3)sfx('tick');tm()}},1000)}
+function k8ts(){tclear();T.s=K8.t;K8.to=0;sfx('start');k8run();d8()}
+function k8tp(){if(T.run){clearInterval(T.id);T.id=0;T.run=0;T.pz=1;tm();sfx('jeda')}else if(T.pz&&T.s>0){sfx('lanjut');k8run()}}
+function k8tx(){sfx('reset');tclear();T.s=K8.t;K8.to=0;d8()}
+function gk(k){const key=S.sel+'-'+k;if(KW.has(key))return;KW.add(key);const c=CAT[k],cp=K8.cp[S.sel]||(K8.cp[S.sel]=[0,0,0,0]);cp[k]+=c[2];if(S.fx&&k===0)for(let j=0;j<5;j++)noise(.14,S.sv,j*.15);conf(30);award(c[2]);d8()}
+function crazy(){const c=QK.map((_,i)=>i).filter(i=>QK[i][3]==='1'&&i!==K8.q);K8.q=c[Math.random()*c.length|0];K8.ex=0;K8.to=0;K8.mg=1;tclear();T.s=K8.t;KW.clear();silly();d8()}
+function nx8(){if(K8.i>=K8.o.length-1)return fin8();K8.i++;sfx('next');ld8()}
+function sk8(){$('#md').innerHTML=`<div class="mdl"><div class="bx"><h2>🏆 Papan Skor</h2><div class="list">${[...S.teams].sort((a,b)=>b.s-a.s).map(t=>`<div><span>${e(t.n)}</span><b>${t.s}</b></div>`).join('')}</div><button class="btn" onclick="md()">TUTUP</button></div></div>`}
+function fin8(){tclear();S.screen='res';board();const m=Math.max(...S.teams.map(t=>t.s)),w=S.teams.filter(t=>t.s===m&&m>0);sfx('menang');conf(120);
+const J=CAT.slice(0,3).map((c,k)=>{let b=0,bi=-1;S.teams.forEach((t,i)=>{const v=(K8.cp[i]||[])[k]||0;if(v>b){b=v;bi=i}});return `<div><span>${c[0]} Juara ${c[3]}</span><b>${bi>=0?e(S.teams[bi].n)+' ('+b+')':'-'}</b></div>`}).join('');
+$('#m').innerHTML=`<div class="res"><h1>SELAMAT KEPADA<br>PARA PEMENANG!</h1><div class="win">🏆 ${w.length?w.map(t=>e(t.n)).join(' & '):'Belum ada skor'}</div><p style="font-size:24px">Skor tertinggi: <b>${m}</b></p><div class="list">${J}</div><div class="list">${[...S.teams].sort((a,b)=>b.s-a.s).map(t=>`<div><span>${e(t.n)}</span><b>${t.s}</b></div>`).join('')}</div><button class="btn" onclick="g8()">MAIN LAGI</button><button class="btn bl" onclick="home()">KEMBALI KE BERANDA</button></div>`}
+/* ===== POIN MULTI-TIM ===== */
+const AW=new Set();
+function tr(){return `<div class="ctl tr"><b>⭐ BERI POIN KE:</b>${S.teams.map((t,i)=>`<button class="btn sm2 ${AW.has(i)?'ok':'bl'}" onclick="giv(${i})">${AW.has(i)?'✓ ':''}${e(t.n)}</button>`).join('')}</div>`}
+function giv(i){if(AW.has(i))return;const g=S.screen;let p=100,sl=0;
+if(g==='g1'){if(G.pts==null){const n=G.op.filter(v=>v).length;G.pts=n>=16?50:G.h?75:100}p=G.pts;if(!G.d){G.d=1;G.c++}G.op.fill(1)}
+else if(g==='g2'){if(!Q.d){Q.d=1;Q.c++}Q.rev=1;tclear()}
+else{const was=W.rev;if(!W.d){W.d=1;W.c++}W.rev=1;tclear();sl=W.g===7&&!was}
+AW.add(i);S.sel=i;if(!sl&&!((G&&G.x)||(Q&&Q.x)))sfx('benar');conf(40);award(p);rf();if(sl)silly()}
+function ok1(){giv(S.sel)}function ok2(){giv(S.sel)}function wok(){giv(S.sel)}
+function delT(){if(S.teams.length>1){S.teams.pop();if(S.sel>=S.teams.length)S.sel=0;AW.delete(S.teams.length);board();rf()}}
+/* ===== HASIL ===== */
+function fin(g,total,c){tclear();LAST=g;S.screen='res';board();const m=Math.max(...S.teams.map(t=>t.s)),w=S.teams.filter(t=>t.s===m&&m>0);sfx('menang');conf(120);
+$('#m').innerHTML=`<div class="res"><h1>SELAMAT KEPADA<br>PARA PEMENANG!</h1><div class="win">🏆 ${w.length?w.map(t=>e(t.n)).join(' & '):'Belum ada skor'}</div><p style="font-size:24px">Skor akhir: <b>${m}</b> • Total soal: <b>${total}</b> • Jawaban benar: <b>${c}</b></p><div class="list">${[...S.teams].sort((a,b)=>b.s-a.s).map(t=>`<div><span>${e(t.n)}</span><b>${t.s}</b></div>`).join('')}</div><button class="btn" onclick="g${g}()">MAIN LAGI</button><button class="btn bl" onclick="home()">KEMBALI KE BERANDA</button></div>`}
+home();
+</script></body></html>
